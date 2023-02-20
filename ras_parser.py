@@ -45,20 +45,22 @@ def parse_prj(prj_file, prj_name, wkt, plan_titles, output_dir):
         lines = f.readlines()
     
     lines = [s.strip('\n') for s in lines]
-    
-    # keyValueList = copy.deepcopy(lines)
-    # # Create a pop list of indices to remove because missing key=value pairs.
-    # popList = []
-    # for i,v in enumerate(lines):
-    #     if '=' not in v:
-    #         popList.append(i)
-    
-    # # Remove indices in popList
-    # for index in sorted(popList, reverse=True):
-    #     del keyValueList[index]
-    
-    # keyValues_dict = dict(s.split('=',1) for s in keyValueList)
     keyValues_dict, popList = trimKeyValuePairsToDict(lines)
+
+    # Remove unneeded keys
+    # for key, value in keyValues_dict.items() :
+    #     print (key)
+    popKeys = ['Current Plan', 'Default Exp/Contr','Geom File',
+    'Unsteady File','Plan File','Background Map Layer','Y Axis Title',
+    'X Axis Title(PF)','X Axis Title(XS)','DSS Start Date',
+    'DSS Start Time','DSS End Date','DSS End Time','DXF Filename',
+    'DXF OffsetX','DXF OffsetY','DXF ScaleX','DXF ScaleY']
+    
+    for key in popKeys:
+        try:
+            del keyValues_dict[key]
+        except:
+            continue
 
     # Add specific popList lines from prj file to keyValue_dict
     for i,v in enumerate(popList):
@@ -169,34 +171,35 @@ def parse_p(p_file_list, prj_name, wkt, output_dir):
 
     return plan_titles
 
-def create_yaml(prj_yaml, p_yaml, u_yaml):
-    return None
-
 def parse(prj, shp):
-    cwd = os.getcwd()
-    output_dir = os.path.join(cwd, 'output')
+
+    # Get project name
     prj_dir, prj_file_tail = os.path.split(prj)
     prj_name = prj_file_tail.split(".")[0]
 
-    print (f'Extracting Spatial Extent as WKT from shapefile: {shp}') 
+    # Set output directory
+    cwd = os.getcwd()
+    output_dir = os.path.join(cwd, 'output', 'ras', prj_name)
+    if not os.path.exists(output_dir):
+        os.makedirs(output_dir)
+
+    # Get WKT 
     wkt = parse_shp(shp, prj_name, output_dir)
 
-    # print (f'\nParsing prj file to: {output_prj_yaml}\n')
-   
-
-    # get p files in prj_dir
+    # Get .p## files in prj_dir
     p_file_list = get_p_files(prj_dir, prj_name)
-    # parse p files and include data from geometry and flow files. returns the plan titles.
+    
+    # Parse p files and include data from geometry, flow files. and add wkt. 
+    # Returns the plan titles of each p file as a list.
     plan_titles = parse_p(p_file_list, prj_name, wkt, output_dir)
 
-    # parse prj and add list of p file titles to prj yaml
+    # Parse prj, remove extra fields, add list of p file titles, and wkt.
     parse_prj(prj, prj_name, wkt, plan_titles, output_dir)
-
-    # create_yaml(prj_yaml, p_yaml, u_yaml)
 
 if __name__ == '__main__':
     # Parse Command Line Arguments
-    p = argparse.ArgumentParser(description="HEC-RAS metadata extraction.")
+    p = argparse.ArgumentParser(description="HEC-RAS metadata extraction. \
+        Requires a RAS project file (*.prj) and an ESRI shapefile (*.shp) for the spatial boundary of the model.")
     
     p.add_argument(
     "--prj", help="The HEC-RAS project file. (Ex: C:\RAS_Models\Amite\Amite_2022.prj)", 
@@ -205,7 +208,8 @@ if __name__ == '__main__':
     )
 
     p.add_argument(
-    "--shp", help="The HEC-RAS model boundary spatial extent as ESRI shapefile. (Ex: C:\RAS_Models\Amite\Features\Amite_Optimized_Geometry.shp)", 
+    "--shp", help="The HEC-RAS model boundary spatial extent as ESRI shapefile. \
+        (Ex: C:\RAS_Models\Amite\Features\Amite_Optimized_Geometry.shp)", 
     required=True, 
     type=str
     )
