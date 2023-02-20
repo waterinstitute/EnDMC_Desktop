@@ -1,0 +1,6 @@
+setup.py
+hec_meta_extract.egg-info/PKG-INFO
+hec_meta_extract.egg-info/SOURCES.txt
+hec_meta_extract.egg-info/dependency_links.txt
+hec_meta_extract.egg-info/requires.txt
+hec_meta_extract.egg-info/top_level.txt

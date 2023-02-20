@@ -1,24 +1,10 @@
-Background Map Layer: Gauging Stations
-Current Plan: p07
-DSS End Date: ''
-DSS End Time: ''
 DSS Export Filename: ''
 DSS Export Rating Curve Sorted: ' 0 '
 DSS Export Rating Curves: ' 0 '
 DSS Export Volume Flow Curves: ' 0 '
 DSS File: dss
-DSS Start Date: ''
-DSS Start Time: ''
-DXF Filename: ''
-DXF OffsetX: ' 0 '
-DXF OffsetY: ' 0 '
-DXF ScaleX: ' 1 '
-DXF ScaleY: ' 10 '
-Default Exp/Contr: 0.3,0.1
 Description: 'LWI Amite Calibrated HEC-RAS model '
 GIS Export Profiles: ' 0 '
-Geom File: g01
-Plan File: p04
 Plans:
 - RTF_Test
 - RTF_Test_2
@@ -26,10 +12,6 @@ Plans:
 - Plan 04
 - Isaac_all_AORC_Optimized
 Proj Title: Amite_2022
-Unsteady File: u02
-X Axis Title(PF): Main Channel Distance
-X Axis Title(XS): Station
-Y Axis Title: Elevation
 spatial_extent: POLYGON ((-90.68646 30.709524, -90.684001 30.704209, -90.675819 30.686528,
   -90.658634 30.649369, -90.666662 30.601425, -90.678411 30.586883, -90.690791 30.56071,
   -90.69643 30.546853, -90.696242 30.545016, -90.69196 30.503225, -90.62966 30.50605,
