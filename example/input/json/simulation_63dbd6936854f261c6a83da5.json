@@ -1,0 +1,121 @@
+{
+    "_id": "63dbd6936854f261c6a83da5",
+    "model_software": "/model_software/6349b25e8cedd9744901f7aa",
+    "output_files": [
+        {
+            "title": "output dss file",
+            "location": "/lwi-common/deliverables/Example/Amite_LWI/Models/Amite_RAS/Amite_2022.ds",
+            "description": "output model data in dss",
+            "source_dataset": null
+        },
+        {
+            "title": "p hdf file",
+            "location": "/lwi-common/deliverables/Example/Amite_LWI/Models/Amite_RAS/Amite_2022.p07.hdf",
+            "description": "result output in HDF format",
+            "source_dataset": null
+        },
+        {
+            "title": null,
+            "location": null,
+            "description": null,
+            "source_dataset": null
+        }
+    ],
+    "input_files": [
+        {
+            "title": "Terrain",
+            "location": "/lwi-common/deliverables/Example/Amite_LWI/Models/Amite_RAS/Terrain/Amite_Dec15.AmiteDEM_Dec15.tif",
+            "description": "Terrain used by model simulation as geotif",
+            "source_dataset": null
+        },
+        {
+            "title": "b file",
+            "location": "/lwi-common/deliverables/Example/Amite_LWI/Models/Amite_RAS/Amite_2022.b07",
+            "description": "RAS master input text file",
+            "source_dataset": null
+        },
+        {
+            "title": "g file",
+            "location": "/lwi-common/deliverables/Example/Amite_LWI/Models/Amite_RAS/Amite_2022.g01",
+            "description": "RAS geometry file",
+            "source_dataset": null
+        },
+        {
+            "title": "prj file",
+            "location": "/lwi-common/deliverables/Example/Amite_LWI/Models/Amite_RAS/Amite_2022.prj",
+            "description": "RAS project file which links projects with plans, geometry, and flow files",
+            "source_dataset": null
+        },
+        {
+            "title": "g hdf file",
+            "location": "/lwi-common/deliverables/Example/Amite_LWI/Models/Amite_RAS/Amite_2022.g01.hdf",
+            "description": "Geometry file in HDF format",
+            "source_dataset": null
+        },
+        {
+            "title": "c file",
+            "location": "/lwi-common/deliverables/Example/Amite_LWI/Models/Amite_RAS/Amite_2022.c01",
+            "description": "Binary Geometry file from Geom Prep",
+            "source_dataset": null
+        },
+        {
+            "title": "x file",
+            "location": "/lwi-common/deliverables/Example/Amite_LWI/Models/Amite_RAS/Amite_2022.x01",
+            "description": "Geometry master input text file",
+            "source_dataset": null
+        },
+        {
+            "title": "p file",
+            "location": "/lwi-common/deliverables/Example/Amite_LWI/Models/Amite_RAS/Amite_2022.p07",
+            "description": "Model plan data",
+            "source_dataset": null
+        },
+        {
+            "title": "u file",
+            "location": "/lwi-common/deliverables/Example/Amite_LWI/Models/Amite_RAS/Amite_2022.u05",
+            "description": "unsteady flow file",
+            "source_dataset": null
+        },
+        {
+            "title": "u hdf file",
+            "location": "/lwi-common/deliverables/Example/Amite_LWI/Models/Amite_RAS/Amite_2022.u05.hdf",
+            "description": "unsteady flow file in HDF format",
+            "source_dataset": null
+        },
+        {
+            "title": "RAS Mapper file",
+            "location": "/lwi-common/deliverables/Example/Amite_LWI/Models/Amite_RAS/Amite_2022.rasmap",
+            "description": "RAS Mapper file defining results visualization within RAS Mapper",
+            "source_dataset": null
+        },
+        {
+            "title": "Infiltration Rate Raster",
+            "location": "/lwi-common/deliverables/Example/Amite_LWI/Models/Amite_RAS/LULC/InfiltrationHiRes.tif",
+            "description": "Hydrological Infiltration Rate for Losses using Rain on Grid in geotif format",
+            "source_dataset": null
+        },
+        {
+            "title": "Mannings n Raster",
+            "location": "/lwi-common/deliverables/Example/Amite_LWI/Models/Amite_RAS/LULC/Mannings_n.tif",
+            "description": "Mannings n Raster in geotif format",
+            "source_dataset": null
+        },
+        {
+            "title": "Percent impervious Raster",
+            "location": "/lwi-common/deliverables/Example/Amite_LWI/Models/Amite_RAS/LULC/PercentImprev.tif",
+            "description": "Percent impervious land use cover in geotif format",
+            "source_dataset": null
+        }
+    ],
+    "parameters": [],
+    "linked_resources": null,
+    "model_application": "ras",
+    "title": "LWI Amite Calibration Event Hurricane Isaac",
+    "type": "VALIDATION",
+    "temporal_extent": [
+        "2012-08-17",
+        "2012-09-12"
+    ],
+    "description": "The LWI HEC-RAS 2D Unsteady Calibrated Model has simulations that make use of HEC-HMS hydrology from the LWI HEC-HMS model. In addition it also makes use of wind data and a downstream boundary condition from ADCIRC output data for surge stage along the north shore of Lake Maurepas.\n\nThere is a calibration point in the model at the Port St Vincent USGS gage on the Amite river. ",
+    "temporal_resolution": "1Minute"
+}

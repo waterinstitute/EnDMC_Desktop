@@ -241,6 +241,9 @@ XS Output Flag: ' 0 '
 XS Output Increment: ' 10 '
 XS Update Threshold: ' 0.02 '
 XS Weighting Method: ' 0 '
+coordinate_system: PROJCS["USA_Contiguous_Albers_Equal_Area_Conic_USGS_version",GEOGCS["NAD83",DATUM["North_American_Datum_1983",SPHEROID["GRS
+  1980",6378137,298.257222101,AUTHORITY["EPSG","7019"]],AUTHORITY["EPSG","6269"]],PRIMEM["Greenwich",0],UNIT["Degree",0.0174532925199433]],PROJECTION["Albers_Conic_Equal_Area"],PARAMETER["latitude_of_center",23],PARAMETER["longitude_of_center",-96],PARAMETER["standard_parallel_1",29.5],PARAMETER["standard_parallel_2",45.5],PARAMETER["false_easting",0],PARAMETER["false_northing",0],UNIT["US
+  survey foot",0.304800609601219,AUTHORITY["EPSG","9003"]],AXIS["Easting",EAST],AXIS["Northing",NORTH]]
 spatial_extent: POLYGON ((-90.68646 30.709524, -90.684001 30.704209, -90.675819 30.686528,
   -90.658634 30.649369, -90.666662 30.601425, -90.678411 30.586883, -90.690791 30.56071,
   -90.69643 30.546853, -90.696242 30.545016, -90.69196 30.503225, -90.62966 30.50605,
@@ -349,3 +352,4 @@ spatial_extent: POLYGON ((-90.68646 30.709524, -90.684001 30.704209, -90.675819 
   -90.80428 30.698284, -90.77939 30.708247, -90.771756 30.711302, -90.761411 30.708355,
   -90.746998 30.708106, -90.739597 30.716283, -90.731014 30.720324, -90.706569 30.724009,
   -90.68646 30.709524))
+terrain: .\Terrain\Amite_Dec15.hdf

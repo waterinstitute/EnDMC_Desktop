@@ -6,6 +6,7 @@ setup(
     packages=find_packages(exclude=['dev', 'output', '.vscode']),
     install_requires=[
         'PyYAML',
-        'geopandas'
+        'geopandas',
+        'h5py'
     ]
 )

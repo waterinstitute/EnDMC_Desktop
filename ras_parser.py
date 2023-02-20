@@ -1,9 +1,11 @@
 import glob
 import copy
-import yaml
+import yaml, json
 import os
 import argparse
 import geopandas as gpd
+from datetime import datetime
+import h5py
 
 def trimKeyValuePairsToDict(lines):
 
@@ -38,7 +40,7 @@ def getDSSPaths(lines):
 
     return dss_file_and_paths
 
-def parse_prj(prj_file, prj_name, wkt, plan_titles, output_dir):
+def parse_prj(prj_file, prj_name, wkt, crs, plan_titles, output_dir):
     output_prj_yaml = os.path.join(output_dir, f'{prj_name}_ras_prj.yml')
 
     with open(prj_file, "r") as f:
@@ -69,11 +71,20 @@ def parse_prj(prj_file, prj_name, wkt, plan_titles, output_dir):
 
     keyValues_dict['Description'] = description
 
-    # Add spatial_extent from wkt
+    # Add project file location
+    keyValues_dict['Project File'] = prj_file
+
+    # Add spatial_extent and coordinate_system from wkt and crs.
     keyValues_dict["spatial_extent"] = wkt
+    keyValues_dict["coordinate_system"] = crs
 
     # Add plan titles
     keyValues_dict["Plans"] = plan_titles
+
+    # Add application_date from prj_file modified date
+    modTimeUnix = os.path.getmtime(prj_file) 
+    keyValues_dict['application_date'] = datetime.fromtimestamp(modTimeUnix).strftime('%Y-%m-%d')
+
 
 
     with open(output_prj_yaml, 'w+') as f:
@@ -82,15 +93,17 @@ def parse_prj(prj_file, prj_name, wkt, plan_titles, output_dir):
 
 def parse_shp(shp, prj_name, output_dir):
     gdf = gpd.read_file(shp)
+    crs = str(gdf.crs)
     gdf = gdf.to_crs(4326)
     wkt = gdf.to_wkt().geometry[0]
     wkt_dict = {}
     wkt_dict["spatial_extent"] = wkt
+    wkt_dict["coordinate_system"] = crs
 
     with open(os.path.join(output_dir, f'{prj_name}_ras_wkt.yml'), 'w+') as f:
         yaml.dump(wkt_dict, f)
     
-    return wkt
+    return wkt, crs
 
 
 def get_p_files(prj_dir, prj_name):
@@ -108,7 +121,7 @@ def get_p_files(prj_dir, prj_name):
     return pList
 
 
-def parse_p(p_file_list, prj_name, wkt, output_dir):
+def parse_p(p_file_list, prj_name, wkt, crs, output_dir):
     plan_titles = []
     for p in p_file_list:
         # print (p)
@@ -129,8 +142,9 @@ def parse_p(p_file_list, prj_name, wkt, output_dir):
                 description = lines[v+1]
                 keyValues_dict['Description'] = description
         
-        # Add spatial_extent from wkt
+        # Add spatial_extent and coordinate_system from wkt and crs
         keyValues_dict["spatial_extent"] = wkt
+        keyValues_dict["coordinate_system"] = crs
 
         # Get associated geometry file
         geom_file_extension = keyValues_dict['Geom File']
@@ -139,7 +153,7 @@ def parse_p(p_file_list, prj_name, wkt, output_dir):
             geom_lines = f.readlines()
         geom_lines = [s.strip('\n') for s in geom_lines]
 
-        # Create Dictionary
+        # Create geometry Dictionary
         geom_keyValues_dict, geom_popList = trimKeyValuePairsToDict(geom_lines)
 
         # Add Specified key value pairs from geom file to p file.
@@ -152,8 +166,13 @@ def parse_p(p_file_list, prj_name, wkt, output_dir):
             flow_lines = f.readlines()
         flow_lines = [s.strip('\n') for s in flow_lines]
 
-        # Create Dictionary
+        # Create flow file Dictionary
         flow_keyValues_dict, flow_popList = trimKeyValuePairsToDict(flow_lines)
+
+        # Get associated plan hdf file
+        with h5py.File(r"Z:\Amite\Amite_LWI\Models\Amite_RAS\Amite_20200114.p07.hdf", "r") as f:
+            terrain = f['Geometry'].attrs['Terrain Filename'].decode('UTF-8')
+        keyValues_dict['terrain'] = terrain
 
          # Get Input DSS files and paths from flow file to p file.
         dss_file_and_paths = getDSSPaths(flow_lines)
@@ -163,7 +182,7 @@ def parse_p(p_file_list, prj_name, wkt, output_dir):
         keyValues_dict['Flow Title'] = flow_keyValues_dict['Flow Title']
 
         # Append plan title list
-        plan_titles.append(keyValues_dict['Plan Title'])   
+        plan_titles.append(keyValues_dict['Plan Title']) 
 
         # Write the output yaml for each .p## file.
         with open(os.path.join(output_dir,f'{p_file_tail}.yml'), 'w+') as f:
@@ -183,18 +202,18 @@ def parse(prj, shp):
     if not os.path.exists(output_dir):
         os.makedirs(output_dir)
 
-    # Get WKT 
-    wkt = parse_shp(shp, prj_name, output_dir)
+    # Get WKT and CRS from shp
+    wkt, crs = parse_shp(shp, prj_name, output_dir)
 
     # Get .p## files in prj_dir
     p_file_list = get_p_files(prj_dir, prj_name)
     
     # Parse p files and include data from geometry, flow files. and add wkt. 
     # Returns the plan titles of each p file as a list.
-    plan_titles = parse_p(p_file_list, prj_name, wkt, output_dir)
+    plan_titles = parse_p(p_file_list, prj_name, wkt, crs, output_dir)
 
     # Parse prj, remove extra fields, add list of p file titles, and wkt.
-    parse_prj(prj, prj_name, wkt, plan_titles, output_dir)
+    parse_prj(prj, prj_name, wkt, crs, plan_titles, output_dir)
 
 if __name__ == '__main__':
     # Parse Command Line Arguments
