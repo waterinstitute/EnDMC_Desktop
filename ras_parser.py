@@ -73,6 +73,146 @@ def dict_to_model_app_json(keyValues_dict, output_prj_json):
         with open(output_prj_json, "w") as outfile:
             json.dump(ras_model_template_json, outfile)
 
+def dict_to_sim_json(keyValues_dict, prj_name, p_file, output_p_json):
+    # Open RAS Simulation Json Template 
+    with open(r"C:\py\hec_meta_extract\example\input\json\ras_simulation.json", 'r') as f:
+        ras_sim_template_json = json.load(f)
+
+    # keys to drop
+    drop_keys = ['_id', 'model_software', 'model_application', 'parameters', 
+    'linked_resources', 'type', 'output_files']
+    for key in drop_keys:
+        del ras_sim_template_json[key]
+    
+    # Format Simulation Date to match web app format
+    dt_raw = keyValues_dict['Simulation Date'].split(",")
+    sDate_dt = datetime.strptime(dt_raw[0], '%d%b%Y')
+    sDate_str = datetime.strftime(sDate_dt, '%Y-%m-%d')
+    eDate_dt = datetime.strptime(dt_raw[2], '%d%b%Y')
+    eDate_str = datetime.strftime(eDate_dt, '%Y-%m-%d')
+    temporal_extent = [sDate_str, eDate_str]
+
+    # Get pertinent filename numbers
+    p_num = p_file.split(".")[-1][1:]
+    g_num = keyValues_dict['Geom File'][1:]
+    u_num = keyValues_dict['Flow File'][1:]
+
+    # Get Unique input DSS files
+    dss_input_file_list = [el[0] for el in keyValues_dict['DSS Input Files']]
+    list_unique = list(set(dss_input_file_list))
+
+    # Parsing out variations of DSS Filenames and Titles
+    input_files = []
+    for i in list_unique:
+        j = i.split("=")
+        if len(j) == 3:
+            input_files.append(
+                {
+                    "title": j[0]+" "+j[1],
+                    "location": j[-1],
+                    "description": j[0]+" "+j[1],
+                    "source_dataset": None
+                }
+            )
+        else:
+            input_files.append(
+                {
+                    "title": j[0],
+                    "location": j[-1],
+                    "description": j[0],
+                    "source_dataset": None
+                }
+            )
+    
+    # Extending input files list with common files
+    input_files.extend(
+        [{
+            "title": "Terrain",
+            "location": keyValues_dict['terrain'],
+            "description": "Terrain used by model",
+            "source_dataset": None
+        },
+        {
+            "title": "b file",
+            "location": 'f{prj_name}.b{p_num}',
+            "description": "RAS master input text file",
+            "source_dataset": None
+        },
+        {
+            "title": "g file",
+            "location": f"{prj_name}.{keyValues_dict['Geom File']}",
+            "description": "RAS geometry file",
+            "source_dataset": None
+        },
+        {
+            "title": "prj file",
+            "location": f'{prj_name}.prj',
+            "description": "RAS project file which links projects with plans, geometry, and flow files",
+            "source_dataset": None
+            },
+        {
+            "title": "c file",
+            "location": f"{prj_name}.c{g_num}",
+            "description": "Binary Geometry file from Geom Prep",
+            "source_dataset": None
+        },
+        {
+            "title": "x file",
+            "location": f"{prj_name}.x{g_num}",
+            "description": "Geometry master input text file",
+            "source_dataset": None
+        },
+        {
+            "title": "p file",
+            "location": f"{prj_name}.p{p_num}",
+            "description": "Model plan data",
+            "source_dataset": None
+        },
+        {
+            "title": "u file",
+            "location": f"{prj_name}.u{u_num}",
+            "description": "unsteady flow file",
+            "source_dataset": None
+        },
+        {
+            "title": "u hdf file",
+            "location": f"{prj_name}.u{u_num}.hdf",
+            "description": "unsteady flow file in HDF format",
+            "source_dataset": None
+        }]
+    )
+
+    # Map from yaml format to json format
+
+    ras_sim_template_json['title'] = keyValues_dict['Plan Title']
+    try:
+        ras_sim_template_json['description'] = keyValues_dict['Description']
+    except:
+        print (f'No Description found for: {p_file}.')
+    ras_sim_template_json['temporal_extent'] = temporal_extent
+    ras_sim_template_json['temporal_resolution'] = keyValues_dict['Computation Interval']
+    ras_sim_template_json['output_files'] = [
+        {
+                "title": "output dss file",
+                "location": keyValues_dict['DSS Output File'],
+                "description": "output model data in dss",
+                "source_dataset": None
+            },
+            {
+                "title": "p hdf file",
+                "location": f"{prj_name}.p{p_num}.hdf",
+                "description": "result output in HDF format",
+                "source_dataset": None
+            }
+    ]
+
+    ras_sim_template_json['input_files'] = input_files
+
+    # Output json
+    with open(output_p_json, "w") as outfile:
+        json.dump(ras_sim_template_json, outfile)
+
+
 def parse_prj(prj_file, prj_name, wkt, crs, plan_titles, output_dir):
     output_prj_yaml = os.path.join(output_dir, f'{prj_name}_ras_prj.yml')
     output_prj_json = os.path.join(output_dir, f'{prj_name}_ras_model_application.json')
@@ -158,6 +298,7 @@ def get_p_files(prj_dir, prj_name):
 
 
 def parse_p(p_file_list, prj_name, wkt, crs, output_dir):
+    
     plan_titles = []
     for p in p_file_list:
         # print (p)
@@ -227,6 +368,10 @@ def parse_p(p_file_list, prj_name, wkt, crs, output_dir):
         # Write the output yaml for each .p## file.
         with open(os.path.join(output_dir,f'{p_file_tail}.yml'), 'w+') as f:
             yaml.dump(keyValues_dict, f)
+        
+        # Write output Json for each .p## file.
+        output_p_json = os.path.join(output_dir,f'{p_file_tail}.json')
+        dict_to_sim_json(keyValues_dict, prj_name, p, output_p_json)
 
     return plan_titles
 
