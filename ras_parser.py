@@ -3,28 +3,9 @@ import copy
 import yaml, json
 import os
 import argparse
-import geopandas as gpd
 from datetime import datetime
 import h5py
-
-def trimKeyValuePairsToDict(lines):
-
-    keyValueList = copy.deepcopy(lines)  
-    # Create a pop list of indices to remove because missing key=value pairs.
-    popList = []
-    
-    for i,v in enumerate(keyValueList):
-        if '=' not in v:
-            popList.append(i)
-    
-    # Remove indices in popList
-    for index in sorted(popList, reverse=True):
-        del keyValueList[index]
-
-    # Create dictionary from trimmed list
-    keyValues_dict = dict(s.split('=',1) for s in keyValueList)
-    
-    return keyValues_dict, popList
+from utils import get_wkt_crs, trimmer
 
 def getDSSPaths(lines):
     # Get lines with 'DSS Filename'
@@ -221,7 +202,7 @@ def parse_prj(prj_file, prj_name, wkt, crs, plan_titles, output_dir):
         lines = f.readlines()
     
     lines = [s.strip('\n') for s in lines]
-    keyValues_dict, popList = trimKeyValuePairsToDict(lines)
+    keyValues_dict, popList = trimmer.trim(lines)
 
     # Remove unneeded keys
     # for key, value in keyValues_dict.items() :
@@ -267,21 +248,6 @@ def parse_prj(prj_file, prj_name, wkt, crs, plan_titles, output_dir):
     dict_to_model_app_json(keyValues_dict, output_prj_json)
 
 
-def parse_shp(shp, prj_name, output_dir):
-    gdf = gpd.read_file(shp)
-    crs = str(gdf.crs)
-    gdf = gdf.to_crs(4326)
-    wkt = gdf.to_wkt().geometry[0]
-    wkt_dict = {}
-    wkt_dict["spatial_extent"] = wkt
-    wkt_dict["coordinate_system"] = crs
-
-    with open(os.path.join(output_dir, f'{prj_name}_ras_wkt.yml'), 'w+') as f:
-        yaml.dump(wkt_dict, f)
-    
-    return wkt, crs
-
-
 def get_p_files(prj_dir, prj_name):
     # prj = 'Z:\Amite\Amite_LWI\Models\Amite_RAS\Amite_2022.prj'
     # prj_dir, prj_file_tail = os.path.split(prj)
@@ -311,7 +277,7 @@ def parse_p(p_file_list, prj_name, wkt, crs, output_dir):
         lines = [s.strip('\n') for s in lines]
 
         # Create Dictionary
-        keyValues_dict, popList = trimKeyValuePairsToDict(lines)
+        keyValues_dict, popList = trimmer.trim(lines)
 
         # Add specific popList lines from prj file to keyValue_dict
         for i,v in enumerate(popList):
@@ -331,7 +297,7 @@ def parse_p(p_file_list, prj_name, wkt, crs, output_dir):
         geom_lines = [s.strip('\n') for s in geom_lines]
 
         # Create geometry Dictionary
-        geom_keyValues_dict, geom_popList = trimKeyValuePairsToDict(geom_lines)
+        geom_keyValues_dict, geom_popList = trimmer.trim(geom_lines)
 
         # Add Specified key value pairs from geom file to p file.
         keyValues_dict['Geom Title'] = geom_keyValues_dict['Geom Title']
@@ -344,7 +310,7 @@ def parse_p(p_file_list, prj_name, wkt, crs, output_dir):
         flow_lines = [s.strip('\n') for s in flow_lines]
 
         # Create flow file Dictionary
-        flow_keyValues_dict, flow_popList = trimKeyValuePairsToDict(flow_lines)
+        flow_keyValues_dict, flow_popList = trimmer.trim(flow_lines)
 
         # Get associated plan hdf file
         with h5py.File(r"Z:\Amite\Amite_LWI\Models\Amite_RAS\Amite_20200114.p07.hdf", "r") as f:
@@ -388,7 +354,7 @@ def parse(prj, shp):
         os.makedirs(output_dir)
 
     # Get WKT and CRS from shp
-    wkt, crs = parse_shp(shp, prj_name, output_dir)
+    wkt, crs = get_wkt_crs.parse_shp(shp, prj_name, output_dir)
 
     # Get .p## files in prj_dir
     p_file_list = get_p_files(prj_dir, prj_name)
