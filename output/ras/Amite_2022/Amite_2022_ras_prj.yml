@@ -6,11 +6,11 @@ DSS File: dss
 Description: 'LWI Amite Calibrated HEC-RAS model '
 GIS Export Profiles: ' 0 '
 Plans:
-- RTF_Test
-- RTF_Test_2
-- Plan 03
-- Plan 04
-- Isaac_all_AORC_Optimized
+- 'Amite_2022 HEC-RAS Model Simulation: RTF_Test'
+- 'Amite_2022 HEC-RAS Model Simulation: RTF_Test_2'
+- 'Amite_2022 HEC-RAS Model Simulation: Plan 03'
+- 'Amite_2022 HEC-RAS Model Simulation: Plan 04'
+- 'Amite_2022 HEC-RAS Model Simulation: Isaac_all_AORC_Optimized'
 Proj Title: Amite_2022 HEC-RAS Model
 Project File: Z:/Amite/Amite_LWI/Models/Amite_RAS/Amite_2022.prj
 application_date: '2023-02-15'

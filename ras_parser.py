@@ -218,6 +218,7 @@ def parse_p(p_file_list, prj_name, wkt, crs, output_dir):
         keyValues_dict['Flow Title'] = flow_keyValues_dict['Flow Title']
 
         # Append plan title list
+        keyValues_dict['Plan Title'] = f"{prj_name} HEC-RAS Model Simulation: {keyValues_dict['Plan Title']}"
         plan_titles.append(keyValues_dict['Plan Title'])
 
         # Set dss output file to default path

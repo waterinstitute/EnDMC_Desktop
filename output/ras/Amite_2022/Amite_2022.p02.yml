@@ -101,7 +101,7 @@ Number of US XS's Weighted with DS Boundary: ' 1 '
 Output Increment Type: ' 1 '
 Output Interval: 1HOUR
 Percentile Method: ' 0 '
-Plan Title: RTF_Test_2
+Plan Title: 'Amite_2022 HEC-RAS Model Simulation: RTF_Test_2'
 Profile and TS Output Increment: ' 1 '
 Program Version: '6.10'
 Read Gradation Hotstart: ' 0 '
