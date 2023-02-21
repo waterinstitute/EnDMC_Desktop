@@ -40,8 +40,42 @@ def getDSSPaths(lines):
 
     return dss_file_and_paths
 
+def dict_to_model_app_json(keyValues_dict, output_prj_json):    
+        # Open ras_model_application Json template
+        with open(r"example\input\json\ras_model_application.json", 'r') as f:
+            ras_model_template_json = json.load(f)
+
+        # keys to drop from json template
+        drop_keys = ['_id', 'linked_resources', 'common_parameters', 'common_software_version', 'authors', 
+        'spatial_extent_resolved', 'spatial_valid_extent_resolved', 'temporal_extent', 'temporal_resolution', 'spatial_valid_extent', 'common_files_details']
+        for key in drop_keys:
+            del ras_model_template_json[key]
+
+        # set basic keywords
+        ras_model_template_json['keywords'] = ['hec-ras','hec','ras','hydraulic','model','lwi']
+
+        # Map to web-app Json
+        ras_model_template_json['title'] = keyValues_dict['Proj Title']
+        ras_model_template_json['description'] = keyValues_dict['Description']
+        ras_model_template_json['purpose'] = keyValues_dict['Description']
+        ras_model_template_json['simulations'] = keyValues_dict['Plans']
+        ras_model_template_json['grid']['coordinate_system'] = keyValues_dict['coordinate_system']
+        ras_model_template_json['spatial_extent'][0] = keyValues_dict['spatial_extent']
+        ras_model_template_json['common_files_details'] = []
+        ras_model_template_json['common_files_details'].append( {
+            'source_dataset': None,
+            'description': 'RAS project file which links projects with plans, geometry, and flow files',
+            'location': keyValues_dict['Project File'],
+            'title': 'prj file'
+        })
+
+        # output mapped json
+        with open(output_prj_json, "w") as outfile:
+            json.dump(ras_model_template_json, outfile)
+
 def parse_prj(prj_file, prj_name, wkt, crs, plan_titles, output_dir):
     output_prj_yaml = os.path.join(output_dir, f'{prj_name}_ras_prj.yml')
+    output_prj_json = os.path.join(output_dir, f'{prj_name}_ras_model_application.json')
 
     with open(prj_file, "r") as f:
         lines = f.readlines()
@@ -71,6 +105,8 @@ def parse_prj(prj_file, prj_name, wkt, crs, plan_titles, output_dir):
 
     keyValues_dict['Description'] = description
 
+    # Update project title
+    keyValues_dict['Proj Title'] = f'{prj_name} HEC-RAS Model'
     # Add project file location
     keyValues_dict['Project File'] = prj_file
 
@@ -85,10 +121,10 @@ def parse_prj(prj_file, prj_name, wkt, crs, plan_titles, output_dir):
     modTimeUnix = os.path.getmtime(prj_file) 
     keyValues_dict['application_date'] = datetime.fromtimestamp(modTimeUnix).strftime('%Y-%m-%d')
 
-
-
     with open(output_prj_yaml, 'w+') as f:
         yaml.dump(keyValues_dict, f)
+    
+    dict_to_model_app_json(keyValues_dict, output_prj_json)
 
 
 def parse_shp(shp, prj_name, output_dir):
@@ -182,7 +218,10 @@ def parse_p(p_file_list, prj_name, wkt, crs, output_dir):
         keyValues_dict['Flow Title'] = flow_keyValues_dict['Flow Title']
 
         # Append plan title list
-        plan_titles.append(keyValues_dict['Plan Title']) 
+        plan_titles.append(keyValues_dict['Plan Title'])
+
+        # Set dss output file to default path
+        keyValues_dict['DSS Output File'] = f'{prj_name}.dss'
 
         # Write the output yaml for each .p## file.
         with open(os.path.join(output_dir,f'{p_file_tail}.yml'), 'w+') as f:

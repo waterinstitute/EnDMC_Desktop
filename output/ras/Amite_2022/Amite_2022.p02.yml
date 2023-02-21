@@ -48,6 +48,7 @@ DSS Input Files:
 - - DSS File=..\..\..\RTF_Amite_08152022\example.dss
   - DSS Path=/RAS_Model:Amite/robl1 Tangipahoa River/FLOW/01Aug2022/IR-Month/RFC/
 DSS Location: ''
+DSS Output File: Amite_2022.dss
 DSS Sediment Output Type: ' 1 '
 Downstream Boundary Weight: ' 0.5 '
 Downstream XS Weight: '0'

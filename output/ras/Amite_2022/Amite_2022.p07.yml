@@ -67,6 +67,7 @@ DSS Input Files:
 - - Observed Time Series=Stage|TS DSS Filename=.\BC_Extended\PortVincent_AmiteGage_15min.dss
   - Observed Time Series=Stage|TS DSS Pathname=/Port Vincent, Amite River/7380120/STAGE/01Oct2007-01Sep2022/15Minute/USGS/
 DSS Location: ''
+DSS Output File: Amite_2022.dss
 DSS Sediment Output Type: ' 1 '
 Description: Pontchartrain tide is from Adcirc
 Downstream Boundary Weight: ' 0.5 '
