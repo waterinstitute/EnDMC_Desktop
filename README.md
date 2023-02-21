@@ -29,7 +29,11 @@ The output is YAML and JSON files located in /output/ras/{Project_Name}. There w
     
 ![image](https://user-images.githubusercontent.com/64209352/220175255-e5267795-7a58-401b-a7ea-4b21206b2b49.png)
 
-The JSON files can be ingested by the meta-data web app site by creating a new model application or simulation selecting 'Load JSON File'. This will auto-fill the form with the data this script was able to extract in the format currently required by the [meta-data web app](https://metadata-creation-tool.herokuapp.com/).
+The JSON files can be ingested by the meta-data web app site by creating a new model application or simulation:
+
+![image](https://user-images.githubusercontent.com/64209352/220426076-3e00c148-cf10-45ee-8dea-d9484a0b2ded.png)
+
+Then, selecting 'Load JSON File'. This will auto-fill the form with the data this script was able to extract in the format currently required by the [meta-data web app](https://metadata-creation-tool.herokuapp.com/).
  
 ![image](https://user-images.githubusercontent.com/64209352/220424883-e40654d1-d8c5-4d10-860e-9413020ea272.png)
 
