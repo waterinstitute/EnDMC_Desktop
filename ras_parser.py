@@ -254,7 +254,7 @@ def get_p_files(prj_dir, prj_name):
     # prj_name = prj_file_tail.split(".")[0]
     pList = []
 
-    for pFile in glob.glob(r'Z:\Amite\Amite_LWI\Models\Amite_RAS\*.p' + '[0-9]' * 2):
+    for pFile in glob.glob(rf'{prj_dir}/*.p' + '[0-9]' * 2):
         prj_dir, p_file_tail = os.path.split(pFile)
         p_file_prj_name = p_file_tail.split(".")[0]
         if p_file_prj_name == prj_name:
@@ -313,9 +313,13 @@ def parse_p(p_file_list, prj_name, wkt, crs, output_dir):
         flow_keyValues_dict, flow_popList = trimmer.trim(flow_lines)
 
         # Get associated plan hdf file
-        with h5py.File(r"Z:\Amite\Amite_LWI\Models\Amite_RAS\Amite_20200114.p07.hdf", "r") as f:
-            terrain = f['Geometry'].attrs['Terrain Filename'].decode('UTF-8')
-        keyValues_dict['terrain'] = terrain
+        try:
+            with h5py.File(rf"{p}.hdf", "r") as f:
+                terrain = f['Geometry'].attrs['Terrain Filename'].decode('UTF-8')
+            keyValues_dict['terrain'] = terrain
+        except:
+            print (f'Unable to extract terrain file used. HDF Output File Missing: {p}.hdf')
+            keyValues_dict['terrain'] = ''
 
          # Get Input DSS files and paths from flow file to p file.
         dss_file_and_paths = getDSSPaths(flow_lines)

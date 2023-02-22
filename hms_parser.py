@@ -39,5 +39,12 @@ if __name__ == '__main__':
     type=str
     )
 
+    p.add_argument(
+    "--dss", help="Optional. The directory containing input DSS files used by the HEC-HMS model such as Observed Timeseries, Reservoir Releases, Gridded Rainfall, or Specified Hyetogrpahs. \
+        (Ex: C:\HMS_Models\Amite\data)", 
+    required=False, 
+    type=str
+    )
+
     args = p.parse_args()
     parse(args.hms, args.shp)
