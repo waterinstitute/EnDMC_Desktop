@@ -56,7 +56,7 @@ def dict_to_model_app_json(keyValues_dict, output_prj_json):
 
 def dict_to_sim_json(keyValues_dict, prj_name, p_file, output_p_json):
     # Open RAS Simulation Json Template 
-    with open(r"C:\py\hec_meta_extract\example\input\json\ras_simulation.json", 'r') as f:
+    with open(r"example\input\json\ras_simulation.json", 'r') as f:
         ras_sim_template_json = json.load(f)
 
     # keys to drop
