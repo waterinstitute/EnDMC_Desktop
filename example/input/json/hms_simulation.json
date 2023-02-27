@@ -55,7 +55,24 @@
             "description": null
         }
     ],
-    "parameters": [],
+    "parameters": [
+        {
+          "parameter": "Routing",
+          "value": "Muskingum-Cunge"
+        },
+        {
+          "parameter": "Baseflow",
+          "value": "Monthly"
+        },
+        {
+          "parameter": "Routing",
+          "value": "Muskingum-Cunge"
+        },
+        {
+          "parameter": "Routing",
+          "value": "Muskingum-Cunge"
+        }
+      ],
     "temporal_extent": [
         "2016-08-05",
         "2016-08-17"
