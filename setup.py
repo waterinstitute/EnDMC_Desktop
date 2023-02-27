@@ -7,6 +7,7 @@ setup(
     install_requires=[
         'PyYAML',
         'geopandas',
-        'h5py'
+        'h5py',
+        'pyinstaller'
     ]
 )
