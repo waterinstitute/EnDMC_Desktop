@@ -67,23 +67,23 @@ def gage_file_parse(prj_dir, prj_name):
     gage_dss_files = list(set(gage_dss_files))
 
     # Create list in the format needed for the hms simulation json.
-    gage_dss_files = []
-    for gage_dss_files in gage_dss_files:
+    gage_dss_json_list = []
+    for dss_file in gage_dss_files:
         for key, value in gage_kv['Gage DSS Files'].items():
             # print (key, value)
-            if gage_kv['Gage DSS Files'][key]['DSS File Name'] == gage_dss_files:
-                gage_dss_files.append(
+            if gage_kv['Gage DSS Files'][key]['DSS File Name'] == dss_file:
+                gage_dss_json_list.append(
                     {
-                        "title": gage_kv['Gage DSS Files'][key]['Gage Type'],
+                        "title": gage_kv['Gage DSS Files'][key]['Gage Type'] + " DSS File",
                         "source_dataset": None,
-                        "location": gage_dss_files,
+                        "location": dss_file,
                         "description": f"Parsed from {prj_name}.gage file"
                     }
                 )
     # Remove duplicates from list
-    gage_dss_files = [dict(t) for t in {tuple(d.items()) for d in gage_dss_files}]
+    gage_dss_json_list = [dict(t) for t in {tuple(d.items()) for d in gage_dss_json_list}]
 
-    return gage_dss_files
+    return gage_dss_json_list
 
 def get_extra_dss_files(input_dss_dir):
     extra_dss_files_list = []
@@ -290,8 +290,6 @@ def parse_runs(prj, output_dir):
             if find_key == 'Basin':
                 basin_name = sim_kv[title][find_key].replace(" ","_").replace("(","_").replace(")","_") + '.basin'
                 basin_file = os.path.join(prj_dir, basin_name)
-                # print(basin_file)
-                print(basin_name)
 
                 with open(basin_file, 'r') as b:
                     b_file = b.readlines()
@@ -360,16 +358,22 @@ def parse_runs(prj, output_dir):
                 "description": None
             }
         ]
-        # Input files for the basin associated with each simulation.
+        
         simulation_template_json['input_files'] = gage_file_parse(prj_dir, prj_name)
+        simulation_template_json['temporal_extent'] = [
+            datetime.strptime(sim_kv[title]['Start Date'], '%d  %B %Y').strftime('%Y-%m-%d'),
+            datetime.strptime(sim_kv[title]['End Date'], '%d  %B %Y').strftime('%Y-%m-%d')
+        ]
+    
+        simulation_template_json["temporal_resolution"] = sim_kv[title]['Time Interval'] + ' Minutes'
 
-        # Temporal extent format
+        simulation_template_json["parameters"] = sim_kv[title]['parameters']    
 
         # output each simulation json
-        # output_run_json = os.path.join(output_dir,f'{prj_name}_{run}_simulation.json')
-        # with open(output_run_json, "w") as outfile:
-        #     json.dump(model_template_json, outfile)
-        # print (f'\nmodel_application file output to: {output_run_json}')
+        output_sim_json = os.path.join(output_dir,f'{prj_name}_{title}_simulation.json')
+        with open(output_sim_json, "w") as outfile:
+            json.dump(simulation_template_json, outfile)
+        print (f'{prj_name}_{title}_simulation.json')
 
 
 def parse(prj, shp, dss):

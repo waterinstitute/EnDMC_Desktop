@@ -1,0 +1,63 @@
+{
+	"description": "Flood of August 2016",
+	"title": "Amite_HMS HEC-HMS Simulation: {'Basin': 'Consensus (Generic)', 'parameters': [{'parameter': 'Canopy', 'value': ['Simple']}, {'parameter': 'LossRate', 'value': ['Deficit Constant']}, {'parameter': 'Transform', 'value': ['Clark']}, {'parameter': 'Baseflow', 'value': ['Monthly Constant']}, {'parameter': 'Route', 'value': ['Muskingum Cunge']}], 'DSS File': 'August_2016.dss', 'Precip': 'Specified Hyetographs', 'Control': 'Aug2016', 'Description': 'Flood of August 2016', 'Start Date': '5 August 2016', 'End Date': '17 August 2016', 'Time Interval': '60'}",
+	"output_files": [
+		{
+			"title": "Output DSS File",
+			"source_dataset": null,
+			"location": "August_2016.dss",
+			"description": null
+		}
+	],
+	"input_files": [
+		{
+			"title": "Flow DSS File",
+			"source_dataset": null,
+			"location": "Amite_HMS_TimeSeries.dss",
+			"description": "Parsed from Amite_HMS.gage file"
+		},
+		{
+			"title": "Precipitation DSS File",
+			"source_dataset": null,
+			"location": "rainfall_stageIV.dss",
+			"description": "Parsed from Amite_HMS.gage file"
+		}
+	],
+	"parameters": [
+		{
+			"parameter": "Canopy",
+			"value": [
+				"Simple"
+			]
+		},
+		{
+			"parameter": "LossRate",
+			"value": [
+				"Deficit Constant"
+			]
+		},
+		{
+			"parameter": "Transform",
+			"value": [
+				"Clark"
+			]
+		},
+		{
+			"parameter": "Baseflow",
+			"value": [
+				"Monthly Constant"
+			]
+		},
+		{
+			"parameter": "Route",
+			"value": [
+				"Muskingum Cunge"
+			]
+		}
+	],
+	"temporal_extent": [
+		"2016-08-05",
+		"2016-08-17"
+	],
+	"temporal_resolution": "60 Minutes"
+}
