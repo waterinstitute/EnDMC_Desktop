@@ -82,7 +82,7 @@ filePath = StringVar()
 # RAS gui objects
 
 ras_prj_select = FileSelect(gui, "RAS project file (.prj)")
-ras_prj_select.grid(row=0, ipady=10)
+ras_prj_select.grid(row=0)
 
 ras_shp_select = FileSelect(gui, "RAS boundary shape file (*.shp) ")
 ras_shp_select.grid(row=1)
