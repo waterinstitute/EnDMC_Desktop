@@ -9,15 +9,91 @@ import argparse
 from utils import get_wkt_crs
 from datetime import datetime
 
-def get_dss_files(input_dss_dir):
-    dss_files_list = []
-    for pFile in glob.glob(rf'{input_dss_dir}/*.dss'):
-        dss_files_list.append(pFile)
+def gage_file_parse(prj_dir, prj_name):
+    gage_kv ={}
+    # open the .gage file
+    try:
+        with open(os.path.join(prj_dir,f'{prj_name}.gage'), 'r') as r:
+            gage_file = r.readlines()
+    except EnvironmentError:
+        print(f"Gage File not found: {gage_file}")
 
-    # dss_files_list
+    gage_file = [s.strip('\n') for s in gage_file]
+    # gage_file
+
+    line_start = 0
+    gageList = []
+    for i,v in enumerate(gage_file):
+            if v == 'End:':
+                    # If not the beginning of the file, skip a blank line (+1) for the start of the subList.
+                    if len(gageList) > 0:
+                            gageList.append(gage_file[line_start+1:i])
+                    else:
+                            gageList.append(gage_file[line_start:i])
+                    line_start = i+1
+    
+    # For each gage in .gage file, Get gage type and associated dss file name.
+    gage_kv['Gage DSS Files'] ={}
+    for gage in gageList:
+        # get gage title
+        title = gage[0].split(":")[1].strip()
+        # Init ditionary for each gage title
+        gage_kv['Gage DSS Files'][title] = {}
+        # findList is used to search the wanted .gage file fields for each gage title.
+        findList = ["Gage Type", "DSS File Name"]
+        # search each gage for the keys in findList, append as key:value pairs for each gage title.
+        for find_key in findList:
+            found_value = [s for s in gage if find_key in s]
+            
+            # Omit blank fields by testing the length
+            if len(found_value) > 0:
+                found_value = found_value[0].split(":")[1:][0].strip()
+                
+                gage_kv['Gage DSS Files'][title][find_key] = found_value
+
+        # Remove gage titles that did not contain the findList fields.
+        if len(gage_kv['Gage DSS Files'][title]) == 0:
+            del gage_kv['Gage DSS Files'][title]
+
+        # get values from dictionary in to a list without the keys.
+        temp_list = []
+        for key, value in gage_kv['Gage DSS Files'].items():
+            temp_list.append(value)
+
+    # Get a list of unique DSS File values in a list.
+    gage_dss_files = []
+    for t in temp_list:
+        gage_dss_files.append(t['DSS File Name'])
+    gage_dss_files = list(set(gage_dss_files))
+
+    # Create list in the format needed for the hms simulation json.
+    gage_dss_files = []
+    for gage_dss_files in gage_dss_files:
+        for key, value in gage_kv['Gage DSS Files'].items():
+            # print (key, value)
+            if gage_kv['Gage DSS Files'][key]['DSS File Name'] == gage_dss_files:
+                gage_dss_files.append(
+                    {
+                        "title": gage_kv['Gage DSS Files'][key]['Gage Type'],
+                        "source_dataset": None,
+                        "location": gage_dss_files,
+                        "description": f"Parsed from {prj_name}.gage file"
+                    }
+                )
+    # Remove duplicates from list
+    gage_dss_files = [dict(t) for t in {tuple(d.items()) for d in gage_dss_files}]
+
+    return gage_dss_files
+
+def get_extra_dss_files(input_dss_dir):
+    extra_dss_files_list = []
+    for pFile in glob.glob(rf'{input_dss_dir}/*.dss'):
+        extra_dss_files_list.append(pFile)
+
+    # extra_dss_files_list
     dss_common_files_input = []
-    if len(dss_files_list)>0:
-        for f in dss_files_list:
+    if len(extra_dss_files_list)>0:
+        for f in extra_dss_files_list:
             head, tail = os.path.split(f)
             dss_title = tail.split(".")[0]
             dss_common_files_input.append(
@@ -29,9 +105,9 @@ def get_dss_files(input_dss_dir):
                 },
             )
 
-    return dss_files_list
+    return extra_dss_files_list
 
-def parse_prj(prj, wkt, crs, dss_files_list, output_dir):
+def parse_prj(prj, wkt, crs, extra_dss_files_list, output_dir):
 
     prj_dir, prj_file_tail = os.path.split(prj)
     prj_name = prj_file_tail.split(".")[0]
@@ -143,8 +219,12 @@ def parse_prj(prj, wkt, crs, dss_files_list, output_dir):
     )
 
     # Add optional input DSS files list to list of input files.
-    if dss_files_list is not None:
-        model_template_json['common_files_details'].extend(dss_files_list)
+    if extra_dss_files_list is not None:
+        model_template_json['common_files_details'].extend(extra_dss_files_list)
+    
+    # open the .gage file and pull input dss files
+    gage_dss_files = gage_file_parse(prj_dir,prj_name)
+    model_template_json['common_files_details'].extend(gage_dss_files)
     
     # output model application json
     output_prj_json = os.path.join(output_dir,f'{prj_name}_model_application.json')
@@ -260,7 +340,31 @@ def parse_runs(prj, output_dir):
                         }
                     )
                 sim_kv[title]['parameters'] = parameterList
-    
+
+        # open the simulation Json template, del unnecessary keys, update, add, export 
+        with open(r"example\input\json\hms_simulation.json", 'r') as f:
+                    simulation_template_json = json.load(f)
+
+        # keys to drop from json template
+        drop_keys = ['_id', 'model_application', 'model_software', 'linked_resources','type']
+        for key in drop_keys:
+            del simulation_template_json[key]
+
+        simulation_template_json['description'] = sim_kv[title]['Description']
+        simulation_template_json['title'] = f"{prj_name} HEC-HMS Simulation: {sim_kv[title]}"
+        simulation_template_json['output_files'] = [
+            {
+                "title": "Output DSS File",
+                "source_dataset": None,
+                "location": sim_kv[title]['DSS File'],
+                "description": None
+            }
+        ]
+        # Input files for the basin associated with each simulation.
+        simulation_template_json['input_files'] = gage_file_parse(prj_dir, prj_name)
+
+        # Temporal extent format
+
         # output each simulation json
         # output_run_json = os.path.join(output_dir,f'{prj_name}_{run}_simulation.json')
         # with open(output_run_json, "w") as outfile:
@@ -286,12 +390,12 @@ def parse(prj, shp, dss):
 
     # if args.dss, get dss input files
     if dss is not None:
-        dss_files_list = get_dss_files(dss)
+        extra_dss_files_list = get_extra_dss_files(dss)
     else:
-        dss_files_list = None
+        extra_dss_files_list = None
 
     # Parse project file
-    parse_prj(prj, wkt, crs, dss_files_list, output_dir)
+    parse_prj(prj, wkt, crs, extra_dss_files_list, output_dir)
 
     # Run file parse
     parse_runs(prj, output_dir)
