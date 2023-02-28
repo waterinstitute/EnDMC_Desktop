@@ -1,5 +1,5 @@
 dist/*
-main.spec
+*.spec
 build/**
 build/main/*
 *.exe
