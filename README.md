@@ -2,11 +2,19 @@
 
 This tool is used to automatically pull key:value metadata from HEC-RAS and HEC-HMS models with the intent to assist in inputting meta data for the TWI web application: https://metadata-creation-tool.herokuapp.com/
 
-To install - Clone the repo and run:
+To run the application download the release, unzip, and run the executable - https://github.com/mylesmc123/hec_meta_extract/releases
+
+
+
+------For Developers Only Below------
+
+To get the source code running, clone the repo and run:
 
 "python setup.py install"
 
-Tested with Python version 3.11.0
+Requires Python version 3.9.13 in the setup.py. This is due to the requirements of the pyInstaller package, which is only necessary for creating the releases: https://github.com/mylesmc123/hec_meta_extract/releases
+Otherwise, everything else works with Python version >=3.9
+
 
 To run the ras_parser.py:
 
