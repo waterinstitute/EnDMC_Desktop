@@ -5,6 +5,9 @@ setup(
     version='0.1.0',
     packages=find_packages(include=['utils'], exclude=['dev', 'output', '.vscode']),
     install_requires=[
+        'cython',
+        'numpy',
+        'pkgconfig',
         'PyYAML',
         'geopandas',
         'h5py',

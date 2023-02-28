@@ -1,3 +1,7 @@
 dist/*
-build/*
 main.spec
+build/**
+build/main/*
+*.exe
+*.pyc
+

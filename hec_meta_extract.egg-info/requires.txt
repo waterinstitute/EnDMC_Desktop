@@ -1,3 +1,7 @@
+cython
+numpy
+pkgconfig
 PyYAML
 geopandas
 h5py
+pyinstaller
