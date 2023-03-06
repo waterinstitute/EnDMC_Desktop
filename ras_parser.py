@@ -115,7 +115,7 @@ def dict_to_sim_json(keyValues_dict, prj_name, p_file, output_p_json):
         },
         {
             "title": "b file",
-            "location": 'f{prj_name}.b{p_num}',
+            "location": f'{prj_name}.b{p_num}',
             "description": "RAS master input text file",
             "source_dataset": None
         },

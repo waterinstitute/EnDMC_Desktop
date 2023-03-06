@@ -9,7 +9,7 @@ import webbrowser
 
 gui = Tk()
 gui.geometry("600x300")
-gui.title("The Water Institute: LWI Metadata Extraction")
+gui.title("The Water Institute: Metadata Extraction for HEC Models")
 
 #Define a callback function
 def callback(url):
@@ -122,7 +122,7 @@ link.bind("<Button-1>", lambda e: callback("https://metadata-creation-tool.herok
 # Metadata website link
 link = Label(gui, text="Questions/Comments: Github",font=('Helveticabold', 10), fg="blue", cursor="hand2", anchor=SW)
 link.grid(row=12)
-link.bind("<Button-1>", lambda e: callback("https://github.com/mylesmc123/hec_meta_extract/issues"))
+link.bind("<Button-1>", lambda e: callback("https://github.com/waterinstitute/hec_meta_extract/issues"))
 
 # run app
 gui.mainloop()
