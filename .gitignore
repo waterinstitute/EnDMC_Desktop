@@ -1,0 +1,7 @@
+dist/*
+*.spec
+build/**
+build/main/*
+*.exe
+*.pyc
+
