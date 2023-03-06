@@ -2,7 +2,7 @@
 
 This tool is used to automatically pull key:value metadata from HEC-RAS and HEC-HMS models with the intent to assist in inputting meta data for the TWI web application: https://metadata-creation-tool.herokuapp.com/
 
-To run the application download the release, unzip, and run the executable - https://github.com/mylesmc123/hec_meta_extract/releases
+To run the application download the release, unzip, and run the executable - https://github.com/waterinstitute/hec_meta_extract/releases/
 
 This release is primarily meant for the Louisiana Watershed Initiative to assist in extracting metadata from HEC-RAS and HEC-HMS to Json files that can be used to auto-populate the meta data fields for model applications and simulations on the meta-data web app located at: https://metadata-creation-tool.herokuapp.com/signup
 
@@ -67,4 +67,15 @@ The output is YAML and JSON files located in /output/ras/{Project_Name}. There w
 
  
 ![image](https://user-images.githubusercontent.com/64209352/220424883-e40654d1-d8c5-4d10-860e-9413020ea272.png)
+
+Build Notes:
+
+ To minimize the .exe file size, only needed dependencies are included in the environment. Created the environment using Python 3.9 venv and the dependencies found in setup.py.
+
+ The .exe is built using pyInstaller from the proect directory:
+    
+    pyinstaller main.py -F -n Extract_HEC_Meta_Data.exe
+
+  This creates an .exe is the ./dist. When the .exe is zipped as on the Releases page, the ./Example directory is packaged with it because the templates used for creating new Json files are required and in that directory. 
+  
 
