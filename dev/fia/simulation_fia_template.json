@@ -1,0 +1,38 @@
+{
+    "_id": "6418d48504373e219daa45a8",
+    "temporal_resolution": null,
+    "description": "HEC-FIA Simulation Test for Automation",
+    "type": "SCENARIO",
+    "input_files": [
+        {
+            "title": "test",
+            "source_dataset": null,
+            "description": "test file",
+            "location": "test/test.shp"
+        }
+    ],
+    "model_application": "/model_application/64188ddde806e214a19646c4",
+    "title": "HEC-FIA Simulation Test ",
+    "linked_resources": null,
+    "temporal_extent": [
+        "2023-03-01",
+        "2023-03-07"
+    ],
+    "output_files": [
+        {
+            "title": "output test",
+            "source_dataset": null,
+            "description": "test output file",
+            "location": "output/test.shp"
+        }
+    ],
+    "parameters": [
+        {
+            "value": "0.0",
+            "parameter": "Random Seed"
+        }
+    ],
+    "model_software": "/model_software/6410b3ad4b81a63a147ecd4d",
+    "__created_by": "mmcmanus@thewaterinstitute.org",
+    "__created_at": "2023-03-20T21:47:49.572010"
+}

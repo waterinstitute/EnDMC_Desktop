@@ -1,0 +1,47 @@
+,Name,Description,File,Class,Simulation,Comments
+21,ActivityTypeDistributionManager,,fia/ActivityTypeDistributions.dat,ActivityTypeDistributionManager,,
+23,AgriculturalGrid,,Inventory/Agriculture Data/AgriculturalGrid.tif,AgricultureManager,,"concat ""Agriculture Data"": + name"
+28,Alternative_August2016_Event_WithReservoir,,alternatives/Alternative_August2016_Event_WithReservoir.alternative,Alternative,,concat {class}: + name
+42,Alternative_DAR_10inch_WithReservoir,,alternatives/Alternative_DAR_10inch_WithReservoir.alternative,Alternative,,concat {class}: + name
+32,Alternative_DAR_18inch_WithReservoir,,alternatives/Alternative_DAR_18inch_WithReservoir.alternative,Alternative,,concat {class}: + name
+44,Alternative_DS_14inch_WithReservoir,,alternatives/Alternative_DS_14inch_WithReservoir.alternative,Alternative,,concat {class}: + name
+38,Alternative_DS_18inch_WithReservoir,,alternatives/Alternative_DS_18inch_WithReservoir.alternative,Alternative,,concat {class}: + name
+40,Alternative_DS_22inch_WithReservoir,,alternatives/Alternative_DS_22inch_WithReservoir.alternative,Alternative,,concat {class}: + name
+16,Default,Default AnalysisGroup,Default.ag,AnalysisGroup,,
+24,AmiteBoundary,,geographic data/boundaries/AmiteBoundary.bndry,BoundaryManager,,Update Name to Description
+3,Channel Mod,,study/ChannelMod.dbf,ChannelModManager,,
+11,Computation Point Layers,,study/ComputationPointLayer.dbf,ComputationPointLayerManager,,
+2,Computation Point,,study/ComputationPoint.dbf,ComputationPointManager,,
+4,Configuration,,study/Condition.dbf,ConditionManager,,
+15,Damage Category,,inventory/structure inventories/category.dbf,DamageCategoryManager,,
+5,Diversion,,study/Diversion.dbf,DiversionManager,,
+14,Global Data,,fia/global.fgd,GlobalData,,
+27,August2016Event_WithReservoir,August 2016 rain event with the Darlington Reservoir,inundation data/grids only configuration/August2016Event_WithReservoir.gridsIc,GridsInundationConfiguration,,"concat ""Grid Configuration"": + name"
+36,DAR_10inch_WithtReservoir,,inundation data/grids only configuration/DAR_10inch_WithtReservoir.gridsIc,GridsInundationConfiguration,,"concat ""Grid Configuration"": + name"
+31,DAR_18inch_WithReservoir,,inundation data/grids only configuration/DAR_18inch_WithReservoir.gridsIc,GridsInundationConfiguration,,"concat ""Grid Configuration"": + name"
+37,DS_14inch_WithReservoir,,inundation data/grids only configuration/DS_14inch_WithReservoir.gridsIc,GridsInundationConfiguration,,"concat ""Grid Configuration"": + name"
+34,DS_18inch_WithReservoir,,inundation data/grids only configuration/DS_18inch_WithReservoir.gridsIc,GridsInundationConfiguration,,"concat ""Grid Configuration"": + name"
+35,DS_22inch_WithReservoir,,inundation data/grids only configuration/DS_22inch_WithReservoir.gridsIc,GridsInundationConfiguration,,"concat ""Grid Configuration"": + name"
+6,ImpactArea,,study/ImpactArea.dbf,ImpactAreaManager,,
+19,ImpactArea,,geographic data/impact areas/ImpactArea.fsys,ImpactAreaSetManager,,Update Name to Class - drop word 'Manger'
+7,Levee,,study/Levee.dbf,LeveeManager,,
+18,ImpactArea,,fia/ImpactArea.lifesim,LifeSimModel,,Concac {class} name and name
+12,OccupancyTypeManager,,inventory/structure inventories/occtype.dbf,OccupancyTypeManager,,
+8,OtherProject,,study/OtherProject.dbf,OtherProjectManager,,
+0,Program Order Manager,,shared/programOrder.xml,ProgramOrderManager,,
+9,Reservoir,,study/Reservoir.dbf,ReservoirManager,,
+29,Simulation_August2016_Event_WithReservoir,,simulation/Simulation_August2016_Event_WithReservoir.simulation,Simulation,x,concat {class}: + name
+43,Simulation_DAR_10inch_WIthReservoir,,simulation/Simulation_DAR_10inch_WIthReservoir.simulation,Simulation,x,concat {class}: + name
+33,Simulation_DAR_18inch_WithReservoir,,simulation/Simulation_DAR_18inch_WithReservoir.simulation,Simulation,x,concat {class}: + name
+45,Simulation_DS_14inch_WithReservoir,,simulation/Simulation_DS_14inch_WithReservoir.simulation,Simulation,x,concat {class}: + name
+39,Simulation_DS_18inch_WithReservoir,,simulation/Simulation_DS_18inch_WithReservoir.simulation,Simulation,x,concat {class}: + name
+41,Simulation_DS_22inch_WithReservoir,,simulation/Simulation_DS_22inch_WithReservoir.simulation,Simulation,x,concat {class}: + name
+10,StoragePool,,study/StoragePool.dbf,StoragePoolManager,,
+13,StructureGroupManager,,inventory/structure inventories/sgrpdata.dbf,StructureGroupManager,,
+22,AmiteWatershed_Structures,,inventory/structure inventories/AmiteWatershed_Structures.dbf,StructureManager,,concat {class}: + name
+1,Study,,study/Study.dbf,StudyStudyManager,,
+26,amite_ws_10ft_dem,,watershed/terrain grids/amite_ws_10ft_dem.tgrid,TerrainModelManager,,concat {class}: + name
+20,August2016_Event_TimeWindow,,time windows/August2016_Event_TimeWindow.timewindow,TimeWindow,,concat {class}: + name
+30,DAR_18inch,,time windows/DAR_18inch.timewindow,TimeWindow,,concat {class}: + name
+25,WarningIssuance,,warning issuance scenario/WarningIssuance.warningIssuance,WarningIssuanceManager,,concat {class}: + name
+17,Amite_WatershedConfiguration,,watershed/watershed configurations/WatershedConfig.watershedconfig,WatershedConfiguration,,concat {class}: + name
