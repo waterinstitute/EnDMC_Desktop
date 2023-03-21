@@ -1,0 +1,155 @@
+{
+	"description": "HEC-FIA Simulation: Simulation_August2016_Event_WithReservoir, August 2016 with Reservoir, for project: AmiteWatershed_2016Event, using Alternative: Alternative_August2016_Event_WithReservoir.",
+	"type": "SCENARIO",
+	"input_files": [
+		{
+			"title": "Impact Area",
+			"description": " ",
+			"location": "geographic data/impact areas/ImpactArea.fsys"
+		},
+		{
+			"title": "Inundation Configuration",
+			"description": " ",
+			"location": "inundation data/grids only configuration/August2016Event_WithReservoir.gridsIc"
+		},
+		{
+			"title": "Inundation Grid",
+			"description": " ",
+			"location": "Inputs/August2016_Event_WithReservoir/Depth (Max).FIA_Mapping.tif"
+		},
+		{
+			"title": "Depth Velocity Grid",
+			"description": " ",
+			"location": "Inputs/August2016_Event_WithReservoir/D _ V (Max).FIA_Mapping.tif"
+		},
+		{
+			"title": "Life Lose Arrival Grid",
+			"description": " ",
+			"location": "Inputs/August2016_Event_WithReservoir/Arrival Time (2.5ft hrs).FIA_Mapping.tif"
+		},
+		{
+			"title": "Agriculture Arrival Grid",
+			"description": " ",
+			"location": "Inputs/August2016_Event_WithReservoir/Arrival Time (hrs).FIA_Mapping.tif"
+		},
+		{
+			"title": "Agriculgure Duration Grid",
+			"description": " ",
+			"location": "Inputs/August2016_Event_WithReservoir/Duration (hrs).FIA_Mapping.tif"
+		},
+		{
+			"title": "Structrue Inventory",
+			"description": " ",
+			"location": "inventory/structure inventories/AmiteWatershed_Structures.dbf"
+		},
+		{
+			"title": "Agriculture Inventory",
+			"description": " ",
+			"location": "Inventory/Agriculture Data/AgriculturalGrid.tif"
+		},
+		{
+			"title": "Warning Issuance",
+			"description": " ",
+			"location": "warning issuance scenario/WarningIssuance.warningIssuance"
+		}
+	],
+	"title": "HEC-FIA AmiteWatershed_2016Event Simulation: Simulation_August2016_Event_WithReservoir",
+	"temporal_extent": [
+		"2023-03-01",
+		"2023-03-07"
+	],
+	"output_files": [
+		{
+			"title": "EconResults",
+			"description": " ",
+			"location": "runs/Alternative_August2016_Event_WithReservoir/August2016_Event_WithReservoir/August2016_Event_TimeWindow/EconResults.shp"
+		},
+		{
+			"title": "LifeLossResults",
+			"description": " ",
+			"location": "runs/Alternative_August2016_Event_WithReservoir/August2016_Event_WithReservoir/August2016_Event_TimeWindow/LifeLossResults.shp"
+		},
+		{
+			"title": "LifeLossResults10AM",
+			"description": " ",
+			"location": "runs/Alternative_August2016_Event_WithReservoir/August2016_Event_WithReservoir/August2016_Event_TimeWindow/LifeLossResults10AM.shp"
+		},
+		{
+			"title": "LifeLossResults10PM",
+			"description": " ",
+			"location": "runs/Alternative_August2016_Event_WithReservoir/August2016_Event_WithReservoir/August2016_Event_TimeWindow/LifeLossResults10PM.shp"
+		},
+		{
+			"title": "LifeLossResults12AM",
+			"description": " ",
+			"location": "runs/Alternative_August2016_Event_WithReservoir/August2016_Event_WithReservoir/August2016_Event_TimeWindow/LifeLossResults12AM.shp"
+		},
+		{
+			"title": "LifeLossResults12PM",
+			"description": " ",
+			"location": "runs/Alternative_August2016_Event_WithReservoir/August2016_Event_WithReservoir/August2016_Event_TimeWindow/LifeLossResults12PM.shp"
+		},
+		{
+			"title": "LifeLossResults2AM",
+			"description": " ",
+			"location": "runs/Alternative_August2016_Event_WithReservoir/August2016_Event_WithReservoir/August2016_Event_TimeWindow/LifeLossResults2AM.shp"
+		},
+		{
+			"title": "LifeLossResults2PM",
+			"description": " ",
+			"location": "runs/Alternative_August2016_Event_WithReservoir/August2016_Event_WithReservoir/August2016_Event_TimeWindow/LifeLossResults2PM.shp"
+		},
+		{
+			"title": "LifeLossResults4AM",
+			"description": " ",
+			"location": "runs/Alternative_August2016_Event_WithReservoir/August2016_Event_WithReservoir/August2016_Event_TimeWindow/LifeLossResults4AM.shp"
+		},
+		{
+			"title": "LifeLossResults4PM",
+			"description": " ",
+			"location": "runs/Alternative_August2016_Event_WithReservoir/August2016_Event_WithReservoir/August2016_Event_TimeWindow/LifeLossResults4PM.shp"
+		},
+		{
+			"title": "LifeLossResults6AM",
+			"description": " ",
+			"location": "runs/Alternative_August2016_Event_WithReservoir/August2016_Event_WithReservoir/August2016_Event_TimeWindow/LifeLossResults6AM.shp"
+		},
+		{
+			"title": "LifeLossResults6PM",
+			"description": " ",
+			"location": "runs/Alternative_August2016_Event_WithReservoir/August2016_Event_WithReservoir/August2016_Event_TimeWindow/LifeLossResults6PM.shp"
+		},
+		{
+			"title": "LifeLossResults7AM",
+			"description": " ",
+			"location": "runs/Alternative_August2016_Event_WithReservoir/August2016_Event_WithReservoir/August2016_Event_TimeWindow/LifeLossResults7AM.shp"
+		},
+		{
+			"title": "LifeLossResults8PM",
+			"description": " ",
+			"location": "runs/Alternative_August2016_Event_WithReservoir/August2016_Event_WithReservoir/August2016_Event_TimeWindow/LifeLossResults8PM.shp"
+		}
+	],
+	"parameters": [
+		{
+			"value": "0.0",
+			"parameter": "Random Seed"
+		},
+		{
+			"value": "0.9",
+			"parameter": "Confidence"
+		},
+		{
+			"value": "0.05",
+			"parameter": "Convergence Tolerance"
+		},
+		{
+			"value": "Total Damage",
+			"parameter": "Convergence Variables"
+		},
+		{
+			"value": "25.0",
+			"parameter": "Evacuation Velocity"
+		}
+	]
+}
