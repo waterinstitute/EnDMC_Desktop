@@ -1,7 +1,0 @@
-('c:\\py\\venv\\meta39\\lib\\site-packages\\python_dateutil-2.8.2-py3.9.egg',
- None,
- {'*.pyd', '*.py', 'EGG-INFO', '*.cp39-win_amd64.pyd', '*.pyw', '*.pyc'},
- 'DATA',
- [('dateutil\\zoneinfo\\dateutil-zoneinfo.tar.gz',
-   'c:\\py\\venv\\meta39\\lib\\site-packages\\python_dateutil-2.8.2-py3.9.egg\\dateutil\\zoneinfo\\dateutil-zoneinfo.tar.gz',
-   'DATA')])
