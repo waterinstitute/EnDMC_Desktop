@@ -13,10 +13,10 @@
             "justMyCode": true
         },
         {
-            "name": "Python: ras_parser.py",
+            "name": "ras_parser",
             "type": "python",
             "request": "launch",
-            "program": "${file}",
+            "program": "Z:/py/hec_meta_extract_twi/ras_parser.py",
             "console": "integratedTerminal",
             "justMyCode": true,
             "args": [
@@ -28,10 +28,10 @@
             ],
         },
         {
-            "name": "Python: hms_parser.py",
+            "name": "hms_parser",
             "type": "python",
             "request": "launch",
-            "program": "${file}",
+            "program": "Z:/py/hec_meta_extract_twi/hms_parser.py",
             "console": "integratedTerminal",
             "justMyCode": true,
             "args": [

@@ -172,7 +172,7 @@ def parse_prj(prj, wkt, crs, extra_dss_files_list, output_dir):
     kv['application_date'] = datetime.fromtimestamp(modTimeUnix).strftime('%Y-%m-%d')
 
     # open the model application Json template, del unnecessary keys, update, add, export 
-    with open(r"C:\py\hec_meta_extract\example\input\json\hms_model_application.json", 'r') as f:
+    with open(r"example\input\json\hms_model_application.json", 'r') as f:
                 model_template_json = json.load(f)
 
     # keys to drop from json template
@@ -270,6 +270,25 @@ def parse_runs(prj, output_dir):
             found_value = [s for s in subList if find_key in s][0].split(":")[1:][0].strip()
             sim_kv[title][find_key] = found_value
             
+            # Add data from each simulation's met file.
+            if find_key == 'Precip':
+                precip_name = sim_kv[title][find_key].replace(" ","_").replace("(","_").replace(")","_") + '.met'
+                precip_file = os.path.join(prj_dir, precip_name)
+                
+                with open(precip_file, 'r') as p:
+                    p_file = p.readlines()
+                
+                p_file  = [s.strip('\n') for s in p_file]
+                p_findList = ['Description', 'Precipitation Method']
+                
+                for p_find_key in p_findList:
+                    found_value = [s for s in p_file if p_find_key in s][0].split(":")[1:][0].strip()
+                    sim_kv[title][f'Meteorology {p_find_key}'] = found_value
+                    # if not found, set to None
+                    if not f'Meteorology {p_find_key}' in sim_kv[title].keys():
+                          sim_kv[title][f'Meteorology {p_find_key}']= None
+                     
+            
             # Add data from each simulation's control file.
             if find_key == 'Control':
                 control_name = sim_kv[title][find_key].replace(" ","_").replace("(","_").replace(")","_") + '.control'
@@ -283,7 +302,10 @@ def parse_runs(prj, output_dir):
                 
                 for c_find_key in c_findList:
                     found_value = [s for s in c_file if c_find_key in s][0].split(":")[1:][0].strip()
-                    sim_kv[title][c_find_key] = found_value
+                    sim_kv[title][f'Control {c_find_key}'] = found_value
+                    # if not found, set to None
+                    if not f'Control {p_find_key}' in sim_kv[title].keys():
+                          sim_kv[title][f'Control {p_find_key}']= None
 
             # Add data from each simulations's basin file
             parameterList = []
@@ -301,6 +323,8 @@ def parse_runs(prj, output_dir):
                 # print (b_file)
                 for i,v in enumerate(b_file):
                     # print (v + '\n')
+                    # if (v == 'Basin:'):
+                         
                     if (v == 'End:'):
                         # print(i, v)
                         # If not the beginning of the file, skip a blank line (+1) for the start of the subList.
@@ -310,7 +334,18 @@ def parse_runs(prj, output_dir):
                                 basinList.append(b_file[line_start:i])
                         line_start = i+1
 
-
+                # find basin description
+                for i, v in enumerate(basinList):
+                    if ('Basin: ') in v[0]:
+                        basinblock_index = i
+                for basinblock_line in basinList[basinblock_index]:
+                    if 'Description: ' in basinblock_line:
+                        basin_description = basinblock_line.split('Description: ')[-1]
+                        sim_kv[title]['Basin Description'] = basin_description  
+                    else:                         
+                    # if not found, set to None
+                        sim_kv[title]['Basin Description']= None      
+                                
                 # List of Parameters to look for in each .basin file. Each Parameter will be added as a key to a temporary dictionary before formatting.
                 b_findList = ['Canopy', 'LossRate', 'Transform', 'Baseflow', 'Route']
                 params = {}
@@ -337,8 +372,15 @@ def parse_runs(prj, output_dir):
                             "value": params[key]
                         }
                     )
+            
                 sim_kv[title]['parameters'] = parameterList
-
+        
+        sim_kv[title]['parameters'].append(
+                    {
+                    "parameter": 'Precipitation Method',
+                    "value": sim_kv[title]['Meteorology Precipitation Method']
+                    }
+            )
         # open the simulation Json template, del unnecessary keys, update, add, export 
         with open(r"example\input\json\hms_simulation.json", 'r') as f:
                     simulation_template_json = json.load(f)
@@ -348,8 +390,10 @@ def parse_runs(prj, output_dir):
         for key in drop_keys:
             del simulation_template_json[key]
 
-        simulation_template_json['description'] = sim_kv[title]['Description']
-        simulation_template_json['title'] = f"{prj_name} HEC-HMS Simulation: {sim_kv[title]}"
+        simulation_template_json['description'] = f"Basin: {sim_kv[title]['Basin']}, {sim_kv[title]['Basin Description']}. \
+Meteorology: {sim_kv[title]['Precip']}, {sim_kv[title]['Meteorology Description']}. \
+Control: {sim_kv[title]['Control']}, {sim_kv[title]['Control Description']}."
+        simulation_template_json['title'] = f"{prj_name} HEC-HMS Simulation: {title}"
         simulation_template_json['output_files'] = [
             {
                 "title": "Output DSS File",
@@ -360,12 +404,33 @@ def parse_runs(prj, output_dir):
         ]
         
         simulation_template_json['input_files'] = gage_file_parse(prj_dir, prj_name)
+        simulation_template_json['input_files'].extend([
+             {
+                "title": "Basin File",
+                "source_dataset": None,
+                "location": basin_name,
+                "description": sim_kv[title]['Basin Description']
+            },
+            {
+                "title": "Meteorology File",
+                "source_dataset": None,
+                "location": precip_name,
+                "description": sim_kv[title]['Meteorology Description']
+            },
+            {
+                "title": "Control File",
+                "source_dataset": None,
+                "location": control_name,
+                "description": sim_kv[title]['Control Description']
+            },
+
+        ])
         simulation_template_json['temporal_extent'] = [
-            datetime.strptime(sim_kv[title]['Start Date'], '%d  %B %Y').strftime('%Y-%m-%d'),
-            datetime.strptime(sim_kv[title]['End Date'], '%d  %B %Y').strftime('%Y-%m-%d')
+            datetime.strptime(sim_kv[title]['Control Start Date'], '%d  %B %Y').strftime('%Y-%m-%d'),
+            datetime.strptime(sim_kv[title]['Control End Date'], '%d  %B %Y').strftime('%Y-%m-%d')
         ]
     
-        simulation_template_json["temporal_resolution"] = sim_kv[title]['Time Interval'] + ' Minutes'
+        simulation_template_json["temporal_resolution"] = sim_kv[title]['Control Time Interval'] + ' Minutes'
 
         simulation_template_json["parameters"] = sim_kv[title]['parameters']    
 

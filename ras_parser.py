@@ -55,7 +55,8 @@ def dict_to_model_app_json(keyValues_dict, output_prj_json):
             json.dump(ras_model_template_json, outfile)
 
 def dict_to_sim_json(keyValues_dict, prj_name, p_file, output_p_json):
-    # Open RAS Simulation Json Template 
+    # Open RAS Simulation Json Template
+    cwd = os.getcwd()
     with open(r"example\input\json\ras_simulation.json", 'r') as f:
         ras_sim_template_json = json.load(f)
 

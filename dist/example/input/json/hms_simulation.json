@@ -1,0 +1,84 @@
+{
+    "_id": "63d977b29867623be2db9223",
+    "model_application": "/model_application/63cec0e23b68dc1a2aea077a",
+    "description": "LWI Amite HEC-HMS Calibration Event August 2016. Based on Specified Hyetographs processed from Stage IV Gridded precipitation and USGS Observed Gage data.",
+    "title": "LWI Amite HEC-HMS Calibration Event August 2016",
+    "output_files": [
+        {
+            "title": "Output DSS File",
+            "source_dataset": null,
+            "location": "/lwi-common/deliverables/Example/Amite_LWI/Models/Amite_HMS/August_2016.dss",
+            "description": null
+        }
+    ],
+    "input_files": [
+        {
+            "title": "Project File",
+            "source_dataset": null,
+            "location": "/lwi-common/deliverables/Example/Amite_LWI/Models/Amite_HMS/Amite_HMS.hms",
+            "description": null
+        },
+        {
+            "title": "Basin Files",
+            "source_dataset": null,
+            "location": "/lwi-common/deliverables/Example/Amite_LWI/Models/Amite_HMS/Consensus__Generic_.basin",
+            "description": null
+        },
+        {
+            "title": "Meteorological Model Files",
+            "source_dataset": null,
+            "location": "/lwi-common/deliverables/Example/Amite_LWI/Models/Amite_HMS/Specified_Hyetographs.met",
+            "description": null
+        },
+        {
+            "title": "Control Specification Files",
+            "source_dataset": null,
+            "location": "/lwi-common/deliverables/Example/Amite_LWI/Models/Amite_HMS/Aug2016.control",
+            "description": null
+        },
+        {
+            "title": "Time Series Gage Data",
+            "source_dataset": null,
+            "location": "/lwi-common/deliverables/Example/Amite_LWI/Models/Amite_HMS/Amite_HMS_TimeSeries.dss",
+            "description": null
+        },
+        {
+            "title": "Time Series Subbasin Hyetograph Precipitation DataData",
+            "source_dataset": null,
+            "location": "/lwi-common/deliverables/Example/Amite_LWI/Models/Amite_HMS/rainfall_stageIV.dss",
+            "description": null
+        },
+        {
+            "title": "Gage File",
+            "source_dataset": null,
+            "location": "/lwi-common/deliverables/Example/Amite_LWI/Models/Amite_HMS/Amite_HMS.gage",
+            "description": null
+        }
+    ],
+    "parameters": [
+        {
+          "parameter": "Routing",
+          "value": "Muskingum-Cunge"
+        },
+        {
+          "parameter": "Baseflow",
+          "value": "Monthly"
+        },
+        {
+          "parameter": "Routing",
+          "value": "Muskingum-Cunge"
+        },
+        {
+          "parameter": "Routing",
+          "value": "Muskingum-Cunge"
+        }
+      ],
+    "temporal_extent": [
+        "2016-08-05",
+        "2016-08-17"
+    ],
+    "temporal_resolution": "1HOUR",
+    "type": "VALIDATION",
+    "model_software": "/model_software/63cadb0b552f7a720ffd5b3d",
+    "linked_resources": null
+}
