@@ -1,7 +1,9 @@
 dist/*
-*.spec
+# *.spec
 build/**
 build/main/*
 *.exe
-*.pyc
+**/*.pyc
+**/*.toc
 
+__pycache__/*

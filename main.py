@@ -11,7 +11,10 @@ import webbrowser
 gui = Tk()
 gui.geometry("600x300")
 gui.title("The Water Institute: Metadata Extraction for HEC Models")
-gui.wm_iconbitmap('icon.ico')
+
+img = PhotoImage(file='icon.png')
+gui.tk.call('wm', 'iconphoto', gui._w, img)
+# gui.wm_iconbitmap('icon.ico')
 
 
 #Define a callback function

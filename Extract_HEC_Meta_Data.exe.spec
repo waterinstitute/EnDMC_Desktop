@@ -19,7 +19,7 @@ a = Analysis(
     cipher=block_cipher,
     noarchive=False,
 )
-a.datas += [('logo.png','logo.png','DATA')]
+a.datas += [('icon.png','icon.png','DATA')]
 pyz = PYZ(a.pure, a.zipped_data, cipher=block_cipher)
 
 exe = EXE(
@@ -42,5 +42,5 @@ exe = EXE(
     target_arch=None,
     codesign_identity=None,
     entitlements_file=None,
-    icon='logo.ico'
+    icon='icon.ico'
 )
