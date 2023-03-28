@@ -7,3 +7,4 @@ build/main/*
 **/*.toc
 
 __pycache__/*
+dist/Extract_HEC_Meta_Data.exe
