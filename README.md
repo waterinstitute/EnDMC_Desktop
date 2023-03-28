@@ -80,6 +80,6 @@ Build Notes:
     
     pyinstaller Extract_HEC_Meta_Data.exe.spec
 
-  This creates an .exe is the ./dist. When the .exe is zipped as on the Releases page, the ./Example directory is packaged with it because the templates used for creating new Json files are required and in that directory. 
+  This creates an .exe in the directory ./dist. When the .exe is zipped as on the Releases page, the ./Example directory is packaged with it because the Json templates used for creating new Json files are required and in that directory. 
   
 
