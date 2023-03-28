@@ -7,9 +7,12 @@ import ras_parser
 import os
 import webbrowser
 
+
 gui = Tk()
 gui.geometry("600x300")
 gui.title("The Water Institute: Metadata Extraction for HEC Models")
+gui.wm_iconbitmap('icon.ico')
+
 
 #Define a callback function
 def callback(url):
