@@ -4,12 +4,13 @@ from tkinter import filedialog
 
 import hms_parser
 import ras_parser
+import fia_parser
 import os
 import webbrowser
 
 
 gui = Tk()
-gui.geometry("600x300")
+gui.geometry("600x400")
 gui.title("The Water Institute: Metadata Extraction for HEC Models")
 
 img = PhotoImage(file='icon.png')
@@ -82,6 +83,14 @@ def parse_hms():
     hms_parser.parse(hms_prj, hms_shp, hms_dss)
     output_dir = os.path.join(os.getcwd(), 'output', 'hms')
     print(f"RAS Parsing Complete. Output files located at: {output_dir}")
+
+def parse_fia():
+    fia_prj = fia_prj_select.file_path
+    fia_shp = fia_shp_select.file_path
+    print("\nParsing FIA..")
+    fia_parser.parse(fia_prj, fia_shp)
+    output_dir = os.path.join(os.getcwd(), 'output', 'fia')
+    print(f"FIA Parsing Complete. Output files located at: {output_dir}")
     
 
 filePath = StringVar()
@@ -120,14 +129,29 @@ c2.grid(row=9, column=0)
 separator = ttk.Separator(gui, orient='horizontal')
 separator.grid(row=10, ipady=10)
 
+# FIA gui objects
+
+fia_prj_select = FileSelect(gui, "FIA project file (.prj): ")
+fia_prj_select.grid(row=11)
+
+fia_shp_select = FileSelect(gui, "FIA boundary shape file (*.shp): ")
+fia_shp_select.grid(row=12)
+
+c3 = ttk.Button(gui, text="Extract FIA MetaData", command=parse_fia)
+c3.grid(row=13, column=0)
+
+# Separator object
+separator = ttk.Separator(gui, orient='horizontal')
+separator.grid(row=14, ipady=10)
+
 # Metadata website link
 link = Label(gui, text="Upload Output to: The Water Institute Model Repository",font=('Helveticabold', 15), fg="blue", cursor="hand2")
-link.grid(row=11, pady=10)
+link.grid(row=15, pady=10)
 link.bind("<Button-1>", lambda e: callback("https://metadata-creation-tool.herokuapp.com/signup"))
 
 # Metadata website link
 link = Label(gui, text="Questions/Comments: Github",font=('Helveticabold', 10), fg="blue", cursor="hand2", anchor=SW)
-link.grid(row=12)
+link.grid(row=16)
 link.bind("<Button-1>", lambda e: callback("https://github.com/waterinstitute/hec_meta_extract/issues"))
 
 # run app

@@ -11,6 +11,10 @@ def parse_shp(shp, prj_name, output_dir):
     wkt_dict["spatial_extent"] = wkt
     wkt_dict["coordinate_system"] = crs
 
+    # ensure output directory exists
+    if not os.path.exists(output_dir):
+        os.makedirs(output_dir)
+
     with open(os.path.join(output_dir, f'{prj_name}_wkt.yml'), 'w+') as f:
         yaml.dump(wkt_dict, f)
     
