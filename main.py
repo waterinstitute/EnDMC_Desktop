@@ -8,12 +8,18 @@ import fia_parser
 import os
 import webbrowser
 
+version = '1.1'
 
 gui = Tk()
+<<<<<<< HEAD
 gui.geometry("600x400")
 gui.title("The Water Institute: Metadata Extraction for HEC Models")
+=======
+gui.geometry("600x300")
+gui.title(f"The Water Institute: Metadata Extraction for HEC Models Version {version}")
+>>>>>>> b06406a5ccfee6687b657fd101d09441b3277a55
 
-img = PhotoImage(file='icon.png')
+img = PhotoImage(file=os.path.join(os.getcwd(), 'icon.png'))
 gui.tk.call('wm', 'iconphoto', gui._w, img)
 # gui.wm_iconbitmap('icon.ico')
 

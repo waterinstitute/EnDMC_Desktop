@@ -72,10 +72,14 @@ Build Notes:
 
  To minimize the .exe file size, only needed dependencies are included in the environment. Created the environment using Python 3.9 venv and the dependencies found in setup.py.
 
- The .exe is built using pyInstaller from the proect directory:
+ The .exe was first built using pyInstaller from the project directory:
     
     pyinstaller main.py -F -n Extract_HEC_Meta_Data.exe
+    
+  However, all subsequent releases use the Spec file:
+    
+    pyinstaller Extract_HEC_Meta_Data.exe.spec
 
-  This creates an .exe is the ./dist. When the .exe is zipped as on the Releases page, the ./Example directory is packaged with it because the templates used for creating new Json files are required and in that directory. 
+  This creates an .exe in the directory ./dist. When the .exe is zipped as on the Releases page, the ./Example directory is packaged with it because the Json templates used for creating new Json files are required and in that directory. 
   
 
