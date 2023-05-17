@@ -38,9 +38,23 @@
                 "--hms",
                 "Z:/Amite/Amite_LWI/Models/Amite_HMS/Amite_HMS.hms",
                 "--shp",
-                "Z:/GIS/Amite/Amite_Basin_Outline.geojson",
+                "Z:/GIS/Amite/maps/Amite_Basin_Outline.geojson",
                 "--dss",
                 "Z:/Amite/Amite_LWI/Models/Amite_HMS/data"
+            ],
+        },
+        {
+            "name": "fia_parser",
+            "type": "python",
+            "request": "launch",
+            "program": "Z:/py/hec_meta_extract_twi/fia_parser.py",
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            "args": [
+                "--fia",
+                "C:/Users/mmcmanus/Documents/Working/models/FIA Darlington/AmiteWatershed_2016Event_WithDarlingtonReservoir/AmiteWatershed_2016Event.prj",
+                "--shp",
+                "C:/Users/mmcmanus/Documents/Working/models/FIA Darlington/AmiteWatershed_2016Event_WithDarlingtonReservoir/maps/AmiteHUC8_NAD83_Albers.shp",
             ],
         },
     ]

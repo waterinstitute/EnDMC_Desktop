@@ -3,7 +3,8 @@ import glob
 import json
 from datetime import datetime
 from bs4 import BeautifulSoup
-import copy
+# import lxml
+# import copy
 import pandas as pd
 from utils import get_wkt_crs
 
@@ -327,16 +328,17 @@ def parse_sims(sim_pathnames, prj_dir, prj_name, sim_template_json, output_dir):
 def parse(prj, shp):
     prj_dir, prj_file_tail = os.path.split(prj)
     prj_name = prj_file_tail.split(".")[0]
-    prj_template_json = './example/input/json/fia_model_application_template.json'
-    sim_template_json = './example/input/json/fia_simulation_template.json'
+    prj_template_json =  r"example\input\json\fia_model_application_template.json"
+    sim_template_json =  r"example\input\json\fia_simulation_template.json"
+    print(os.getcwd())
 
     output_dir = os.path.join(os.getcwd(), 'output', 'fia')
 
     sim_pathnames = parse_prj(prj, prj_dir, prj_name, prj_template_json, shp, output_dir)
     parse_sims(sim_pathnames, prj_dir, prj_name, sim_template_json, output_dir)
+    print('FIA Parsing Complete.')
 
 if __name__ == '__main__':
     prj = r"C:\Users\mmcmanus\Documents\Working\models\FIA Darlington\AmiteWatershed_2016Event_WithDarlingtonReservoir\AmiteWatershed_2016Event.prj"
     shp = r"C:\Users\mmcmanus\Documents\Working\models\FIA Darlington\AmiteWatershed_2016Event_WithDarlingtonReservoir\maps\AmiteHUC8_NAD83_Albers.shp"
     parse(prj, shp)
-

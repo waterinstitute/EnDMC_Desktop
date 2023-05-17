@@ -8,7 +8,7 @@ import fia_parser
 import os
 import webbrowser
 
-version = '1.1'
+version = '1.2'
 
 gui = Tk()
 gui.geometry("600x400")
