@@ -13,7 +13,7 @@ version = '1.3'
 
 gui = Tk()
 gui.geometry("600x400")
-gui.title("The Water Institute: Metadata Extraction for HEC Models")
+gui.title("The Water Institute: Metadata Extraction for HEC Models v{version}")
 
 img = PhotoImage(file=os.path.join(os.getcwd(), 'icon.png'))
 gui.tk.call('wm', 'iconphoto', gui._w, img)
