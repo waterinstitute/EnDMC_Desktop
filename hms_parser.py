@@ -3,6 +3,7 @@
 
 import glob
 import copy
+import traceback
 import yaml, json
 import os
 import argparse
@@ -442,32 +443,42 @@ Control: {sim_kv[title]['Control']}, {sim_kv[title]['Control Description']}."
 
 
 def parse(prj, shp, dss):
-    # Get project name
-    prj_dir, prj_file_tail = os.path.split(prj)
-    prj_name = prj_file_tail.split(".")[0]
+    try:
+        # Get project name
+        prj_dir, prj_file_tail = os.path.split(prj)
+        prj_name = prj_file_tail.split(".")[0]
 
-    # Set output directory
-    cwd = os.getcwd()
-    output_dir = os.path.join(cwd, 'output', 'hms', prj_name)
-    if not os.path.exists(output_dir):
-        os.makedirs(output_dir)
+        # Set output directory
+        cwd = os.getcwd()
+        output_dir = os.path.join(cwd, 'output', 'hms', prj_name)
+        if not os.path.exists(output_dir):
+            os.makedirs(output_dir)
 
-    # Get 
+        # Get 
 
-    # Get WKT and CRS from shp
-    wkt, crs = get_wkt_crs.parse_shp(shp, prj_name, output_dir)
+        # Get WKT and CRS from shp
+        wkt, crs = get_wkt_crs.parse_shp(shp, prj_name, output_dir)
 
-    # if args.dss, get dss input files
-    if dss is not None:
-        extra_dss_files_list = get_extra_dss_files(dss)
-    else:
-        extra_dss_files_list = None
+        # if args.dss, get dss input files
+        if dss is not None:
+            extra_dss_files_list = get_extra_dss_files(dss)
+        else:
+            extra_dss_files_list = None
 
-    # Parse project file
-    parse_prj(prj, wkt, crs, extra_dss_files_list, output_dir)
+        # Parse project file
+        parse_prj(prj, wkt, crs, extra_dss_files_list, output_dir)
 
-    # Run file parse
-    parse_runs(prj, output_dir)
+        # Run file parse
+        parse_runs(prj, output_dir)
+
+        # Return Successful Output message.
+        msg = f'HMS Parsing Complete. Output files located at: {output_dir}'
+        return msg
+    
+    except Exception: 
+        msg = traceback.format_exc()
+        # print(msg)
+        return msg
 
 if __name__ == '__main__':
     # Parse Command Line Arguments

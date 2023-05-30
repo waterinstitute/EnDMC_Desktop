@@ -2,6 +2,7 @@ import os
 import glob
 import json
 from datetime import datetime
+import traceback
 from bs4 import BeautifulSoup
 # import lxml
 # import copy
@@ -326,17 +327,27 @@ def parse_sims(sim_pathnames, prj_dir, prj_name, sim_template_json, output_dir):
         json.dump(sim_template_json, outfile)
 
 def parse(prj, shp):
-    prj_dir, prj_file_tail = os.path.split(prj)
-    prj_name = prj_file_tail.split(".")[0]
-    prj_template_json =  r"example\input\json\fia_model_application_template.json"
-    sim_template_json =  r"example\input\json\fia_simulation_template.json"
-    print(os.getcwd())
+    try:
+        prj_dir, prj_file_tail = os.path.split(prj)
+        prj_name = prj_file_tail.split(".")[0]
+        prj_template_json =  r"example\input\json\fia_model_application_template.json"
+        sim_template_json =  r"example\input\json\fia_simulation_template.json"
+        print(os.getcwd())
 
-    output_dir = os.path.join(os.getcwd(), 'output', 'fia')
+        output_dir = os.path.join(os.getcwd(), 'output', 'fia')
 
-    sim_pathnames = parse_prj(prj, prj_dir, prj_name, prj_template_json, shp, output_dir)
-    parse_sims(sim_pathnames, prj_dir, prj_name, sim_template_json, output_dir)
-    print('FIA Parsing Complete.')
+        sim_pathnames = parse_prj(prj, prj_dir, prj_name, prj_template_json, shp, output_dir)
+        parse_sims(sim_pathnames, prj_dir, prj_name, sim_template_json, output_dir)
+
+        # Return Successful Output message
+        msg = f'FIA Parsing Complete. Output files located at: {output_dir}'
+        print('FIA Parsing Complete.')
+        return msg
+    except Exception: 
+        msg = traceback.format_exc()
+        # print(msg)
+        return msg
+    
 
 if __name__ == '__main__':
     prj = r"C:\Users\mmcmanus\Documents\Working\models\FIA Darlington\AmiteWatershed_2016Event_WithDarlingtonReservoir\AmiteWatershed_2016Event.prj"

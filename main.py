@@ -1,6 +1,6 @@
 from tkinter import *
 from tkinter import ttk
-from tkinter import filedialog
+from tkinter import filedialog, messagebox
 
 import hms_parser
 import ras_parser
@@ -8,7 +8,8 @@ import fia_parser
 import os
 import webbrowser
 
-version = '1.2'
+
+version = '1.3'
 
 gui = Tk()
 gui.geometry("600x400")
@@ -71,9 +72,9 @@ def parse_ras():
     ras_prj = ras_prj_select.file_path
     ras_shp = ras_shp_select.file_path
     print("Parsing RAS..")
-    ras_parser.parse(ras_prj, ras_shp)
-    output_dir = os.path.join(os.getcwd(), 'output', 'ras')
-    print(f"\nRAS Parsing Complete. Output files located at: {output_dir}")
+    msg = ras_parser.parse(ras_prj, ras_shp)
+    print(msg)
+    messagebox.showinfo(title='RAS', message=msg)
 
 
 def parse_hms():
@@ -81,27 +82,27 @@ def parse_hms():
     hms_shp = hms_shp_select.file_path
     hms_dss = hms_dss_select.folder_path
     print("\nParsing HMS..")
-    hms_parser.parse(hms_prj, hms_shp, hms_dss)
-    output_dir = os.path.join(os.getcwd(), 'output', 'hms')
-    print(f"RAS Parsing Complete. Output files located at: {output_dir}")
+    msg = hms_parser.parse(hms_prj, hms_shp, hms_dss)
+    print(msg)
+    messagebox.showinfo(title='HMS', message=msg)
 
 def parse_fia():
     fia_prj = fia_prj_select.file_path
     fia_shp = fia_shp_select.file_path
     print("\nParsing FIA..")
-    fia_parser.parse(fia_prj, fia_shp)
-    output_dir = os.path.join(os.getcwd(), 'output', 'fia')
-    print(f"FIA Parsing Complete. Output files located at: {output_dir}")
+    msg = fia_parser.parse(fia_prj, fia_shp)
+    print(msg)
+    messagebox.showinfo(title='FIA', message=msg)
     
 
 filePath = StringVar()
 
 # RAS gui objects
 
-ras_prj_select = FileSelect(gui, "RAS project file (.prj): ")
+ras_prj_select = FileSelect(gui, "RAS project file (*.prj): ")
 ras_prj_select.grid(row=0)
 
-ras_shp_select = FileSelect(gui, "RAS boundary shape file (*.shp): ")
+ras_shp_select = FileSelect(gui, "RAS boundary Polygon shape file (*.shp): ")
 ras_shp_select.grid(row=1)
 
 
@@ -114,10 +115,10 @@ separator.grid(row=5, ipady=10)
 
 # HMS gui objects
 
-hms_prj_select = FileSelect(gui, "HMS project file (.prj): ")
+hms_prj_select = FileSelect(gui, "HMS project file (*.hms): ")
 hms_prj_select.grid(row=6)
 
-hms_shp_select = FileSelect(gui, "HMS boundary shape file (*.shp): ")
+hms_shp_select = FileSelect(gui, "HMS boundary Polygon shape file (*.shp): ")
 hms_shp_select.grid(row=7)
 
 hms_dss_select = FolderSelect(gui, "Optional. DSS Data Directory: ")
@@ -132,10 +133,10 @@ separator.grid(row=10, ipady=10)
 
 # FIA gui objects
 
-fia_prj_select = FileSelect(gui, "FIA project file (.prj): ")
+fia_prj_select = FileSelect(gui, "FIA project file (*.prj): ")
 fia_prj_select.grid(row=11)
 
-fia_shp_select = FileSelect(gui, "FIA boundary shape file (*.shp): ")
+fia_shp_select = FileSelect(gui, "FIA boundary Polygon shape file (*.shp): ")
 fia_shp_select.grid(row=12)
 
 c3 = ttk.Button(gui, text="Extract FIA MetaData", command=parse_fia)

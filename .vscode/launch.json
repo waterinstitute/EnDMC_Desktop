@@ -38,7 +38,7 @@
                 "--hms",
                 "Z:/Amite/Amite_LWI/Models/Amite_HMS/Amite_HMS.hms",
                 "--shp",
-                "Z:/GIS/Amite/maps/Amite_Basin_Outline.geojson",
+                "Z:/Z GIS/Amite/Amite_Basin_Outline.geojson",
                 "--dss",
                 "Z:/Amite/Amite_LWI/Models/Amite_HMS/data"
             ],

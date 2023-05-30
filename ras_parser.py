@@ -1,5 +1,6 @@
 import glob
 import copy
+import traceback
 import yaml, json
 import os
 import argparse
@@ -341,35 +342,44 @@ def parse_p(p_file_list, prj_name, wkt, crs, output_dir):
             yaml.dump(keyValues_dict, f)
         
         # Write output Json for each .p## file.
-        output_p_json = os.path.join(output_dir,f'{p_file_tail}.json')
+        output_p_json = os.path.join(output_dir,f'{p_file_tail}_Simulation.json')
         dict_to_sim_json(keyValues_dict, prj_name, p, output_p_json)
 
     return plan_titles
 
 def parse(prj, shp):
+    try:
+        # Get project name
+        prj_dir, prj_file_tail = os.path.split(prj)
+        prj_name = prj_file_tail.split(".")[0]
 
-    # Get project name
-    prj_dir, prj_file_tail = os.path.split(prj)
-    prj_name = prj_file_tail.split(".")[0]
+        # Set output directory
+        cwd = os.getcwd()
+        output_dir = os.path.join(cwd, 'output', 'ras', prj_name)
+        if not os.path.exists(output_dir):
+            os.makedirs(output_dir)
 
-    # Set output directory
-    cwd = os.getcwd()
-    output_dir = os.path.join(cwd, 'output', 'ras', prj_name)
-    if not os.path.exists(output_dir):
-        os.makedirs(output_dir)
+        # Get WKT and CRS from shp
+        wkt, crs = get_wkt_crs.parse_shp(shp, prj_name, output_dir)
 
-    # Get WKT and CRS from shp
-    wkt, crs = get_wkt_crs.parse_shp(shp, prj_name, output_dir)
+        # Get .p## files in prj_dir
+        p_file_list = get_p_files(prj_dir, prj_name)
+        
+        # Parse p files and include data from geometry, flow files. and add wkt. 
+        # Returns the plan titles of each p file as a list.
+        plan_titles = parse_p(p_file_list, prj_name, wkt, crs, output_dir)
 
-    # Get .p## files in prj_dir
-    p_file_list = get_p_files(prj_dir, prj_name)
+        # Parse prj, remove extra fields, add list of p file titles, and wkt.
+        parse_prj(prj, prj_name, wkt, crs, plan_titles, output_dir)
+
+        #  Return Successful Output message.
+        msg = f'RAS Parsing Complete. Output files located at: {output_dir}'
+        return msg
     
-    # Parse p files and include data from geometry, flow files. and add wkt. 
-    # Returns the plan titles of each p file as a list.
-    plan_titles = parse_p(p_file_list, prj_name, wkt, crs, output_dir)
-
-    # Parse prj, remove extra fields, add list of p file titles, and wkt.
-    parse_prj(prj, prj_name, wkt, crs, plan_titles, output_dir)
+    except Exception:
+        msg = traceback.format_exc()
+        # print(msg)
+        return msg
 
 if __name__ == '__main__':
     # Parse Command Line Arguments
