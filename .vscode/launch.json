@@ -16,7 +16,7 @@
             "name": "ras_parser",
             "type": "python",
             "request": "launch",
-            "program": "Z:/py/hec_meta_extract_twi/ras_parser.py",
+            "program": "C:/py/hec_meta_extract/ras_parser.py",
             "console": "integratedTerminal",
             "justMyCode": true,
             "args": [
@@ -31,23 +31,23 @@
             "name": "hms_parser",
             "type": "python",
             "request": "launch",
-            "program": "Z:/py/hec_meta_extract_twi/hms_parser.py",
+            "program": "C:/py/hec_meta_extract/hms_parser.py",
             "console": "integratedTerminal",
             "justMyCode": true,
             "args": [
                 "--hms",
-                "Z:/Amite/Amite_LWI/Models/Amite_HMS/Amite_HMS.hms",
+                "Z:/LWI/WSP/Boeuf_HMS_Model/Boeuf_HMS_Model.hms",
                 "--shp",
-                "Z:/Z GIS/Amite/Amite_Basin_Outline.geojson",
+                "Z:/LWI/WSP/Boeuf Outline.shp",
                 "--dss",
-                "Z:/Amite/Amite_LWI/Models/Amite_HMS/data"
+                "Z:/LWI/WSP/Boeuf_HMS_Model/data"
             ],
         },
         {
             "name": "fia_parser",
             "type": "python",
             "request": "launch",
-            "program": "Z:/py/hec_meta_extract_twi/fia_parser.py",
+            "program": "C:/py/hec_meta_extract/fia_parser.py",
             "console": "integratedTerminal",
             "justMyCode": true,
             "args": [

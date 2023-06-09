@@ -283,7 +283,12 @@ def parse_runs(prj, output_dir):
                 p_findList = ['Description', 'Precipitation Method']
                 
                 for p_find_key in p_findList:
-                    found_value = [s for s in p_file if p_find_key in s][0].split(":")[1:][0].strip()
+                    try:
+                        found_value = [s for s in p_file if p_find_key in s][0].split(":")[1:][0].strip()
+                    except IndexError:
+                        print (f'No {p_find_key} found in met file: {precip_file}. Setting Value to None.')
+                        found_value = None
+
                     sim_kv[title][f'Meteorology {p_find_key}'] = found_value
                     # if not found, set to None
                     if not f'Meteorology {p_find_key}' in sim_kv[title].keys():
@@ -302,7 +307,12 @@ def parse_runs(prj, output_dir):
                 c_findList = ['Description', 'Start Date', 'End Date', 'Time Interval']
                 
                 for c_find_key in c_findList:
-                    found_value = [s for s in c_file if c_find_key in s][0].split(":")[1:][0].strip()
+                    try:
+                        found_value = [s for s in c_file if c_find_key in s][0].split(":")[1:][0].strip()
+                    except IndexError:
+                        print (f'No {c_find_key} found in control file: {control_file}. Setting Value to None.')
+                        found_value = None
+                        
                     sim_kv[title][f'Control {c_find_key}'] = found_value
                     # if not found, set to None
                     if not f'Control {p_find_key}' in sim_kv[title].keys():

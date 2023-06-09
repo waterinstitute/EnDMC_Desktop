@@ -9,7 +9,7 @@ import os
 import webbrowser
 
 
-version = '1.3'
+version = '1.4'
 
 gui = Tk()
 gui.geometry("600x400")
@@ -118,7 +118,7 @@ separator.grid(row=5, ipady=10)
 hms_prj_select = FileSelect(gui, "HMS project file (*.hms): ")
 hms_prj_select.grid(row=6)
 
-hms_shp_select = FileSelect(gui, "HMS boundary Polygon shape file (*.shp): ")
+hms_shp_select = FileSelect(gui, "HMS boundary outline shape file (*.shp): ")
 hms_shp_select.grid(row=7)
 
 hms_dss_select = FolderSelect(gui, "Optional. DSS Data Directory: ")
