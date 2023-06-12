@@ -135,7 +135,7 @@ def parse_prj(prj, prj_dir, prj_name, prj_template_json, shp, output_dir):
     model_template_json['title'] = f'HEC-FIA Model: {prj_name}'
     model_template_json['application_date'] = proj_created_date
 
-    wkt, crs = get_wkt_crs.parse_shp(shp, prj_name, './output/fia')
+    wkt, crs = get_wkt_crs.parse_shp(shp, None, prj_name, './output/fia')
 
     model_template_json['spatial_extent'] = wkt
     model_template_json['grid'] = {
@@ -352,4 +352,5 @@ def parse(prj, shp):
 if __name__ == '__main__':
     prj = r"C:\Users\mmcmanus\Documents\Working\models\FIA Darlington\AmiteWatershed_2016Event_WithDarlingtonReservoir\AmiteWatershed_2016Event.prj"
     shp = r"C:\Users\mmcmanus\Documents\Working\models\FIA Darlington\AmiteWatershed_2016Event_WithDarlingtonReservoir\maps\AmiteHUC8_NAD83_Albers.shp"
-    parse(prj, shp)
+    msg = parse(prj, shp)
+    print(msg)

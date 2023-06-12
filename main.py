@@ -12,7 +12,7 @@ import webbrowser
 version = '1.4'
 
 gui = Tk()
-gui.geometry("600x400")
+gui.geometry("700x500")
 gui.title("The Water Institute: Metadata Extraction for HEC Models v{version}")
 
 img = PhotoImage(file=os.path.join(os.getcwd(), 'icon.png'))
@@ -28,7 +28,7 @@ class FileSelect(Frame):
     def __init__(self, parent=None, fileDescription="", **kw):
         Frame.__init__(self, master=parent, **kw)
         self.filePath = StringVar()
-        self.lblName = Label(self, text=fileDescription, width=25, anchor=E)
+        self.lblName = Label(self, text=fileDescription, width=37, anchor=E)
         self.lblName.grid(row=0, column=0)
         self.entPath = Entry(self, textvariable=self.filePath, width=50)
         self.entPath.grid(row=0, column=1)
@@ -51,7 +51,7 @@ class FolderSelect(Frame):
     def __init__(self, parent=None, folderDescription="", **kw):
         Frame.__init__(self, master=parent, **kw)
         self.folderPath = StringVar()
-        self.lblName = Label(self, text=folderDescription, width=25, anchor=E)
+        self.lblName = Label(self, text=folderDescription, width=37, anchor=E)
         self.lblName.grid(row=0, column=0)
         self.entPath = Entry(self, textvariable=self.folderPath, width=50)
         self.entPath.grid(row=0, column=1)
