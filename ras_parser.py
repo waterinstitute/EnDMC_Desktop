@@ -177,7 +177,7 @@ def dict_to_sim_json(keyValues_dict, prj_name, p_file, output_p_json):
         }]
     )
 
-    # Map from yaml format to json format
+    # Map to json format
 
     ras_sim_template_json['title'] = keyValues_dict['Plan Title']
     try:
@@ -236,7 +236,15 @@ def parse_prj(prj_file, prj_name, wkt, crs, plan_titles, output_dir):
     # Add specific popList lines from prj file to keyValue_dict
     for i,v in enumerate(popList):
         if "BEGIN DESCRIPTION:" in lines[v]:
-            description = lines[v+1]
+            # description = lines[v+1]
+            beginDescriptionIndex = v+1
+        if "END DESCRIPTION:" in lines[v]:
+            endDescriptionIndex = v
+
+    if beginDescriptionIndex and endDescriptionIndex is not None:
+        description = ' '.join(lines[beginDescriptionIndex:endDescriptionIndex])
+    else: 
+        description = None
 
     keyValues_dict['Description'] = description
 
@@ -256,8 +264,8 @@ def parse_prj(prj_file, prj_name, wkt, crs, plan_titles, output_dir):
     modTimeUnix = os.path.getmtime(prj_file) 
     keyValues_dict['application_date'] = datetime.fromtimestamp(modTimeUnix).strftime('%Y-%m-%d')
 
-    with open(output_prj_yaml, 'w+') as f:
-        yaml.dump(keyValues_dict, f)
+    # with open(output_prj_yaml, 'w+') as f:
+    #     yaml.dump(keyValues_dict, f)
     
     dict_to_model_app_json(keyValues_dict, output_prj_json)
 
@@ -296,8 +304,19 @@ def parse_p(p_file_list, prj_name, wkt, crs, output_dir):
         # Add specific popList lines from prj file to keyValue_dict
         for i,v in enumerate(popList):
             if "BEGIN DESCRIPTION:" in lines[v]:
-                description = lines[v+1]
-                keyValues_dict['Description'] = description
+                # description = lines[v+1]
+                beginDescriptionIndex = v+1
+            if "END DESCRIPTION:" in lines[v]:
+                endDescriptionIndex = v
+
+        if beginDescriptionIndex and endDescriptionIndex is not None:
+            description = ' '.join(lines[beginDescriptionIndex:endDescriptionIndex])
+        else: 
+            description = None
+
+        keyValues_dict['Description'] = description
+
+        
         
         # Add spatial_extent and coordinate_system from wkt and crs
         keyValues_dict["spatial_extent"] = wkt
