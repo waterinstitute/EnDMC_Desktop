@@ -21,9 +21,9 @@
             "justMyCode": true,
             "args": [
                 "--prj",
-                "Z:/Amite/Amite_LWI/Models/Amite_RAS/Amite_2022.prj",
+                "Z:/LWI/WSP/SDeerCrSubmission 02_20_2023 RAS/SDeerCr_2.prj",
                 "--shp",
-                "Z:/Amite/Amite_LWI/Models/Amite_RAS/Features/OptimizedGeometryBoundary.shp"
+                "Z:/LWI/WSP/SDeerCr.geojson"
                 
             ],
         },

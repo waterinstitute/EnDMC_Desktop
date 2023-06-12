@@ -8,6 +8,18 @@ from datetime import datetime
 import h5py
 from utils import get_wkt_crs, trimmer
 
+def get_ras_prj_wkt(p_file):
+    # Open a plan hdf file, get WKT from it.
+    try:
+        with h5py.File(f'{p_file}.hdf', "r") as f:
+            ras_prj_wkt = f.attrs['Projection'].decode('UTF-8')
+            # print (f'Extracted spatial projection from HDF: {ras_prj_wkt}')
+    except:
+        print (f'Unable to extract spatial projection from HDF. May have to manually specify .shp projection using a GIS.')
+    
+    return ras_prj_wkt
+
+
 def getDSSPaths(lines):
     # Get lines with 'DSS Filename'
     dss_file_lines= [[i,v] for i,v in enumerate(lines) if "DSS File" in v]
@@ -359,11 +371,14 @@ def parse(prj, shp):
         if not os.path.exists(output_dir):
             os.makedirs(output_dir)
 
-        # Get WKT and CRS from shp
-        wkt, crs = get_wkt_crs.parse_shp(shp, prj_name, output_dir)
-
         # Get .p## files in prj_dir
         p_file_list = get_p_files(prj_dir, prj_name)
+
+        # Get RAS Project's Spatial Projection WKT
+        ras_prj_wkt = get_ras_prj_wkt(p_file_list[0])
+
+        # Get WKT and CRS from shp
+        wkt, crs = get_wkt_crs.parse_shp(shp, ras_prj_wkt, prj_name, output_dir)
         
         # Parse p files and include data from geometry, flow files. and add wkt. 
         # Returns the plan titles of each p file as a list.

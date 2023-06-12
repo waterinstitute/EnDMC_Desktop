@@ -464,10 +464,9 @@ def parse(prj, shp, dss):
         if not os.path.exists(output_dir):
             os.makedirs(output_dir)
 
-        # Get 
-
         # Get WKT and CRS from shp
-        wkt, crs = get_wkt_crs.parse_shp(shp, prj_name, output_dir)
+        prj_wkt = None
+        wkt, crs = get_wkt_crs.parse_shp(shp, prj_wkt, prj_name, output_dir)
 
         # if args.dss, get dss input files
         if dss is not None:
