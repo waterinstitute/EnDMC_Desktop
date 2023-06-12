@@ -209,7 +209,7 @@ def dict_to_sim_json(keyValues_dict, prj_name, p_file, output_p_json):
 
 
 def parse_prj(prj_file, prj_name, wkt, crs, plan_titles, output_dir):
-    output_prj_yaml = os.path.join(output_dir, f'{prj_name}_ras_prj.yml')
+    # output_prj_yaml = os.path.join(output_dir, f'{prj_name}_ras_prj.yml')
     output_prj_json = os.path.join(output_dir, f'{prj_name}_ras_model_application.json')
 
     with open(prj_file, "r") as f:
@@ -350,8 +350,8 @@ def parse_p(p_file_list, prj_name, wkt, crs, output_dir):
         keyValues_dict['DSS Output File'] = f'{prj_name}.dss'
 
         # Write the output yaml for each .p## file.
-        with open(os.path.join(output_dir,f'{p_file_tail}.yml'), 'w+') as f:
-            yaml.dump(keyValues_dict, f)
+        # with open(os.path.join(output_dir,f'{p_file_tail}.yml'), 'w+') as f:
+        #     yaml.dump(keyValues_dict, f)
         
         # Write output Json for each .p## file.
         output_p_json = os.path.join(output_dir,f'{p_file_tail}_Simulation.json')
