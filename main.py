@@ -9,11 +9,11 @@ import os
 import webbrowser
 
 
-version = '1.4'
+version = '1.3.1'
 
 gui = Tk()
 gui.geometry("700x500")
-gui.title("The Water Institute: Metadata Extraction for HEC Models v{version}")
+gui.title(f"The Water Institute: Metadata Extraction for HEC Models v{version}")
 
 img = PhotoImage(file=os.path.join(os.getcwd(), 'icon.png'))
 gui.tk.call('wm', 'iconphoto', gui._w, img)
