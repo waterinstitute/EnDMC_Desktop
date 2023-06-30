@@ -1,0 +1,34 @@
+{
+    "_id": "63ec58926c2b9a7550b3f2c1",
+    "model_software": "/model_software/63ec56326c2b9a7550b3f2b9",
+    "output_files": [
+        {
+            "description": null,
+            "location": null,
+            "title": "Consequences Results",
+            "source_dataset": null
+        }
+    ],
+    "temporal_resolution": null,
+    "temporal_extent": null,
+    "title": "Consequence Analysis Test Dewberry Amite Model",
+    "type": "OTHER",
+    "model_application": "/model_application/63ec57637aa1b9ea6e174db3",
+    "linked_resources": null,
+    "input_files": [
+        {
+            "description": null,
+            "location": null,
+            "title": "Structure Inventory",
+            "source_dataset": null
+        },
+        {
+            "description": null,
+            "location": null,
+            "title": "Flood Raster",
+            "source_dataset": null
+        }
+    ],
+    "description": "A test run of the go-consequences system using data from the Dewberry Amite River Model Study.",
+    "parameters": []
+}

@@ -1,0 +1,34 @@
+{
+    "_id": "63ec57637aa1b9ea6e174db3",
+    "spatial_extent": null,
+    "common_parameters": null,
+    "spatial_valid_extent": [],
+    "common_software_version": null,
+    "keywords": [
+        "go-consequences",
+        "hazards",
+        "consequence",
+        "hec",
+        "benefits",
+        "damage",
+        "model",
+        "lwi"
+    ],
+    "temporal_resolution": null,
+    "temporal_extent": null,
+    "title": "Consequence Analysis Testing",
+    "authors": null,
+    "grid": {
+        "dimension": "2D",
+        "coordinate_system": "4326",
+        "shape": "rectangular",
+        "description": "Based on HEC-RAS Water Surface Elevation Raster"
+    },
+    "purpose": "The goal of this simulation was to test the requirements for using go-consequences a flood consequence model.",
+    "common_files_details": null,
+    "spatial_valid_extent_resolved": null,
+    "linked_resources": null,
+    "spatial_extent_resolved": null,
+    "description": "The consequence analysis test was a process of testing the requirements for using go-consequences to perform consequence analysis.  This data used the Dewberry Amite river model structure inventory and flood rasters for testing.",
+    "application_date": "2022-09-29"
+}

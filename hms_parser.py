@@ -16,73 +16,74 @@ def gage_file_parse(prj_dir, prj_name):
     try:
         with open(os.path.join(prj_dir,f'{prj_name}.gage'), 'r') as r:
             gage_file = r.readlines()
-    except EnvironmentError:
-        print(f"Gage File not found: {gage_file}")
-
-    gage_file = [s.strip('\n') for s in gage_file]
-    # gage_file
-
-    line_start = 0
-    gageList = []
-    for i,v in enumerate(gage_file):
-            if v == 'End:':
-                    # If not the beginning of the file, skip a blank line (+1) for the start of the subList.
-                    if len(gageList) > 0:
-                            gageList.append(gage_file[line_start+1:i])
-                    else:
-                            gageList.append(gage_file[line_start:i])
-                    line_start = i+1
-    
-    # For each gage in .gage file, Get gage type and associated dss file name.
-    gage_kv['Gage DSS Files'] ={}
-    for gage in gageList:
-        # get gage title
-        title = gage[0].split(":")[1].strip()
-        # Init ditionary for each gage title
-        gage_kv['Gage DSS Files'][title] = {}
-        # findList is used to search the wanted .gage file fields for each gage title.
-        findList = ["Gage Type", "DSS File Name"]
-        # search each gage for the keys in findList, append as key:value pairs for each gage title.
-        for find_key in findList:
-            found_value = [s for s in gage if find_key in s]
-            
-            # Omit blank fields by testing the length
-            if len(found_value) > 0:
-                found_value = found_value[0].split(":")[1:][0].strip()
+        gage_file = [s.strip('\n') for s in gage_file]
+        line_start = 0
+        gageList = []
+        for i,v in enumerate(gage_file):
+                if v == 'End:':
+                        # If not the beginning of the file, skip a blank line (+1) for the start of the subList.
+                        if len(gageList) > 0:
+                                gageList.append(gage_file[line_start+1:i])
+                        else:
+                                gageList.append(gage_file[line_start:i])
+                        line_start = i+1
+        
+        # For each gage in .gage file, Get gage type and associated dss file name.
+        gage_kv['Gage DSS Files'] ={}
+        for gage in gageList:
+            # get gage title
+            title = gage[0].split(":")[1].strip()
+            # Init ditionary for each gage title
+            gage_kv['Gage DSS Files'][title] = {}
+            # findList is used to search the wanted .gage file fields for each gage title.
+            findList = ["Gage Type", "DSS File Name"]
+            # search each gage for the keys in findList, append as key:value pairs for each gage title.
+            for find_key in findList:
+                found_value = [s for s in gage if find_key in s]
                 
-                gage_kv['Gage DSS Files'][title][find_key] = found_value
+                # Omit blank fields by testing the length
+                if len(found_value) > 0:
+                    found_value = found_value[0].split(":")[1:][0].strip()
+                    
+                    gage_kv['Gage DSS Files'][title][find_key] = found_value
 
-        # Remove gage titles that did not contain the findList fields.
-        if len(gage_kv['Gage DSS Files'][title]) == 0:
-            del gage_kv['Gage DSS Files'][title]
+            # Remove gage titles that did not contain the findList fields.
+            if len(gage_kv['Gage DSS Files'][title]) == 0:
+                del gage_kv['Gage DSS Files'][title]
 
-        # get values from dictionary in to a list without the keys.
-        temp_list = []
-        for key, value in gage_kv['Gage DSS Files'].items():
-            temp_list.append(value)
+            # get values from dictionary in to a list without the keys.
+            temp_list = []
+            for key, value in gage_kv['Gage DSS Files'].items():
+                temp_list.append(value)
 
-    # Get a list of unique DSS File values in a list.
-    gage_dss_files = []
-    for t in temp_list:
-        gage_dss_files.append(t['DSS File Name'])
-    gage_dss_files = list(set(gage_dss_files))
+        # Get a list of unique DSS File values in a list.
+        gage_dss_files = []
+        for t in temp_list:
+            gage_dss_files.append(t['DSS File Name'])
+        gage_dss_files = list(set(gage_dss_files))
 
-    # Create list in the format needed for the hms simulation json.
-    gage_dss_json_list = []
-    for dss_file in gage_dss_files:
-        for key, value in gage_kv['Gage DSS Files'].items():
-            # print (key, value)
-            if gage_kv['Gage DSS Files'][key]['DSS File Name'] == dss_file:
-                gage_dss_json_list.append(
-                    {
-                        "title": gage_kv['Gage DSS Files'][key]['Gage Type'] + " DSS File",
-                        "source_dataset": None,
-                        "location": dss_file,
-                        "description": f"Parsed from {prj_name}.gage file"
-                    }
-                )
-    # Remove duplicates from list
-    gage_dss_json_list = [dict(t) for t in {tuple(d.items()) for d in gage_dss_json_list}]
+        # Create list in the format needed for the hms simulation json.
+        gage_dss_json_list = []
+        for dss_file in gage_dss_files:
+            for key, value in gage_kv['Gage DSS Files'].items():
+                # print (key, value)
+                if gage_kv['Gage DSS Files'][key]['DSS File Name'] == dss_file:
+                    gage_dss_json_list.append(
+                        {
+                            "title": gage_kv['Gage DSS Files'][key]['Gage Type'] + " DSS File",
+                            "source_dataset": None,
+                            "location": dss_file,
+                            "description": f"Parsed from {prj_name}.gage file"
+                        }
+                    )
+        # Remove duplicates from list
+        gage_dss_json_list = [dict(t) for t in {tuple(d.items()) for d in gage_dss_json_list}]
+    except EnvironmentError:
+        print(f"\nSetting Gage File to None. \n\
+        (Some HMS Models do not have .gage files if there is no input timeseries or paired data). \n\
+            File not found: \n\
+                {os.path.join(prj_dir,prj_name)}.gage\n")
+        gage_dss_json_list = None
 
     return gage_dss_json_list
 
@@ -225,7 +226,8 @@ def parse_prj(prj, wkt, crs, extra_dss_files_list, output_dir):
     
     # open the .gage file and pull input dss files
     gage_dss_files = gage_file_parse(prj_dir,prj_name)
-    model_template_json['common_files_details'].extend(gage_dss_files)
+    if gage_dss_files is not None:
+        model_template_json['common_files_details'].extend(gage_dss_files)
     
     # output model application json
     output_prj_json = os.path.join(output_dir,f'{prj_name}_model_application.json')
@@ -321,7 +323,7 @@ def parse_runs(prj, output_dir):
             # Add data from each simulations's basin file
             parameterList = []
             if find_key == 'Basin':
-                basin_name = sim_kv[title][find_key].replace(" ","_").replace("(","_").replace(")","_") + '.basin'
+                basin_name = sim_kv[title][find_key].replace(" ","_").replace("(","_").replace(")","_").replace("-","_") + '.basin'
                 basin_file = os.path.join(prj_dir, basin_name)
 
                 with open(basin_file, 'r') as b:
@@ -415,6 +417,9 @@ Control: {sim_kv[title]['Control']}, {sim_kv[title]['Control Description']}."
         ]
         
         simulation_template_json['input_files'] = gage_file_parse(prj_dir, prj_name)
+        # initiate simulation_template_json['input_files'] as empty list if gage_file_parse returns None.
+        if simulation_template_json['input_files'] is None:
+             simulation_template_json['input_files'] = []
         simulation_template_json['input_files'].extend([
              {
                 "title": "Basin File",
@@ -457,6 +462,7 @@ def parse(prj, shp, dss):
         # Get project name
         prj_dir, prj_file_tail = os.path.split(prj)
         prj_name = prj_file_tail.split(".")[0]
+        print(f"Parsing {prj_name}...")
 
         # Set output directory
         cwd = os.getcwd()
@@ -486,7 +492,7 @@ def parse(prj, shp, dss):
     
     except Exception: 
         msg = traceback.format_exc()
-        # print(msg)
+        print(msg)
         return msg
 
 if __name__ == '__main__':

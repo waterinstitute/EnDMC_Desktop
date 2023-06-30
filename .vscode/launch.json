@@ -4,13 +4,52 @@
     // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
+
         {
-            "name": "Python: Current File",
+            "name": "go-consequences_parser Single",
             "type": "python",
             "request": "launch",
-            "program": "${file}",
+            "program": "C:/py/hec_meta_extract/go-consequences_parser.py",
             "console": "integratedTerminal",
-            "justMyCode": true
+            "justMyCode": true,
+            "args": [
+                "--run_type",
+                "0",
+                "--prj_name",
+                "Amite",
+                "--prj_description",
+                "Amite Go-Consequences Model Based on Dewberry Amite River HEC-RAS Model Results and USACE National Structure Inventory Data",
+                "--prj_file",
+                "C:/py/hec_meta_extract/dev/go-consequences/main.go",
+                "--model_data_dir",
+                "C:/py/hec_meta_extract/dev/go-consequences/data",
+                "--model_out_dir",
+                "C:/py/hec_meta_extract/dev/go-consequences/output"                
+            ],
+        },
+        {
+            "name": "go-consequences_parser Multiple",
+            "type": "python",
+            "request": "launch",
+            "program": "C:/py/hec_meta_extract/go-consequences_parser.py",
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            "args": [
+                "--run_type",
+                "1",
+                "--prj_name",
+                "Amite",
+                "--prj_description",
+                "Amite Go-Consequences Model Based on Dewberry Amite River HEC-RAS Model Results and USACE National Structure Inventory Data",
+                "--prj_file",
+                "C:/py/hec_meta_extract/dev/go-consequences/main_multi_run.go",
+                "--model_data_dir",
+                "C:/py/hec_meta_extract/dev/go-consequences/data",
+                "--model_out_dir",
+                "C:/py/hec_meta_extract/dev/go-consequences/output",                
+                "--run_table",
+                "C:/py/hec_meta_extract/example/input/go-consequences/run_table.csv"                
+            ],
         },
         {
             "name": "ras_parser",
@@ -36,11 +75,11 @@
             "justMyCode": true,
             "args": [
                 "--hms",
-                "Z:/LWI/WSP/Boeuf_HMS_Model/Boeuf_HMS_Model.hms",
+                "V:/projects/p00810_nps_2022_west_ig/02_analysis/WestPark_HMS/WestPark_HMS.hms",
                 "--shp",
-                "Z:/LWI/WSP/Boeuf Outline.shp",
+                "V:/projects/p00810_nps_2022_west_ig/02_analysis/WestPark_HMS/maps/WestPark_Boundary_3451.shp",
                 "--dss",
-                "Z:/LWI/WSP/Boeuf_HMS_Model/data"
+                "V:/projects/p00810_nps_2022_west_ig/02_analysis/WestPark_HMS/data"
             ],
         },
         {
