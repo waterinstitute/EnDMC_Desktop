@@ -306,8 +306,12 @@ def parse_p(p_file_list, prj_name, wkt, crs, output_dir):
             if "BEGIN DESCRIPTION:" in lines[v]:
                 # description = lines[v+1]
                 beginDescriptionIndex = v+1
+            else:
+                beginDescriptionIndex = None
             if "END DESCRIPTION:" in lines[v]:
                 endDescriptionIndex = v
+            else:
+                endDescriptionIndex = None
 
         if beginDescriptionIndex and endDescriptionIndex is not None:
             description = ' '.join(lines[beginDescriptionIndex:endDescriptionIndex])
@@ -412,7 +416,7 @@ def parse(prj, shp):
     
     except Exception:
         msg = traceback.format_exc()
-        # print(msg)
+        print(msg)
         return msg
 
 if __name__ == '__main__':

@@ -60,9 +60,9 @@
             "justMyCode": true,
             "args": [
                 "--prj",
-                "Z:/LWI/WSP/SDeerCrSubmission 02_20_2023 RAS/SDeerCr_2.prj",
+                "V:/projects/p00810_nps_2022_west_ig/02_analysis/HEC-RASV6.3.1/WestPark.prj",
                 "--shp",
-                "Z:/LWI/WSP/SDeerCr.geojson"
+                "V:/projects/p00810_nps_2022_west_ig/02_analysis/WestPark_HMS/maps/WestPark_Boundary_3451.shp"
                 
             ],
         },
