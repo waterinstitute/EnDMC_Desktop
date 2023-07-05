@@ -12,11 +12,12 @@ import json
 # out_dir = "./dev/go-consequences/output"
 
 
-def parse_single_run_sim(args):
+def parse_sim_single_run(args, output_dir):
     # Parse the Go-Consequences run file
     try:
         with open(args.prj_file, "r") as f:
             lines = f.readlines()
+        print (f'\nReading Go File: {args.prj_file}')
     except:
         raise ValueError(f"Error reading specified prj_file:\n\
                          {args.prj_file}")
@@ -25,16 +26,19 @@ def parse_single_run_sim(args):
     # Unless Layer Manually Specified via args.hazard_layer, Get Hazard Layer (WSE geotif from HEC-RAS)
     if args.hazard_layer is not None:
         hazard_layer = args.hazard_layer
+        print (f'\nHazard Layer Specified as: {hazard_layer}')
     else:
         # splitting by double quotes because GoLang always uses double quotes for defining strings.
         try:
             hazard_layer = [s for s in lines if "hazardproviders.Init" in s][0].split('"')[1]
+            print (f'\nHazard Layer Found within Go File: {hazard_layer}')
         except IndexError:
-            print ("No hazard layer found. Please Specify the Layer Manually. Setting Layer to None.")
+            print ("\nNo hazard layer found. Please Specify the Layer Manually. Setting Layer to None.")
             hazard_layer = None
     
     # Unless Layer is Manually Specified via args.inventory_layer Get Inventory Layer (Structure Inventory Feature Layer)
     if args.inventory_layer is not None:
+        print (f'\nStructure Inventory Layer Specified as: {args.inventory_layer}')
         try:
             structure_inventory_layer = args.inventory_layer
             gdf = gpd.read_file(structure_inventory_layer)
@@ -44,23 +48,32 @@ def parse_single_run_sim(args):
             gpd.GeoSeries([bounding_box]).to_file("bounding_box.geojson", driver='GeoJSON')
             spatial_extent = str(gpd.GeoSeries([bounding_box])[0])
         except:
-            print ("Error reading specified structure inventory layer, setting layer and derived spatial_extent:\n\
+            print ("\nError reading specified structure inventory layer, setting layer and derived spatial_extent:\n\
                          {args.inventory_layer}")
             structure_inventory_layer = None
             crs = None
             spatial_extent = None
     else:
         try:
-            structure_inventory = [s for s in lines if "inventoryproviders.Init" in s][0].split('"')[1]
+            structure_inventory_layer = [s for s in lines if "structureprovider.InitSHP" in s][0].split('"')[1]
+            print (f'\nStructure Inventory Layer Found within Go File: {structure_inventory_layer}')
+            print ('Creating Geospatial Bounds from Structure Inventory Layer, this may take a minute...')
             # Create a bounding box feature from the structure inventory layer
-            gdf = gpd.read_file(structure_inventory_layer)
-            crs = gdf.crs
-            gdf.to_crs(epsg=4326, inplace=True)
-            bounding_box = box(*gdf.total_bounds)
-            gpd.GeoSeries([bounding_box]).to_file("bounding_box.geojson", driver='GeoJSON')
-            spatial_extent = str(gpd.GeoSeries([bounding_box])[0])
-        except IndexError:
-            print ("No structure inventory layer found. Please Specify the Layer Manually. Setting layer and derived spatial_extent to None.")
+            # Commented out just for testing. The 6 lines below should be uncommented for production.
+            # gdf = gpd.read_file(structure_inventory_layer)
+            # crs = gdf.crs
+            # gdf.to_crs(epsg=4326, inplace=True)
+            # bounding_box = box(*gdf.total_bounds)
+            # gpd.GeoSeries([bounding_box]).to_file(os.path.join(output_dir,f"{args.prj_name}_bounding_box.geojson"), driver='GeoJSON')
+            # spatial_extent = str(gpd.GeoSeries([bounding_box])[0])
+            
+            # Comment this out for production.
+            spatial_extent = None
+
+            print (f'Done creating geospatial extent: {os.path.join(output_dir,f"{args.prj_name}_bounding_box.geojson")}')
+        except:
+            print ("\nError reading structure inventory layer. Please Specify the Layer Manually, or update the Go File. \
+                    Setting layer and derived spatial_extent to None.")
             structure_inventory_layer = None
             crs = None
             spatial_extent = None
@@ -77,16 +90,59 @@ def parse_single_run_sim(args):
             results_layer = [s for s in lines if "resultswriters.InitGpkResultsWriter" in s][0].split('"')[1]
             results_projection = "4326"
         except IndexError:
-            print ("No results layer found. Please Specify the Layer Manually. Setting Layer to None.")
+            print ("\nNo results layer found. Please Specify the Layer Manually. Setting Layer to None.")
             results_layer = None
             results_projection = None
     
     # Open simulation template
     # Output simulation_template.json
-    model_application_template_fn = r".\example\input\json\go_consequences_model_application_template.json"
-    with open(model_application_template_fn, "r") as f:
-        model_application_template = json.load(f)
-    C:\py\hec_meta_extract\example\input\json\go-consequences_simulation_template.json
+    sim_template_fn = r".\example\input\json\go-consequences_simulation_template.json"
+    with open(sim_template_fn, "r") as f:
+        sim_template = json.load(f)
+
+    # Keys to not include in the simulation json output
+    dropkeys_list = ['_id', 'temporal_resolution', 'temporal_extent', 'type', 
+                     'model_application', 'linked_resources', 'parameters']
+    
+    # Remove keys from model_application_template that are in dropkeys_list
+    for dropkey in dropkeys_list:
+        sim_template.pop(dropkey)
+
+    # print("\n",sim_template.keys())
+
+    # Update/Add values to simulation output.
+    sim_template['title'] = f'{args.prj_name} Go-Consequences Simulation: {args.sim_name}'
+    sim_template['description'] = f'{args.sim_description}'
+    sim_template['output_files'] = [
+        {
+            "description": "The Go-Consequences Simulation output feature layer.",
+            "location": results_layer,
+            "source_dataset": "Go-Consequences Output",
+            "title": f"{args.prj_name} Go-Consequences Simulation: {args.sim_name} Output Feature Layer"
+        }
+    ]
+    sim_template['input_files'] = [
+        {
+            "description": "The Go-Consequences Simulation Hazard Layer.",
+            "location": hazard_layer,
+            "source_dataset": "HEC-RAS",
+            "title": f"{args.prj_name} Go-Consequences Simulation: {args.sim_name} Input Hazard Layer"
+        },
+        {
+            "description": "The Go-Consequences Simulation Structure Inventory Layer.",
+            "location": structure_inventory_layer,
+            "source_dataset": "NSI",
+            "title": f"{args.prj_name} Go-Consequences Simulation: {args.sim_name} Input Structure Inventory Layer"
+        }
+    ]
+
+    # output simulation json
+    sim_name = args.sim_name.replace(" ", "_")
+    output_sim_json = os.path.join(output_dir,f'{args.prj_name}_simulation_{sim_name}.json')
+    with open(output_sim_json, "w") as outfile:
+        json.dump(sim_template, outfile)
+    print (f'\nSimulation file output to: {output_sim_json}')
+
 
 def parse_model_application(args):
 
@@ -103,8 +159,7 @@ def parse_model_application(args):
     shp_list = [os.path.join(args.model_data_dir, f) for f in os.listdir(args.model_data_dir) if f.lower().endswith(tuple(shp_endswith))]
     shp_list = [i.replace('\\', '/') for i in shp_list]
     if len(shp_list) == 0:
-        print("No shps found in data directory. Please Specify the Layer Manually. \
-            Setting Common Files Structure Inventory Layer List to None.")
+        print("No shps found in data directory. Please Specify the Layer Manually. Setting Common Files Structure Inventory Layer List to None.")
         shp_list = None
     
     if shp_list is not None:
@@ -189,8 +244,13 @@ def parse_model_application(args):
         json.dump(model_application_template, outfile)
 
 def parse_consequences(args):
+    # Create output directory
+    output_dir = os.path.join(os.getcwd(), "output", "go-consequences", args.prj_name)
+    if not os.path.exists(output_dir):
+        os.makedirs(output_dir)
+
     if args.run_type == 0:
-        parse_single_run(args)
+        parse_sim_single_run(args, output_dir)
     # elif args.run_type == 1:
     #     parse_multiple_runs(args)
 
@@ -245,6 +305,17 @@ if __name__ == '__main__':
     )
 
     p.add_argument(
+    "--sim_name", help="For a single simulation run extraction, the Go-Consequences model's Simulation name. Required if run_type set to 0 as a Single Simulation Run.", 
+    required=False, 
+    type=str
+    )
+    p.add_argument(
+    "--sim_description", help="For a single simulation run extraction, the Go-Consequences model's Simulation Description. Required if run_type set to 0 as a Single Simulation Run.", 
+    required=False, 
+    type=str
+    )
+
+    p.add_argument(
     "--run_table", help="The Go-Consequences model's run table csv file. Required is run_type set to 1 as a Multiple Simulation Run. \
         (An Example run table is available at ./example/input/go-consequences/run_table.csv)", 
     required=False, 
@@ -252,19 +323,21 @@ if __name__ == '__main__':
     )
 
     p.add_argument(
-    "--hazard_layer", help="Optional. A Specified filepath to a Go-Consequences model's raster hazard layer. Typically this is a Max WSE geotiff exported from HEC-RAS.
+    "--hazard_layer", help="Optional. A Specified filepath to a Go-Consequences model's raster hazard layer. \
+        Typically this is a Max WSE geotiff exported from HEC-RAS.",
     required=False, 
     type=str
     )
     p.add_argument(
-    "--inventory_layer", help="Optional. A Specified filepath to a Go-Consequences model's structure inventory feature layer. Typically this is a shapefile from NSI (https://nsi.sec.usace.army.mil/downloads/).
+    "--inventory_layer", help="Optional. A Specified filepath to a Go-Consequences model's structure inventory feature layer. \
+        Typically this is a shapefile from NSI (https://nsi.sec.usace.army.mil/downloads/).",
     required=False, 
     type=str
     )
 
     args = p.parse_args()
 
-    # Validate Arguments
+    ### Validate Arguments
 
     # Project file exists
     if not os.path.exists(args.prj_file):
@@ -274,6 +347,14 @@ if __name__ == '__main__':
     # Run type is 0 or 1
     if (args.run_type != 0) & (args.run_type != 1):
         raise ValueError("Invalid run_type. Value must be 0 or 1.")
+    
+    # Sim name required if run_type is 0
+    if (args.run_type == 0) & (args.sim_name is None):
+        raise ValueError("sim_name must be provided if run_type is 0.")
+    
+    # Sim description required if run_type is 0
+    if (args.run_type == 0) & (args.sim_description is None):
+        raise ValueError("sim_description must be provided if run_type is 0.")
     
     # Run table required if run_type is 1
     if (args.run_type == 1) & (args.run_table is None):

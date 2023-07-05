@@ -50,9 +50,10 @@ def dict_to_model_app_json(keyValues_dict, output_prj_json):
 
         # Map to web-app Json
         ras_model_template_json['title'] = keyValues_dict['Proj Title']
-        ras_model_template_json['description'] = keyValues_dict['Description']
+        ras_model_template_json['description'] = {}
+        ras_model_template_json['description']['Project Description'] = keyValues_dict['Description']
+        ras_model_template_json['description']['Simulations'] = keyValues_dict['Plans']['Plan Title']
         ras_model_template_json['purpose'] = keyValues_dict['Description']
-        ras_model_template_json['simulations'] = keyValues_dict['Plans']
         ras_model_template_json['grid']['coordinate_system'] = keyValues_dict['coordinate_system']
         ras_model_template_json['spatial_extent'][0] = keyValues_dict['spatial_extent']
         ras_model_template_json['common_files_details'] = []
@@ -62,6 +63,17 @@ def dict_to_model_app_json(keyValues_dict, output_prj_json):
             'location': keyValues_dict['Project File'],
             'title': 'prj file'
         })
+        
+        # Add each p file to common_file_details
+        plan_zipList = zip(keyValues_dict['Plans']['Plan Title'], keyValues_dict['Plans']['P File'])
+        for plan in plan_zipList:
+            ras_model_template_json['common_files_details'].append( {
+                'source_dataset': None,
+                'description': plan[0],
+                'location': plan[1],
+                'title': f"p file for {plan[0]}"
+            })
+
 
         # output mapped json
         with open(output_prj_json, "w") as outfile:
@@ -287,7 +299,10 @@ def get_p_files(prj_dir, prj_name):
 
 def parse_p(p_file_list, prj_name, wkt, crs, output_dir):
     
-    plan_titles = []
+    plan_titles = {}
+    plan_titles['Plan Title'] = []
+    plan_titles['Plan Title w P File'] = []
+    plan_titles['P File'] = []
     for p in p_file_list:
         # print (p)
         prj_dir, p_file_tail = os.path.split(p)
@@ -367,7 +382,10 @@ def parse_p(p_file_list, prj_name, wkt, crs, output_dir):
 
         # Append plan title list
         keyValues_dict['Plan Title'] = f"{prj_name} HEC-RAS Model Simulation: {keyValues_dict['Plan Title']}"
-        plan_titles.append(keyValues_dict['Plan Title'])
+        keyValues_dict['Plan Title w P File'] = f"{prj_name} HEC-RAS Model Simulation: {keyValues_dict['Plan Title']}, File: {p_file_tail}"
+        plan_titles['Plan Title'].append(keyValues_dict['Plan Title'])
+        plan_titles['Plan Title w P File'].append(keyValues_dict['Plan Title w P File'])
+        plan_titles['P File'].append(p_file_tail)
 
         # Set dss output file to default path
         keyValues_dict['DSS Output File'] = f'{prj_name}.dss'

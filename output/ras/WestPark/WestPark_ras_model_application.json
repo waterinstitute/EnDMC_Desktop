@@ -1,6 +1,30 @@
 {
 	"application_date": "2022-11-01",
-	"description": "",
+	"description": {
+		"Project Description": "",
+		"Simulations": [
+			"WestPark HEC-RAS Model Simulation: 100yrExistingConditions",
+			"WestPark HEC-RAS Model Simulation: 100yrProposed_1",
+			"WestPark HEC-RAS Model Simulation: 100yrProposed_2",
+			"WestPark HEC-RAS Model Simulation: 100yrProposed_3",
+			"WestPark HEC-RAS Model Simulation: 10yrProposed_3",
+			"WestPark HEC-RAS Model Simulation: 10yrProposed_2",
+			"WestPark HEC-RAS Model Simulation: 10yrProposed_1",
+			"WestPark HEC-RAS Model Simulation: 10yrExistingConditions",
+			"WestPark HEC-RAS Model Simulation: 10yrProposed_4",
+			"WestPark HEC-RAS Model Simulation: 02yrProposed_4",
+			"WestPark HEC-RAS Model Simulation: 02yrExistingConditions",
+			"WestPark HEC-RAS Model Simulation: 100yrProposed_4",
+			"WestPark HEC-RAS Model Simulation: 100yrProposed_5",
+			"WestPark HEC-RAS Model Simulation: 10yrProposed_5",
+			"WestPark HEC-RAS Model Simulation: 100yrBase_Precip",
+			"WestPark HEC-RAS Model Simulation: 100yrProposed_5_Precip",
+			"WestPark HEC-RAS Model Simulation: 02yrProposed_5",
+			"WestPark HEC-RAS Model Simulation: 02yrProposed_2",
+			"WestPark HEC-RAS Model Simulation: 02yrProposed_3",
+			"WestPark HEC-RAS Model Simulation: 02yrProposed_1"
+		]
+	},
 	"grid": {
 		"shape": "unstructured",
 		"coordinate_system": "EPSG:3451",
@@ -20,34 +44,132 @@
 		"POLYGON ((-93.285155 30.865925, -93.286764 30.863589, -93.288629 30.859035, -93.289302 30.857082, -93.289302 30.853899, -93.289772 30.851603, -93.291886 30.84908, -93.291886 30.84908, -93.292917 30.849279, -93.294512 30.84896, -93.295675 30.848727, -93.296606 30.848668, -93.297438 30.848895, -93.297905 30.849583, -93.297775 30.850358, -93.297808 30.851347, -93.297643 30.85195, -93.298115 30.853814, -93.298815 30.854558, -93.299782 30.855359, -93.30128 30.855958, -93.302244 30.855955, -93.30271 30.855954, -93.303408 30.855953, -93.304538 30.855807, -93.305503 30.855862, -93.307212 30.85794, -93.307347 30.858514, -93.307948 30.859344, -93.308447 30.859458, -93.308714 30.85983, -93.308883 30.860547, -93.309084 30.861088, -93.309251 30.861432, -93.309519 30.861977, -93.309886 30.862435, -93.310354 30.863151, -93.310991 30.864569, -93.31156 30.86583, -93.312893 30.866659, -93.313592 30.866944, -93.314223 30.867657, -93.314293 30.868575, -93.314464 30.870094, -93.314466 30.870783, -93.314372 30.872533, -93.314642 30.87368, -93.314912 30.874884, -93.315415 30.876139, -93.315684 30.877028, -93.316385 30.878001, -93.317418 30.878343, -93.318814 30.87834, -93.320045 30.878308, -93.320478 30.878422, -93.321169 30.87834, -93.321109 30.87842, -93.320864 30.878749, -93.320465 30.879435, -93.320417 30.879815, -93.320455 30.880196, -93.320388 30.880548, -93.320446 30.88091, -93.320807 30.881062, -93.320997 30.881103, -93.32152 30.88125, -93.321818 30.881283, -93.32175 30.882893, -93.321697 30.883789, -93.321626 30.884527, -93.321616 30.88463, -93.321542 30.885335, -93.32145 30.885821, -93.321298 30.886795, -93.321247 30.886969, -93.321194 30.887136, -93.3212 30.887296, -93.321093 30.887623, -93.321015 30.88782, -93.320896 30.888081, -93.320837 30.888212, -93.320866 30.888415, -93.321063 30.888748, -93.32136 30.889111, -93.321623 30.889414, -93.321721 30.889782, -93.32181 30.890412, -93.321832 30.891121, -93.321786 30.891882, -93.321762 30.892289, -93.321284 30.892895, -93.320515 30.893623, -93.319727 30.894133, -93.318759 30.894472, -93.317649 30.894559, -93.316165 30.894548, -93.314732 30.894758, -93.313789 30.895206, -93.301772 30.886246, -93.295355 30.882907, -93.285285 30.88296, -93.285129 30.877273, -93.285076 30.873412, -93.287268 30.871168, -93.285285 30.868925, -93.284946 30.868064, -93.285155 30.865925, -93.285155 30.865925))"
 	],
 	"title": "WestPark HEC-RAS Model",
-	"simulations": [
-		"WestPark HEC-RAS Model Simulation: 100yrExistingConditions",
-		"WestPark HEC-RAS Model Simulation: 100yrProposed_1",
-		"WestPark HEC-RAS Model Simulation: 100yrProposed_2",
-		"WestPark HEC-RAS Model Simulation: 100yrProposed_3",
-		"WestPark HEC-RAS Model Simulation: 10yrProposed_3",
-		"WestPark HEC-RAS Model Simulation: 10yrProposed_2",
-		"WestPark HEC-RAS Model Simulation: 10yrProposed_1",
-		"WestPark HEC-RAS Model Simulation: 10yrExistingConditions",
-		"WestPark HEC-RAS Model Simulation: 10yrProposed_4",
-		"WestPark HEC-RAS Model Simulation: 02yrProposed_4",
-		"WestPark HEC-RAS Model Simulation: 02yrExistingConditions",
-		"WestPark HEC-RAS Model Simulation: 100yrProposed_4",
-		"WestPark HEC-RAS Model Simulation: 100yrProposed_5",
-		"WestPark HEC-RAS Model Simulation: 10yrProposed_5",
-		"WestPark HEC-RAS Model Simulation: 100yrBase_Precip",
-		"WestPark HEC-RAS Model Simulation: 100yrProposed_5_Precip",
-		"WestPark HEC-RAS Model Simulation: 02yrProposed_5",
-		"WestPark HEC-RAS Model Simulation: 02yrProposed_2",
-		"WestPark HEC-RAS Model Simulation: 02yrProposed_3",
-		"WestPark HEC-RAS Model Simulation: 02yrProposed_1"
-	],
 	"common_files_details": [
 		{
 			"source_dataset": null,
 			"description": "RAS project file which links projects with plans, geometry, and flow files",
 			"location": "V:/projects/p00810_nps_2022_west_ig/02_analysis/HEC-RASV6.3.1/WestPark.prj",
 			"title": "prj file"
+		},
+		{
+			"source_dataset": null,
+			"description": "WestPark HEC-RAS Model Simulation: 100yrExistingConditions",
+			"location": "WestPark.p01",
+			"title": "p file for WestPark HEC-RAS Model Simulation: 100yrExistingConditions"
+		},
+		{
+			"source_dataset": null,
+			"description": "WestPark HEC-RAS Model Simulation: 100yrProposed_1",
+			"location": "WestPark.p02",
+			"title": "p file for WestPark HEC-RAS Model Simulation: 100yrProposed_1"
+		},
+		{
+			"source_dataset": null,
+			"description": "WestPark HEC-RAS Model Simulation: 100yrProposed_2",
+			"location": "WestPark.p03",
+			"title": "p file for WestPark HEC-RAS Model Simulation: 100yrProposed_2"
+		},
+		{
+			"source_dataset": null,
+			"description": "WestPark HEC-RAS Model Simulation: 100yrProposed_3",
+			"location": "WestPark.p04",
+			"title": "p file for WestPark HEC-RAS Model Simulation: 100yrProposed_3"
+		},
+		{
+			"source_dataset": null,
+			"description": "WestPark HEC-RAS Model Simulation: 10yrProposed_3",
+			"location": "WestPark.p05",
+			"title": "p file for WestPark HEC-RAS Model Simulation: 10yrProposed_3"
+		},
+		{
+			"source_dataset": null,
+			"description": "WestPark HEC-RAS Model Simulation: 10yrProposed_2",
+			"location": "WestPark.p06",
+			"title": "p file for WestPark HEC-RAS Model Simulation: 10yrProposed_2"
+		},
+		{
+			"source_dataset": null,
+			"description": "WestPark HEC-RAS Model Simulation: 10yrProposed_1",
+			"location": "WestPark.p07",
+			"title": "p file for WestPark HEC-RAS Model Simulation: 10yrProposed_1"
+		},
+		{
+			"source_dataset": null,
+			"description": "WestPark HEC-RAS Model Simulation: 10yrExistingConditions",
+			"location": "WestPark.p08",
+			"title": "p file for WestPark HEC-RAS Model Simulation: 10yrExistingConditions"
+		},
+		{
+			"source_dataset": null,
+			"description": "WestPark HEC-RAS Model Simulation: 10yrProposed_4",
+			"location": "WestPark.p09",
+			"title": "p file for WestPark HEC-RAS Model Simulation: 10yrProposed_4"
+		},
+		{
+			"source_dataset": null,
+			"description": "WestPark HEC-RAS Model Simulation: 02yrProposed_4",
+			"location": "WestPark.p10",
+			"title": "p file for WestPark HEC-RAS Model Simulation: 02yrProposed_4"
+		},
+		{
+			"source_dataset": null,
+			"description": "WestPark HEC-RAS Model Simulation: 02yrExistingConditions",
+			"location": "WestPark.p11",
+			"title": "p file for WestPark HEC-RAS Model Simulation: 02yrExistingConditions"
+		},
+		{
+			"source_dataset": null,
+			"description": "WestPark HEC-RAS Model Simulation: 100yrProposed_4",
+			"location": "WestPark.p12",
+			"title": "p file for WestPark HEC-RAS Model Simulation: 100yrProposed_4"
+		},
+		{
+			"source_dataset": null,
+			"description": "WestPark HEC-RAS Model Simulation: 100yrProposed_5",
+			"location": "WestPark.p13",
+			"title": "p file for WestPark HEC-RAS Model Simulation: 100yrProposed_5"
+		},
+		{
+			"source_dataset": null,
+			"description": "WestPark HEC-RAS Model Simulation: 10yrProposed_5",
+			"location": "WestPark.p14",
+			"title": "p file for WestPark HEC-RAS Model Simulation: 10yrProposed_5"
+		},
+		{
+			"source_dataset": null,
+			"description": "WestPark HEC-RAS Model Simulation: 100yrBase_Precip",
+			"location": "WestPark.p15",
+			"title": "p file for WestPark HEC-RAS Model Simulation: 100yrBase_Precip"
+		},
+		{
+			"source_dataset": null,
+			"description": "WestPark HEC-RAS Model Simulation: 100yrProposed_5_Precip",
+			"location": "WestPark.p16",
+			"title": "p file for WestPark HEC-RAS Model Simulation: 100yrProposed_5_Precip"
+		},
+		{
+			"source_dataset": null,
+			"description": "WestPark HEC-RAS Model Simulation: 02yrProposed_5",
+			"location": "WestPark.p17",
+			"title": "p file for WestPark HEC-RAS Model Simulation: 02yrProposed_5"
+		},
+		{
+			"source_dataset": null,
+			"description": "WestPark HEC-RAS Model Simulation: 02yrProposed_2",
+			"location": "WestPark.p18",
+			"title": "p file for WestPark HEC-RAS Model Simulation: 02yrProposed_2"
+		},
+		{
+			"source_dataset": null,
+			"description": "WestPark HEC-RAS Model Simulation: 02yrProposed_3",
+			"location": "WestPark.p19",
+			"title": "p file for WestPark HEC-RAS Model Simulation: 02yrProposed_3"
+		},
+		{
+			"source_dataset": null,
+			"description": "WestPark HEC-RAS Model Simulation: 02yrProposed_1",
+			"location": "WestPark.p20",
+			"title": "p file for WestPark HEC-RAS Model Simulation: 02yrProposed_1"
 		}
 	]
 }

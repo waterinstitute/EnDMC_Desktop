@@ -13,21 +13,21 @@ func main() {
 	fmt.Println("Start")
 
 	//define flood hazard, provide the file path to your desired flood
-	hazard, e := hazardproviders.Init("./data/flood_here.tif")
+	hazard, e := hazardproviders.Init("./dev/go-consequences/data/flood_here.tif")
 	if e != nil {
 		panic(e)
 	}
 	defer hazard.Close()
 
 	//define structure inventory, provide file path to structure inventory
-	inventory, b := structureprovider.InitSHP("./data/inventory_here.shp")
+	inventory, b := structureprovider.InitSHP("./dev/go-consequences/data/inventory_here.shp")
 	if b != nil {
 		panic(b)
 	}
 
 	//define result file, provide file path where you want results to be saved
 	// results, c := resultswriters.InitGpkResultsWriter("./output/result_file.gpkg", "event_results")
-	results, c := resultswriters.InitGpkResultsWriter_Projected("./output/result_file.gpkg", "event_results", 9822)
+	results, c := resultswriters.InitGpkResultsWriter_Projected("./dev/go-consequences/output/result_file.gpkg", "event_results", 9822)
 	if c != nil {
 		panic(c)
 	}
