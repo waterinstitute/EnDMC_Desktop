@@ -1,16 +1,10 @@
 import argparse
 import os
 import datetime
+import pandas as pd
 import geopandas as gpd
 from shapely.geometry import box
 import json
-
-# prj = "./dev/go-consequences/main.go"
-# prj_name = "Amite"
-# description = "Amite Go-Consequences Model Based on Dewberry Amite River HEC-RAS Model Results"
-# data_dir = "./dev/go-consequences/data"
-# out_dir = "./dev/go-consequences/output"
-
 
 def parse_sim_single_run(args, output_dir):
     # Parse the Go-Consequences run file
@@ -41,42 +35,17 @@ def parse_sim_single_run(args, output_dir):
         print (f'\nStructure Inventory Layer Specified as: {args.inventory_layer}')
         try:
             structure_inventory_layer = args.inventory_layer
-            gdf = gpd.read_file(structure_inventory_layer)
-            crs = gdf.crs
-            gdf.to_crs(epsg=4326, inplace=True)
-            bounding_box = box(*gdf.total_bounds)
-            gpd.GeoSeries([bounding_box]).to_file("bounding_box.geojson", driver='GeoJSON')
-            spatial_extent = str(gpd.GeoSeries([bounding_box])[0])
         except:
-            print ("\nError reading specified structure inventory layer, setting layer and derived spatial_extent:\n\
-                         {args.inventory_layer}")
+            print ("\nError reading specified structure inventory layer, setting layer to None.\n\
+                    {args.inventory_layer}")
             structure_inventory_layer = None
-            crs = None
-            spatial_extent = None
     else:
         try:
-            structure_inventory_layer = [s for s in lines if "structureprovider.InitSHP" in s][0].split('"')[1]
-            print (f'\nStructure Inventory Layer Found within Go File: {structure_inventory_layer}')
-            print ('Creating Geospatial Bounds from Structure Inventory Layer, this may take a minute...')
-            # Create a bounding box feature from the structure inventory layer
-            # Commented out just for testing. The 6 lines below should be uncommented for production.
-            # gdf = gpd.read_file(structure_inventory_layer)
-            # crs = gdf.crs
-            # gdf.to_crs(epsg=4326, inplace=True)
-            # bounding_box = box(*gdf.total_bounds)
-            # gpd.GeoSeries([bounding_box]).to_file(os.path.join(output_dir,f"{args.prj_name}_bounding_box.geojson"), driver='GeoJSON')
-            # spatial_extent = str(gpd.GeoSeries([bounding_box])[0])
-            
-            # Comment this out for production.
-            spatial_extent = None
-
-            print (f'Done creating geospatial extent: {os.path.join(output_dir,f"{args.prj_name}_bounding_box.geojson")}')
+            structure_inventory_layer = [s for s in lines if "structureprovider.InitSHP" in s][0].split('"')[1]  
         except:
             print ("\nError reading structure inventory layer. Please Specify the Layer Manually, or update the Go File. \
-                    Setting layer and derived spatial_extent to None.")
+                    Setting layer to None.")
             structure_inventory_layer = None
-            crs = None
-            spatial_extent = None
     
     # Get Projected Results Layer
     try:
@@ -143,51 +112,187 @@ def parse_sim_single_run(args, output_dir):
         json.dump(sim_template, outfile)
     print (f'\nSimulation file output to: {output_sim_json}')
 
+    return hazard_layer, structure_inventory_layer, results_layer
 
-def parse_model_application(args):
+def parse_sim_multiple_runs(args, output_dir):
+    # Parse the Go-Consequences run file
+    try:
+        with open(args.prj_file, "r") as f:
+            lines = f.readlines()
+        print (f'\nReading Go File: {args.prj_file}')
+    except:
+        raise ValueError(f"Error reading specified prj_file:\n\
+                         {args.prj_file}")
+    lines = [s.strip('\n') for s in lines]
 
+    # Parse the Go-Consequences run table
+    run_table_df = pd.read_csv(args.run_table)
+
+    # init lists of layers to use in model application json.
+    hazard_layer_list = []
+    inventory_layer_list = []
+    results_layer_list = []
+    sim_list = []
+    
+
+    # For each row in the run table, create a simulation json
+    for index, row in run_table_df.iterrows():
+        print (f'\n\nBeging Parsing Simulation: {row["Simulation Name"]}')
+        args.sim_name = row["Simulation Name"]
+        args.sim_description = row["Description"]
+        sim_list.append(f'{args.sim_name} - {args.sim_description}')
+        args.hazard_layer = row["WSE File"]
+        args.inventory_layer = row["Structure Inventory File"]
+        args.results_layer = os.path.dirname(row["Model Result Output File"])
+        hazard_layer, inventory_layer, results_layer = parse_sim_single_run(args, output_dir)
+        
+        # Add layers to lists for model application json
+        hazard_layer_list.append(args.hazard_layer)
+        inventory_layer_list.append(args.inventory_layer)
+        results_layer_list.append(row["Model Result Output File"])
+
+        
+        print ('-----Done Parsing Simulation-----')
+    # Remove duplicates from lists
+    hazard_layer_list = list(set(hazard_layer_list))
+    inventory_layer_list = list(set(inventory_layer_list))
+    results_layer_list = list(set(results_layer_list))
+    sim_list = list(set(sim_list))
+
+    return hazard_layer_list, inventory_layer_list, results_layer_list, sim_list
+
+def parse_model_application(args, output_dir, hazard_layer_list=None, inventory_layer_list=None, results_layer_list=None, sim_list=None):
+
+    print("\nModel Application Parsing Begin...")
     # Get list of tifs from data directory
     tif_endswith = [".tif", ".tiff", ".geotif", ".geotiff"]
-    tif_list = [os.path.join(args.model_data_dir, f) for f in os.listdir(args.model_data_dir) if f.lower().endswith(tuple(tif_endswith))]
-    tif_list = [i.replace('\\', '/') for i in tif_list]
-    if len(tif_list) == 0:
-        print("No tifs found in data directory. Please Specify the Layer Manually. Setting Common Files Hazard Layer List to None.")
-        tif_list = None
+    try:
+        tif_list = [os.path.join(args.model_data_dir, f) for f in os.listdir(args.model_data_dir) if f.lower().endswith(tuple(tif_endswith))]
+    except:
+        tif_list = []
 
+    tif_list = [i.replace('\\', '/') for i in tif_list]
+    if len(tif_list) == 0 and args.hazard_layer is None and hazard_layer_list is None:
+        print("No tifs found in data directory. Please Specify the Layer Manually. Setting Common Files Hazard Layer List to None.")
+        tif_list = []
+    
+    if len(tif_list) == 0 and args.hazard_layer is not None:
+        print(f'Using Specified Hazard Layer: {args.hazard_layer}')
+        tif_list = [args.hazard_layer]
+
+    # Add hazard layer list to tif_list for common_files output key.
+    if hazard_layer_list is not None:
+        tif_list.extend(hazard_layer_list)
+        tif_list = list(set(tif_list))
+    
     # Get list of shps from data directory
     shp_endswith = [".shp", ".geojson", ".json", ".gpkg"]
-    shp_list = [os.path.join(args.model_data_dir, f) for f in os.listdir(args.model_data_dir) if f.lower().endswith(tuple(shp_endswith))]
+    try:
+        shp_list = [os.path.join(args.model_data_dir, f) for f in os.listdir(args.model_data_dir) if f.lower().endswith(tuple(shp_endswith))]
+    except:
+        shp_list = []
+
     shp_list = [i.replace('\\', '/') for i in shp_list]
-    if len(shp_list) == 0:
-        print("No shps found in data directory. Please Specify the Layer Manually. Setting Common Files Structure Inventory Layer List to None.")
-        shp_list = None
     
-    if shp_list is not None:
+    # Try to create spatial extent from structure inventory layer from data directory.
+    if len(shp_list) > 0:
         structure_inventory_layer = shp_list[0]
-        gdf = gpd.read_file(structure_inventory_layer)
-        crs = gdf.crs
-        gdf.to_crs(epsg=4326, inplace=True)
-        bounding_box = box(*gdf.total_bounds)
-        gpd.GeoSeries([bounding_box]).to_file(f"./output/go-consequences/{args.prj_name}_bounding_box.geojson", driver='GeoJSON')
-        spatial_extent = str(gpd.GeoSeries([bounding_box])[0])
-    else:
-        spatial_extent = None
-        crs = None
-        structure_inventory_layer = None
-        print("No Structure Inventory layer found in data directory. Please Specify the Layer Manually. \
+        print(f'Creating Geospatial Bounds from Structure Inventory Layer found within Specified Data Directory, this may take a few minutes...\n\
+              Inventory Layer: {structure_inventory_layer}')
+        
+        try:
+            # gdf = gpd.read_file(structure_inventory_layer)
+            # crs = gdf.crs
+            # gdf.to_crs(epsg=4326, inplace=True)
+            # bounding_box = box(*gdf.total_bounds)
+            # gpd.GeoSeries([bounding_box]).to_file(os.path.join(output_dir,f"{args.prj_name}_bounding_box.geojson"), driver='GeoJSON')
+            # spatial_extent = str(gpd.GeoSeries([bounding_box])[0])
+            spatial_extent = 'Testing'
+            crs = 'Testing'
+            print (f'Done creating geospatial extent: {os.path.join(output_dir,f"{args.prj_name}_bounding_box.geojson")}')
+        except:
+            print("Error reading inventory layer, setting spatial_extent to None.")
+            spatial_extent = None
+            crs = None
+
+    # Else if no shp's found in data directory, try to create spatial extent from specified layer or from run table.
+    else: 
+
+        # If no shps in data_dir and run_type is Single, attempt to create spaital extent from specified inventory layer.
+        if args.run_type == 0 and args.inventory_layer is not None:
+            print (f'Using Specified Inventory Layer to Create Spatial Extent, this may take a few minutes...: \n\
+                {args.inventory_layer}')
+            try:
+                # gdf = gpd.read_file(args.inventory_layer)
+                # crs = gdf.crs
+                # gdf.to_crs(epsg=4326, inplace=True)
+                # bounding_box = box(*gdf.total_bounds)
+                # gpd.GeoSeries([bounding_box]).to_file(os.path.join(output_dir,f"{args.prj_name}_bounding_box.geojson"), driver='GeoJSON')
+                # spatial_extent = str(gpd.GeoSeries([bounding_box])[0])
+                spatial_extent = 'Testing'
+                crs = 'Testing'
+                print (f'Done creating geospatial extent: {os.path.join(output_dir,f"{args.prj_name}_bounding_box.geojson")}')
+            except:
+                print("Error reading inventory layer, setting spatial_extent to None.")
+                spatial_extent = None
+                crs = None
+        elif args.run_type == 0 and args.inventory_layer is None:
+            print("No Structure Inventory layer found in data directory. Please Specify the Layer Manually. \n\
             Setting Common Files Structure Inventory Layer List to None. Setting spatial_extent to None.")
+            spatial_extent = None
+            crs = None
+
+        # If run_type is Multiple, attempt to create spatial extent from run table.
+        elif args.run_type == 1 and inventory_layer_list is not None:
+            print(f"No Structure Inventory layers found in data directory, attempting to use first run_table inventory layer to define spatial extent. \n\
+            This may take a few minutes...\n\
+                Inventory Layer: {inventory_layer_list[0]}")
+            try:
+                # gdf = gpd.read_file(inventory_layer_list[0])
+                # crs = gdf.crs
+                # gdf.to_crs(epsg=4326, inplace=True)
+                # bounding_box = box(*gdf.total_bounds)
+                # gpd.GeoSeries([bounding_box]).to_file(os.path.join(output_dir,f"{args.prj_name}_bounding_box.geojson"), driver='GeoJSON')
+                # spatial_extent = str(gpd.GeoSeries([bounding_box])[0])
+                spatial_extent = 'Testing'
+                crs = 'Testing'
+                print (f'Spatial extent created based on Run Table: {os.path.join(output_dir,f"{args.prj_name}_bounding_box.geojson")}')
+            except:
+                print("Error reading inventory layer from run table, setting spatial_extent to None.")
+                spatial_extent = None
+                crs = None
+    
+    # Add inventory layer list to shp_list for common_files output key. 
+    if inventory_layer_list is not None:
+        shp_list.extend(inventory_layer_list)
+        shp_list = list(set(shp_list))
+    
+    if len(shp_list) == 0:
+        shp_list = None
+
     # Get list of output files from out_dir.
     output_endswith = [".gpkg"]
-    output_list = [os.path.join(args.model_out_dir, f) for f in os.listdir(args.model_out_dir) if f.lower().endswith(tuple(output_endswith))]
+    try:
+        output_list = [os.path.join(args.model_out_dir, f) for f in os.listdir(args.model_out_dir) if f.lower().endswith(tuple(output_endswith))]
+    except:
+        output_list = []
     output_list = [i.replace('\\', '/') for i in output_list]
+
+    # Add results layer list to output_list for common_files output key.
+    if results_layer_list is not None:
+        output_list.extend(results_layer_list)
+        output_list = list(set(output_list))
     
-    if len(output_list) == 0:
-        print("No gpkg files found in output directory. Please Specify the Layer Manually. \
+    # Set to none if no output layers are found in run table and data directory.
+    if len(output_list) == 0 and results_layer_list is None:
+        print("No gpkg files found in output directory. Please Specify the Layer Manually. \n\
             Setting Common Files Output Layer List to None.")
         output_list = None
     
+    
+    
     # Output model_application.json
-    model_application_template_fn = r".\example\input\json\go_consequences_model_application_template.json"
+    model_application_template_fn = "./example/input/json/go_consequences_model_application_template.json"
     with open(model_application_template_fn, "r") as f:
         model_application_template = json.load(f)
     
@@ -204,7 +309,12 @@ def parse_model_application(args):
     # Add values to model_application output
     model_application_template['spatial_extent'] = spatial_extent
     model_application_template['title'] = f'Go-Consequences {args.prj_name}'
-    model_application_template['description'] = f'{args.prj_description}'
+    model_application_template['description'] = [
+        {
+            'Description': f'{args.prj_description}',
+            'Simulations': sim_list
+        }
+    ]
     model_application_template['grid']['coordinate_system'] = str(crs)
     model_application_template['application_date'] = datetime.datetime.now().strftime("%Y-%m-%d")
 
@@ -238,10 +348,11 @@ def parse_model_application(args):
     )
 
     # output model application json
-    output_dir = os.path.join(os.getcwd(), "output")
     output_model_json = os.path.join(output_dir,f'{args.prj_name}_model_application.json')
     with open(output_model_json, "w") as outfile:
         json.dump(model_application_template, outfile)
+    
+    print (f'\nModel Application file output to: {output_model_json}')
 
 def parse_consequences(args):
     # Create output directory
@@ -250,9 +361,12 @@ def parse_consequences(args):
         os.makedirs(output_dir)
 
     if args.run_type == 0:
-        parse_sim_single_run(args, output_dir)
-    # elif args.run_type == 1:
-    #     parse_multiple_runs(args)
+        hazard_layer, inventory_layer, results_layer = parse_sim_single_run(args, output_dir)
+        sim_list = [f'{args.sim_name} - {args.sim_description}']
+        parse_model_application(args, output_dir, sim_list=sim_list)
+    elif args.run_type == 1:
+        hazard_layer_list, inventory_layer_list, results_layer_list, sim_list = parse_sim_multiple_runs(args, output_dir)
+        parse_model_application(args, output_dir, hazard_layer_list, inventory_layer_list, results_layer_list, sim_list)
 
 if __name__ == '__main__':
     # Parse Command Line Arguments
@@ -334,6 +448,12 @@ if __name__ == '__main__':
     required=False, 
     type=str
     )
+    p.add_argument(
+    "--results_layer", help="Optional. A Specified filepath to a Go-Consequences model's output results feature layer. \
+        Typically this is a geopackage file (*.gpkg).",
+    required=False, 
+    type=str
+    )
 
     args = p.parse_args()
 
@@ -366,6 +486,39 @@ if __name__ == '__main__':
         if not os.path.exists(args.run_table):
             raise ValueError(f"run_table specified does not exist:\n\
                             {args.run_table}")
+    
+    # Run table is readable
+    if (args.run_type == 1) & (args.run_table is not None):
+        try:
+            run_table_df = pd.read_csv(args.run_table)
+        except:
+            raise ValueError(f"Error reading specified run_table:\n\
+                            {args.run_table}")
+    
+    # Check that the run table has the required columns
+    if (args.run_type == 1) & (args.run_table is not None):
+            run_table_df = pd.read_csv(args.run_table)
+            required_columns = ['Simulation Name',	'Description',	'Structure Inventory File',	'WSE File',	'Model Result Output File']
+            if not all(elem in run_table_df.columns for elem in required_columns):
+                raise ValueError(f"run_table must contain the following column names and order:\n\
+                    {required_columns} \n\
+                        An Example run table is available at ./example/input/go-consequences/run_table.csv")
+    
+    # If run_type is 1, hazard_layer and inventory_layer should not be specified.
+    if (args.run_type == 1) & (args.hazard_layer is not None):
+        print("Warning: hazard_layer specified, but run_type is 1. hazard_layer will be ignored and run_table used.")
+    if (args.run_type == 1) & (args.inventory_layer is not None):
+        print("Warning: inventory_layer specified, but run_type is 1. inventory_layer will be ignored and run_table used.")
+    
+    #  If run_type is 1, sim_name and sim_description should not be specified.
+    if (args.run_type == 1) & (args.sim_name is not None):
+        print("Warning: sim_name specified, but run_type is 1. sim_name will be ignored and run_table used.")
+    if (args.run_type == 1) & (args.sim_description is not None):
+        print("Warning: sim_description specified, but run_type is 1. sim_description will be ignored and run_table used.")
+
+    # If run_type is 1, results_layer should not be specified.
+    if (args.run_type == 1) & (args.results_layer is not None):
+        print("Warning: results_layer specified, but run_type is 1. results_layer will be ignored and run_table used.")
     
     
     parse_consequences(args)

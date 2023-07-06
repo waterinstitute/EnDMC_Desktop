@@ -28,7 +28,11 @@
                 "--model_data_dir",
                 "C:/py/hec_meta_extract/dev/go-consequences/data",
                 "--model_out_dir",
-                "C:/py/hec_meta_extract/dev/go-consequences/output"                
+                "C:/py/hec_meta_extract/dev/go-consequences/output",
+                // "--hazard_layer",
+                // "C:/py/hec_meta_extract/dev/go-consequences/data/Amite_Katrina2005_AORC_ADCIRC_2021Geometry.tif",
+                // "--inventory_layer",
+                // "C:/py/hec_meta_extract/dev/go-consequences/data/NSI.shp"                
             ],
         },
         {
