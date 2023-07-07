@@ -9,7 +9,7 @@
             "name": "go-consequences_parser Single",
             "type": "python",
             "request": "launch",
-            "program": "C:/py/hec_meta_extract/go-consequences_parser.py",
+            "program": "C:/py/hec_meta_extract/go_consequences_parser.py",
             "console": "integratedTerminal",
             "justMyCode": true,
             "args": [
@@ -39,7 +39,7 @@
             "name": "go-consequences_parser Multiple",
             "type": "python",
             "request": "launch",
-            "program": "C:/py/hec_meta_extract/go-consequences_parser.py",
+            "program": "C:/py/hec_meta_extract/go_consequences_parser.py",
             "console": "integratedTerminal",
             "justMyCode": true,
             "args": [
