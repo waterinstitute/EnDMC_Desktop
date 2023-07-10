@@ -16,7 +16,7 @@ version = '1.4.0'
 gui = Tk()
 # gui.geometry("800x50")
 gui.title(f"The Water Institute: Metadata Extraction for HEC Models v{version}")
-# gui.resizable(False, False)
+gui.resizable(False, False)
 
 # Set Column Weight
 gui.columnconfigure(0, weight=1)
@@ -77,12 +77,12 @@ class FileSelect(Frame):
         Frame.__init__(self, master=parent, **kw)
         self.filePath = StringVar()
         self.lblName = Label(self, text=fileDescription, width=37, anchor=E)
-        self.lblName.grid(row=0, column=0)
+        self.lblName.grid(row=0, column=0, ipady=1)
         self.entPath = Entry(self, textvariable=self.filePath, width=50)
-        self.entPath.grid(row=0, column=1)
+        self.entPath.grid(row=0, column=1, ipady=1)
         self.btnFind = ttk.Button(
             self, text="Browse...", command=self.setFilePath)
-        self.btnFind.grid(row=0, column=2)
+        self.btnFind.grid(row=0, column=2, ipady=1)
 
     def setFilePath(self):
         file_selected = filedialog.askopenfilename(
@@ -100,12 +100,12 @@ class FolderSelect(Frame):
         Frame.__init__(self, master=parent, **kw)
         self.folderPath = StringVar()
         self.lblName = Label(self, text=folderDescription, width=37, anchor=E)
-        self.lblName.grid(row=0, column=0)
+        self.lblName.grid(row=0, column=0, ipady=1)
         self.entPath = Entry(self, textvariable=self.folderPath, width=50)
-        self.entPath.grid(row=0, column=1)
+        self.entPath.grid(row=0, column=1, ipady=1)
         self.btnFind = ttk.Button(
             self, text="Browse...", command=self.setFolderPath)
-        self.btnFind.grid(row=0, column=2)
+        self.btnFind.grid(row=0, column=2, ipady=1)
 
     def setFolderPath(self):
         folder_selected = filedialog.askdirectory()
@@ -116,9 +116,11 @@ class TextField(Frame):
         Frame.__init__(self, master=parent, **kw)
         self.text = StringVar()
         self.lblName = Label(self, text=textDescription, width=37, anchor=E)
-        self.lblName.grid(row=0, column=0)
+        self.lblName.grid(row=0, column=0, ipady=1)
         self.entPath = Entry(self, textvariable=self.text, width=63)
-        self.entPath.grid(row=0, column=1)
+        self.entPath.grid(row=0, column=1, ipady=1)
+        self.separator = ttk.Separator(self, orient='horizontal')
+        self.separator.grid(row=row, ipady=1)
 
     @property
     def folder_path(self):
