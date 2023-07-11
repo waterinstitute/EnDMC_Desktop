@@ -110,6 +110,10 @@ class FolderSelect(Frame):
     def setFolderPath(self):
         folder_selected = filedialog.askdirectory()
         self.folderPath.set(folder_selected)
+    
+    @property
+    def folder_path(self):
+        return self.folderPath.get()
 
 class TextField(Frame):
     def __init__(self, parent=None, textDescription="", **kw):
@@ -121,10 +125,6 @@ class TextField(Frame):
         self.entPath.grid(row=0, column=1, ipady=1)
         self.separator = ttk.Separator(self, orient='horizontal')
         self.separator.grid(row=row, ipady=1)
-
-    @property
-    def folder_path(self):
-        return self.folderPath.get()
 
 
 def parse_ras():
@@ -154,34 +154,60 @@ def parse_fia():
     messagebox.showinfo(title='FIA', message=msg)
 
 def parse_consequences():
-    args = SimpleNamespace()
-    args.prj_name = cons_prj_select.file_path
-    cons_data_dir = cons_data_dir_select.file_path
-    cons_results_dir = cons_results_dir_select.file_path
-    if cons_run_type_radio1.get() == 0:
-        cons_run_type = 0 # single run
-        if cons_hazard_select.file_path == "":
-            cons_hazard = None
-        else:
-            cons_hazard = cons_hazard_select.file_path
-        if cons_inv_select.file_path == "":
-            cons_inv = None
-        else:
-            cons_inv = cons_inv_select.file_path
-        if cons_res_select.file_path == "":
-            cons_res = None
-        else:
-            cons_res = cons_res_select.file_path
+    cons_args = SimpleNamespace()
+    cons_args.run_type = run_type.get()
+
+    
+    # Ensure Project Name and Desc are not empty
+    if cons_prj_name.text == "" or cons_prj_desc.text == "":
+        messagebox.showinfo(title='Go-Consequences', message="Project Name and Description must be provided")
     else:
-        cons_run_type = 1 # multiple run
+        cons_args.prj_name = cons_prj_name.text.get()
+        cons_args.prj_desc = cons_prj_desc.text.get()
+    
+    # Ensure Run File is not empty
+    if cons_prj_select.file_path == "":
+        messagebox.showinfo(title='Go-Consequences', message="Go-Consequences Run File must be provided")
+    else:
+        cons_args.prj_file = cons_prj_select.file_path
+    
+    # Ensure Data and Results Directory are not empty
+    if cons_data_dir_select.folder_path == "" or cons_results_dir_select.folder_path == "":
+        messagebox.showinfo(title='Go-Consequences', message="Go-Consequences Input Data Direcotry and Model Results Directory must be provided.")
+    else:
+        cons_args._data_dir = cons_data_dir_select.folder_path
+        cons_args.results_dir = cons_results_dir_select.folder_path
+    
+    # Check all Single Run specific fields.
+    if cons_args.run_type == 0: # single run
+        # Ensure Sim Name and Sim Desc are not empty.
+        if cons_sim_name.text.get() == "" or cons_sim_desc.text.get() == "":
+            messagebox.showinfo(title='Go-Consequences', message="Simulation Name and Description must be provided for Run Type: Single.")
+        else:
+            cons_args.sim_name = cons_sim_name.text.get()
+            cons_args.sim_description = cons_sim_desc.text.get()
+        
+        # Check if Optional Layers are provided.
+        if cons_hazard_select.file_path != "":
+            cons_hazard = cons_hazard_select.file_path
+        if cons_inv_select.file_path != "":
+            cons_inv = cons_inv_select.file_path
+        if cons_res_select.file_path != "":
+            cons_res = cons_res_select.file_path
+    
+    # Check all Multiple Run specific fields.
+    elif cons_args.run_type == 1: # multiple run
         if cons_runtable_select.file_path == "":
-            cons_runtable = None
+            messagebox.showinfo(title='Go-Consequences', message="Run Table File must be provided for Run Type: Multiple.")
         else:
             cons_runtable = cons_runtable_select.file_path
-    print("\nParsing cons..")
-    msg = go_consequences_parser.parse(cons_prj, cons_shp)
-    print(msg)
-    messagebox.showinfo(title='Go-Consequences', message=msg)
+    
+    print("\nParsing Go-Consequences..")
+    print(cons_args)
+    # msg = go_consequences_parser.parse(cons_args)
+    go_consequences_parser.parse_consequences(cons_args)
+    # print(msg)
+    # messagebox.showinfo(title='Go-Consequences', message=msg)
 
 def cons_single_run_type_selected():
     try:
@@ -320,6 +346,8 @@ cons_label = Label(scrollable_frame, text="Go-Consequences", font=('Helveticabol
 cons_label.grid(row=row, column=0, sticky="we")
 row += 1
 
+run_type = IntVar()
+
 cons_run_type_radio1_row = row
 cons_run_type_radio1 = Radiobutton(scrollable_frame, text="Run Type: Single", value=0, variable="run_type", command=cons_single_run_type_selected)
 cons_run_type_radio1.grid(row=row, sticky=W, ipadx=300)
@@ -331,6 +359,7 @@ cons_run_type_radio2.grid(row=row, sticky=W, ipadx=300)
 row += 1
 
 cons_run_type_radio1.select()
+
 
 cons_prj_name = TextField(scrollable_frame, "Project Name: ")
 cons_prj_name.grid(row=row)
@@ -348,15 +377,15 @@ cons_sim_desc = TextField(scrollable_frame, "Simulation Description: ")
 cons_sim_desc.grid(row=row)
 row += 1
 
-cons_prj_select = FileSelect(scrollable_frame, "Go-Consequences Run file (*.go): ")
+cons_prj_select = FileSelect(scrollable_frame, "Model Run file (*.go): ")
 cons_prj_select.grid(row=row)
 row += 1
 
-cons_data_dir_select = FolderSelect(scrollable_frame, "Go-Consequences Input Data Directory: ")
+cons_data_dir_select = FolderSelect(scrollable_frame, "Model Input Data Directory: ")
 cons_data_dir_select.grid(row=row)
 row += 1
 
-cons_results_dir_select = FolderSelect(scrollable_frame, "Go-Consequences Model Results Directory: ")
+cons_results_dir_select = FolderSelect(scrollable_frame, "Model Results Directory: ")
 cons_results_dir_select.grid(row=row)
 row += 1
 
