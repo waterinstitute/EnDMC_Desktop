@@ -77,8 +77,6 @@ def parse_sim_single_run(args, output_dir):
     for dropkey in dropkeys_list:
         sim_template.pop(dropkey)
 
-    # print("\n",sim_template.keys())
-
     # Update/Add values to simulation output.
     sim_template['title'] = f'{args.prj_name} Go-Consequences Simulation: {args.sim_name}'
     sim_template['description'] = f'{args.sim_description}'
@@ -306,15 +304,17 @@ def parse_model_application(args, output_dir, hazard_layer_list=None, inventory_
     for dropkey in dropkeys_list:
         model_application_template.pop(dropkey)
     
+    # Update Decription with line breaks.
+    description_str = f"Description: {args.prj_description}"
+    description_str += '\n\nSimulations:'
+    for s in sim_list:
+        # print('\n\n',s)
+        description_str += '\n\n\n'+s
+
     # Add values to model_application output
-    model_application_template['spatial_extent'] = spatial_extent
     model_application_template['title'] = f'Go-Consequences {args.prj_name}'
-    model_application_template['description'] = [
-        {
-            'Description': f'{args.prj_description}',
-            'Simulations': sim_list
-        }
-    ]
+    model_application_template['description'] = description_str
+    model_application_template['spatial_extent'] = spatial_extent
     model_application_template['grid']['coordinate_system'] = str(crs)
     model_application_template['application_date'] = datetime.datetime.now().strftime("%Y-%m-%d")
 
