@@ -87,7 +87,7 @@ def gage_file_parse(prj_dir, prj_name):
 
     return gage_dss_json_list
 
-def get_extra_dss_files(input_dss_dir):
+def get_extra_dss_files(input_dss_dir, prj_name):
     extra_dss_files_list = []
     for pFile in glob.glob(rf'{input_dss_dir}/*.dss'):
         extra_dss_files_list.append(pFile)
@@ -98,6 +98,7 @@ def get_extra_dss_files(input_dss_dir):
         for f in extra_dss_files_list:
             head, tail = os.path.split(f)
             dss_title = tail.split(".")[0]
+            f = f.replace("\\", "/")
             dss_common_files_input.append(
                 {
                         "description": "User Added from Input DSS File Directory",
@@ -107,9 +108,9 @@ def get_extra_dss_files(input_dss_dir):
                 },
             )
 
-    return extra_dss_files_list
+    return dss_common_files_input
 
-def parse_prj(prj, wkt, crs, extra_dss_files_list, output_dir):
+def parse_prj(prj, wkt, crs, dss_common_files_input, output_dir):
 
     prj_dir, prj_file_tail = os.path.split(prj)
     prj_name = prj_file_tail.split(".")[0]
@@ -180,7 +181,7 @@ def parse_prj(prj, wkt, crs, extra_dss_files_list, output_dir):
     # keys to drop from json template
     drop_keys = ['_id', 'linked_resources', 'common_parameters', 'common_software_version', 'authors', 
     'spatial_extent_resolved', 'spatial_valid_extent_resolved', 'temporal_extent', 'temporal_resolution', 
-    'spatial_valid_extent', 'common_files_details', 'grid']
+    'spatial_valid_extent', 'common_input_files', 'grid']
     for key in drop_keys:
         del model_template_json[key]
 
@@ -191,9 +192,8 @@ def parse_prj(prj, wkt, crs, extra_dss_files_list, output_dir):
     model_template_json['description'] = kv['Project']['Description']
     model_template_json['title'] = f"{kv['Project']['Title']} HEC-HMS Model"
 
-    # common_files_details[]
-    model_template_json['common_files_details'] = []
-    model_template_json['common_files_details'].append(
+    model_template_json['common_input_files'] = []
+    model_template_json['common_input_files'].extend(
         [{
             "description": "The HMS Project File",
             "location": prj_file_tail,
@@ -221,13 +221,13 @@ def parse_prj(prj, wkt, crs, extra_dss_files_list, output_dir):
     )
 
     # Add optional input DSS files list to list of input files.
-    if extra_dss_files_list is not None:
-        model_template_json['common_files_details'].extend(extra_dss_files_list)
+    if dss_common_files_input is not None:
+        model_template_json['common_input_files'].extend(dss_common_files_input)
     
     # open the .gage file and pull input dss files
     gage_dss_files = gage_file_parse(prj_dir,prj_name)
     if gage_dss_files is not None:
-        model_template_json['common_files_details'].extend(gage_dss_files)
+        model_template_json['common_input_files'].extend(gage_dss_files)
     
     # output model application json
     output_prj_json = os.path.join(output_dir,f'{prj_name}_model_application.json')
@@ -476,7 +476,7 @@ def parse(prj, shp, dss):
 
         # if args.dss, get dss input files
         if dss is not None:
-            extra_dss_files_list = get_extra_dss_files(dss)
+            extra_dss_files_list = get_extra_dss_files(dss, prj_name)
         else:
             extra_dss_files_list = None
 

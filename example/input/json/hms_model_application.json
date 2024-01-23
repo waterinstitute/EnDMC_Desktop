@@ -58185,7 +58185,7 @@
         ],
         "type": "Polygon"
     },
-    "common_files_details": [
+    "common_input_files": [
         {
             "description": "The HMS Project File",
             "location": "/lwi-common/deliverables/Example/Amite_LWI/Models/Amite_HMS/Amite_HMS.hms",
