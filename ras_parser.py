@@ -41,7 +41,7 @@ def dict_to_model_app_json(keyValues_dict, output_prj_json):
 
         # keys to drop from json template
         drop_keys = ['_id', 'linked_resources', 'common_parameters', 'common_software_version', 'authors', 
-        'spatial_extent_resolved', 'spatial_valid_extent_resolved', 'temporal_extent', 'temporal_resolution', 'spatial_valid_extent', 'common_files_details']
+        'spatial_extent_resolved', 'spatial_valid_extent_resolved', 'temporal_extent', 'temporal_resolution', 'spatial_valid_extent', 'common_input_files', 'common_output_files']
         for key in drop_keys:
             del ras_model_template_json[key]
 
@@ -56,8 +56,9 @@ def dict_to_model_app_json(keyValues_dict, output_prj_json):
         ras_model_template_json['purpose'] = keyValues_dict['Description']
         ras_model_template_json['grid']['coordinate_system'] = keyValues_dict['coordinate_system']
         ras_model_template_json['spatial_extent'][0] = keyValues_dict['spatial_extent']
-        ras_model_template_json['common_files_details'] = []
-        ras_model_template_json['common_files_details'].append( {
+        ras_model_template_json['common_input_files'] = []
+        ras_model_template_json['common_output_files'] = []
+        ras_model_template_json['common_input_files'].append( {
             'source_dataset': None,
             'description': 'RAS project file which links projects with plans, geometry, and flow files',
             'location': keyValues_dict['Project File'],
@@ -67,15 +68,14 @@ def dict_to_model_app_json(keyValues_dict, output_prj_json):
         # Add each p file to common_file_details
         plan_zipList = zip(keyValues_dict['Plans']['Plan Title'], keyValues_dict['Plans']['P File'])
         for plan in plan_zipList:
-            ras_model_template_json['common_files_details'].append( {
+            ras_model_template_json['common_input_files'].append( {
                 'source_dataset': None,
                 'description': plan[0],
                 'location': plan[1],
                 'title': f"p file for {plan[0]}"
             })
 
-
-        # output mapped json
+        # Output mapped json
         with open(output_prj_json, "w") as outfile:
             json.dump(ras_model_template_json, outfile)
 
@@ -414,26 +414,34 @@ def parse(prj, shp):
 
         # Get .p## files in prj_dir
         p_file_list = get_p_files(prj_dir, prj_name)
-
-        # Get RAS Project's Spatial Projection WKT
-        ras_prj_wkt = get_ras_prj_wkt(p_file_list[0])
-
-        # Get WKT and CRS from shp
-        wkt, crs = get_wkt_crs.parse_shp(shp, ras_prj_wkt, prj_name, output_dir)
         
-        # Parse p files and include data from geometry, flow files. and add wkt. 
-        # Returns the plan titles of each p file as a list.
-        plan_titles = parse_p(p_file_list, prj_name, wkt, crs, output_dir)
+        # Validate that project has plan files.
+        if len(p_file_list) == 0:
+            msg = f'\nError: No .p## files found in {prj_dir} . Please check project file location.'
+            raise Exception(msg)
+        
+        # Else continue parsing.
+        else:
+            # Get RAS Project's Spatial Projection WKT
+            ras_prj_wkt = get_ras_prj_wkt(p_file_list[0])
 
-        # Parse prj, remove extra fields, add list of p file titles, and wkt.
-        parse_prj(prj, prj_name, wkt, crs, plan_titles, output_dir)
+            # Get WKT and CRS from shp
+            wkt, crs = get_wkt_crs.parse_shp(shp, ras_prj_wkt, prj_name, output_dir)
+            
+            # Parse p files and include data from geometry, flow files. and add wkt. 
+            # Returns the plan titles of each p file as a list.
+            plan_titles = parse_p(p_file_list, prj_name, wkt, crs, output_dir)
 
-        #  Return Successful Output message.
-        msg = f'RAS Parsing Complete. Output files located at: {output_dir}'
-        return msg
+            # Parse prj, remove extra fields, add list of p file titles, and wkt.
+            parse_prj(prj, prj_name, wkt, crs, plan_titles, output_dir)
+
+            #  Return Successful Output message.
+            msg = f'RAS Parsing Complete. Output files located at: {output_dir}'
+            return msg
     
     except Exception:
-        msg = traceback.format_exc()
+        if msg is None:
+            msg = traceback.format_exc()
         print(msg)
         return msg
 

@@ -68,9 +68,12 @@
             "justMyCode": true,
             "args": [
                 "--prj",
-                "V:/projects/p00810_nps_2022_west_ig/02_analysis/HEC-RASV6.3.1/WestPark.prj",
+                // "V:/projects/p00810_nps_2022_west_ig/02_analysis/HEC-RASV6.3.1/WestPark.prj",
+                // "--shp",
+                // "V:/projects/p00810_nps_2022_west_ig/02_analysis/WestPark_HMS/maps/WestPark_Boundary_3451.shp"
+                "V:/projects/p00813_nps_2023_greenbelt_ig/02_analysis/HEC-RAS_MainModel/Greenbelt_RAS.prj",
                 "--shp",
-                "V:/projects/p00810_nps_2022_west_ig/02_analysis/WestPark_HMS/maps/WestPark_Boundary_3451.shp"
+                "V:/projects/p00813_nps_2023_greenbelt_ig/02_analysis/HEC-RAS_MainModel/Shapes/2DFlowArea.shp"
                 
             ],
         },
@@ -83,11 +86,11 @@
             "justMyCode": true,
             "args": [
                 "--hms",
-                "V:/projects/p00810_nps_2022_west_ig/02_analysis/WestPark_HMS/WestPark_HMS.hms",
+                "C:/py/WestPark_HMS/WestPark_HMS.hms",
                 "--shp",
-                "V:/projects/p00810_nps_2022_west_ig/02_analysis/WestPark_HMS/maps/WestPark_Boundary_3451.shp",
+                "C:/py/WestPark_HMS/maps/WestPark_Boundary_3451.shp",
                 "--dss",
-                "V:/projects/p00810_nps_2022_west_ig/02_analysis/WestPark_HMS/data"
+                "C:/py/WestPark_HMS/data"
             ],
         },
         {
@@ -99,9 +102,9 @@
             "justMyCode": true,
             "args": [
                 "--fia",
-                "C:/Users/mmcmanus/Documents/Working/models/FIA Darlington/AmiteWatershed_2016Event_WithDarlingtonReservoir/AmiteWatershed_2016Event.prj",
+                "Z:/LWI/FIA Darlington/AmiteWatershed_2016Event_WithDarlingtonReservoir/AmiteWatershed_2016Event.prj",
                 "--shp",
-                "C:/Users/mmcmanus/Documents/Working/models/FIA Darlington/AmiteWatershed_2016Event_WithDarlingtonReservoir/maps/AmiteHUC8_NAD83_Albers.shp",
+                "Z:/LWI/FIA Darlington/AmiteWatershed_2016Event_WithDarlingtonReservoir/maps/AmiteHUC8_NAD83_Albers.shp",
             ],
         },
     ]

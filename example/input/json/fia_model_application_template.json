@@ -10,7 +10,7 @@
         "damages",
         "consequences"
     ],
-    "common_files_details": [
+    "common_input_files": [
         {
             "description": "AgricultureManager",
             "source_dataset": null,

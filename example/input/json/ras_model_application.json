@@ -857,7 +857,7 @@
         "compound flooding",
         "amite"
     ],
-    "common_files_details": [
+    "common_input_files": [
         {
             "source_dataset": null,
             "description": "Terrain used by model simulations as geotif",
@@ -908,24 +908,6 @@
         },
         {
             "source_dataset": null,
-            "description": "output model data in dss",
-            "location": "/lwi-common/deliverables/Example/Amite_LWI/Models/Amite_RAS/Amite_2022.dss",
-            "title": "output dss file"
-        },
-        {
-            "source_dataset": null,
-            "description": "Model plan data",
-            "location": "/lwi-common/deliverables/Example/Amite_LWI/Models/Amite_RAS/Amite_2022.p**",
-            "title": "plan files"
-        },
-        {
-            "source_dataset": null,
-            "description": "Model plan result output in HDF format",
-            "location": "/lwi-common/deliverables/Example/Amite_LWI/Models/Amite_RAS/Amite_2022.p**.hdf",
-            "title": "plan output hdf files"
-        },
-        {
-            "source_dataset": null,
             "description": "unsteady flow file",
             "location": "/lwi-common/deliverables/Example/Amite_LWI/Models/Amite_RAS/Amite_2022.u**",
             "title": "u files"
@@ -935,12 +917,6 @@
             "description": "unsteady flow file in HDF format",
             "location": "/lwi-common/deliverables/Example/Amite_LWI/Models/Amite_RAS/Amite_2022.u**.hdf",
             "title": "u hdf files"
-        },
-        {
-            "source_dataset": null,
-            "description": "RAS Mapper file defining results visualization within RAS Mapper",
-            "location": "/lwi-common/deliverables/Example/Amite_LWI/Models/Amite_RAS/Amite_2022.rasmap",
-            "title": "RAS Mapper file"
         },
         {
             "source_dataset": null,
@@ -959,6 +935,32 @@
             "description": "Percent impervious land use cover in geotif format",
             "location": "/lwi-common/deliverables/Example/Amite_LWI/Models/Amite_RAS/LULC/PercentImprev.tif",
             "title": "Percent Impervious Raster"
+        }
+    ],
+    "common_output_files": [
+        {
+            "source_dataset": null,
+            "description": "output model data in dss",
+            "location": "/lwi-common/deliverables/Example/Amite_LWI/Models/Amite_RAS/Amite_2022.dss",
+            "title": "output dss file"
+        },
+        {
+            "source_dataset": null,
+            "description": "Model plan data",
+            "location": "/lwi-common/deliverables/Example/Amite_LWI/Models/Amite_RAS/Amite_2022.p**",
+            "title": "plan files"
+        },
+        {
+            "source_dataset": null,
+            "description": "Model plan result output in HDF format",
+            "location": "/lwi-common/deliverables/Example/Amite_LWI/Models/Amite_RAS/Amite_2022.p**.hdf",
+            "title": "plan output hdf files"
+        },
+        {
+            "source_dataset": null,
+            "description": "RAS Mapper file defining results visualization within RAS Mapper",
+            "location": "/lwi-common/deliverables/Example/Amite_LWI/Models/Amite_RAS/Amite_2022.rasmap",
+            "title": "RAS Mapper file"
         }
     ],
     "spatial_extent_resolved": {

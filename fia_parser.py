@@ -7,6 +7,7 @@ from bs4 import BeautifulSoup
 # import lxml
 # import copy
 import pandas as pd
+import argparse
 from utils import get_wkt_crs
 
 def parse_prj(prj, prj_dir, prj_name, prj_template_json, shp, output_dir):
@@ -126,7 +127,7 @@ def parse_prj(prj, prj_dir, prj_name, prj_template_json, shp, output_dir):
     # keys to drop from json template
     drop_keys = ['_id', 'linked_resources', 'common_parameters', 'common_software_version', 'authors', 
     'spatial_extent_resolved', 'spatial_valid_extent_resolved', 'temporal_extent', 'temporal_resolution', 
-    'spatial_valid_extent', 'common_files_details', 'grid', '__created_at', '__created_by']
+    'spatial_valid_extent', 'common_input_files', 'grid', '__created_at', '__created_by']
     for key in drop_keys:
         del model_template_json[key]
 
@@ -145,7 +146,7 @@ def parse_prj(prj, prj_dir, prj_name, prj_template_json, shp, output_dir):
         "dimension": "2D"
     }
 
-    model_template_json["common_files_details"] = [
+    model_template_json["common_input_files"] = [
             {
                 "description": "AgricultureManager",
                 "location": "Inventory/Agriculture Data/AgriculturalGrid.tif",
@@ -153,7 +154,7 @@ def parse_prj(prj, prj_dir, prj_name, prj_template_json, shp, output_dir):
             }
         ]
 
-    # Match common_files dataframe to template
+    # Match common_input_files dataframe to template
     manager_df = manager_df.rename(columns={"Name": "title", "Description": "description", "File": "location"})
     manager_df_clean = manager_df.drop(['Class'], axis=1)
     map_df = map_df.rename(columns={"Name": "title", "Description": "description", "Path": "location"})
@@ -162,8 +163,8 @@ def parse_prj(prj, prj_dir, prj_name, prj_template_json, shp, output_dir):
     df = pd.concat([manager_df_clean, map_df], axis=0)
 
     # Use Pandas to_dict("records") method, it outputs to the required list of objects format: [{}, {}].
-    model_template_json["common_files_details"] = df.to_dict('records')
-    model_template_json["common_files_details"]
+    model_template_json["common_input_files"] = df.to_dict('records')
+    model_template_json["common_input_files"]
 
     # output model application json
     if not os.path.exists(output_dir):
@@ -350,7 +351,25 @@ def parse(prj, shp):
     
 
 if __name__ == '__main__':
-    prj = r"C:\Users\mmcmanus\Documents\Working\models\FIA Darlington\AmiteWatershed_2016Event_WithDarlingtonReservoir\AmiteWatershed_2016Event.prj"
-    shp = r"C:\Users\mmcmanus\Documents\Working\models\FIA Darlington\AmiteWatershed_2016Event_WithDarlingtonReservoir\maps\AmiteHUC8_NAD83_Albers.shp"
-    msg = parse(prj, shp)
+
+    # Parse Command Line Arguments
+    p = argparse.ArgumentParser(description="HEC-FIA metadata extraction. \
+        Requires a FIA project file (*.prj) and an ESRI shapefile (*.shp) or GeoJson for the spatial boundary of the model.")
+    
+    p.add_argument(
+    "--fia", help="The HEC-FIA project file. (Ex: C:\FIA_Models\Amite\Amite_FIA.prj)", 
+    required=True, 
+    type=str
+    )
+
+    p.add_argument(
+    "--shp", help="The HEC-FIA model boundary spatial extent as an ESRI shapefile or GeoJson. \
+        (Ex: C:\FIA_Models\Amite\maps\Amite_FIA_Basin_Outline.shp)", 
+    required=True, 
+    type=str
+    )
+
+    args = p.parse_args()
+
+    msg = parse(args.fia, args.shp)
     print(msg)
