@@ -156,7 +156,6 @@ def parse_fia():
 def parse_consequences():
     cons_args = SimpleNamespace()
     cons_args.run_type = run_type.get()
-
     
     # Ensure Project Name and Desc are not empty
     if cons_prj_name.text == "" or cons_prj_desc.text == "":
@@ -173,7 +172,7 @@ def parse_consequences():
     
     # Ensure Data and Results Directory are not empty
     if cons_data_dir_select.folder_path == "" or cons_results_dir_select.folder_path == "":
-        messagebox.showinfo(title='Go-Consequences', message="Go-Consequences Input Data Direcotry and Model Results Directory must be provided.")
+        messagebox.showinfo(title='Go-Consequences', message="Go-Consequences Input Data Directory and Model Results Directory must be provided.")
     else:
         cons_args._data_dir = cons_data_dir_select.folder_path
         cons_args.results_dir = cons_results_dir_select.folder_path

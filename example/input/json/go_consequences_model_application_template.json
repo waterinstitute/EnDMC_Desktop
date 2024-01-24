@@ -11,8 +11,7 @@
         "hec",
         "benefits",
         "damage",
-        "model",
-        "lwi"
+        "model"
     ],
     "temporal_resolution": null,
     "temporal_extent": null,
@@ -25,7 +24,8 @@
         "description": "Based on HEC-RAS Water Surface Elevation Raster"
     },
     "purpose": "The goal of this simulation was to test the requirements for using go-consequences a flood consequence model.",
-    "common_files_details": null,
+    "common_input_files": null,
+    "common_output_files": null,
     "spatial_valid_extent_resolved": null,
     "linked_resources": null,
     "spatial_extent_resolved": null,

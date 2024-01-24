@@ -186,7 +186,7 @@ def parse_prj(prj, wkt, crs, dss_common_files_input, output_dir):
         del model_template_json[key]
 
     # set basic keywords
-    model_template_json['keywords'] = ['hec-hms','hec','hms','hydrology','model','lwi']
+    model_template_json['keywords'] = ['hec-hms','hec','hms','hydrology','model']
 
     model_template_json['purpose'] = kv['Project']['Description']
     model_template_json['description'] = kv['Project']['Description']

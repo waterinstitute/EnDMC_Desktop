@@ -46,7 +46,7 @@ def dict_to_model_app_json(keyValues_dict, output_prj_json):
             del ras_model_template_json[key]
 
         # set basic keywords
-        ras_model_template_json['keywords'] = ['hec-ras','hec','ras','hydraulic','model','lwi']
+        ras_model_template_json['keywords'] = ['hec-ras','hec','ras','hydraulic','model']
 
         # Map to web-app Json
         ras_model_template_json['title'] = keyValues_dict['Proj Title']
@@ -283,9 +283,6 @@ def parse_prj(prj_file, prj_name, wkt, crs, plan_titles, output_dir):
 
 
 def get_p_files(prj_dir, prj_name):
-    # prj = 'Z:\Amite\Amite_LWI\Models\Amite_RAS\Amite_2022.prj'
-    # prj_dir, prj_file_tail = os.path.split(prj)
-    # prj_name = prj_file_tail.split(".")[0]
     pList = []
 
     for pFile in glob.glob(rf'{prj_dir}/*.p' + '[0-9]' * 2):

@@ -162,6 +162,12 @@ def parse_sim_multiple_runs(args, output_dir):
 def parse_model_application(args, output_dir, hazard_layer_list=None, inventory_layer_list=None, results_layer_list=None, sim_list=None):
 
     print("\nModel Application Parsing Begin...")
+
+    # Get root project directory from prj_file
+    prj_dir = os.path.dirname(args.prj_file)
+    # get parent directory of prj_dir
+    prj_parent_dir = os.path.dirname(prj_dir)
+    
     # Get list of tifs from data directory
     tif_endswith = [".tif", ".tiff", ".geotif", ".geotiff"]
     try:
@@ -170,6 +176,10 @@ def parse_model_application(args, output_dir, hazard_layer_list=None, inventory_
         tif_list = []
 
     tif_list = [i.replace('\\', '/') for i in tif_list]
+
+    # Remove prj_parent_dir from tif_list
+    tif_list = [i.replace(prj_parent_dir, '') for i in tif_list]
+
     if len(tif_list) == 0 and args.hazard_layer is None and hazard_layer_list is None:
         print("No tifs found in data directory. Please Specify the Layer Manually. Setting Common Files Hazard Layer List to None.")
         tif_list = []
@@ -180,6 +190,8 @@ def parse_model_application(args, output_dir, hazard_layer_list=None, inventory_
 
     # Add hazard layer list to tif_list for common_files output key.
     if hazard_layer_list is not None:
+        # Remove prj_parent_dir from hazard_layer_list
+        hazard_layer_list = [i.replace(prj_parent_dir, '') for i in hazard_layer_list]
         tif_list.extend(hazard_layer_list)
         tif_list = list(set(tif_list))
     
@@ -191,22 +203,30 @@ def parse_model_application(args, output_dir, hazard_layer_list=None, inventory_
         shp_list = []
 
     shp_list = [i.replace('\\', '/') for i in shp_list]
+
+    # Remove prj_parent_dir from shp_list
+    shp_list = [i.replace(prj_parent_dir, '') for i in shp_list]
     
     # Try to create spatial extent from structure inventory layer from data directory.
     if len(shp_list) > 0:
         structure_inventory_layer = shp_list[0]
-        print(f'Creating Geospatial Bounds from Structure Inventory Layer found within Specified Data Directory, this may take a few minutes...\n\
-              Inventory Layer: {structure_inventory_layer}')
+        print(f'Creating Geospatial Bounds from first Structure Inventory Layer found within Specified Data Directory, this may take a few minutes...\n\
+              Structure Inventory Layer: {structure_inventory_layer}')
         
         try:
+
+            # You may comment out these lines for testing purposes to speed up the script.
             # gdf = gpd.read_file(structure_inventory_layer)
             # crs = gdf.crs
             # gdf.to_crs(epsg=4326, inplace=True)
             # bounding_box = box(*gdf.total_bounds)
             # gpd.GeoSeries([bounding_box]).to_file(os.path.join(output_dir,f"{args.prj_name}_bounding_box.geojson"), driver='GeoJSON')
             # spatial_extent = str(gpd.GeoSeries([bounding_box])[0])
+            
+            # The lines below are commented out for testing, because creating the spatial_extent takes a few minutes.
             spatial_extent = 'Testing'
             crs = 'Testing'
+            
             print (f'Done creating geospatial extent: {os.path.join(output_dir,f"{args.prj_name}_bounding_box.geojson")}')
         except:
             print("Error reading inventory layer, setting spatial_extent to None.")
@@ -221,14 +241,19 @@ def parse_model_application(args, output_dir, hazard_layer_list=None, inventory_
             print (f'Using Specified Inventory Layer to Create Spatial Extent, this may take a few minutes...: \n\
                 {args.inventory_layer}')
             try:
+                
+                # You may comment out these lines for testing purposes to speed up the script.
                 # gdf = gpd.read_file(args.inventory_layer)
                 # crs = gdf.crs
                 # gdf.to_crs(epsg=4326, inplace=True)
                 # bounding_box = box(*gdf.total_bounds)
                 # gpd.GeoSeries([bounding_box]).to_file(os.path.join(output_dir,f"{args.prj_name}_bounding_box.geojson"), driver='GeoJSON')
                 # spatial_extent = str(gpd.GeoSeries([bounding_box])[0])
+
+                # The lines below are commented out for testing, because creating the spatial_extent takes a few minutes.
                 spatial_extent = 'Testing'
                 crs = 'Testing'
+
                 print (f'Done creating geospatial extent: {os.path.join(output_dir,f"{args.prj_name}_bounding_box.geojson")}')
             except:
                 print("Error reading inventory layer, setting spatial_extent to None.")
@@ -244,16 +269,21 @@ def parse_model_application(args, output_dir, hazard_layer_list=None, inventory_
         elif args.run_type == 1 and inventory_layer_list is not None:
             print(f"No Structure Inventory layers found in data directory, attempting to use first run_table inventory layer to define spatial extent. \n\
             This may take a few minutes...\n\
-                Inventory Layer: {inventory_layer_list[0]}")
+                Structure Inventory Layer: {inventory_layer_list[0]}")
             try:
+
+                # You may comment out these lines for testing purposes to speed up the script.
                 # gdf = gpd.read_file(inventory_layer_list[0])
                 # crs = gdf.crs
                 # gdf.to_crs(epsg=4326, inplace=True)
                 # bounding_box = box(*gdf.total_bounds)
                 # gpd.GeoSeries([bounding_box]).to_file(os.path.join(output_dir,f"{args.prj_name}_bounding_box.geojson"), driver='GeoJSON')
                 # spatial_extent = str(gpd.GeoSeries([bounding_box])[0])
+
+                # The lines below are commented out for testing, because creating the spatial_extent takes a few minutes.
                 spatial_extent = 'Testing'
                 crs = 'Testing'
+
                 print (f'Spatial extent created based on Run Table: {os.path.join(output_dir,f"{args.prj_name}_bounding_box.geojson")}')
             except:
                 print("Error reading inventory layer from run table, setting spatial_extent to None.")
@@ -262,6 +292,8 @@ def parse_model_application(args, output_dir, hazard_layer_list=None, inventory_
     
     # Add inventory layer list to shp_list for common_files output key. 
     if inventory_layer_list is not None:
+        # Remove prj_parent_dir from inventory_layer_list
+        inventory_layer_list = [i.replace(prj_parent_dir, '') for i in inventory_layer_list]
         shp_list.extend(inventory_layer_list)
         shp_list = list(set(shp_list))
     
@@ -275,9 +307,14 @@ def parse_model_application(args, output_dir, hazard_layer_list=None, inventory_
     except:
         output_list = []
     output_list = [i.replace('\\', '/') for i in output_list]
+    # Remove prj_parent_dir from output_list
+    output_list = [i.replace(prj_parent_dir, '') for i in output_list]
 
     # Add results layer list to output_list for common_files output key.
     if results_layer_list is not None:
+        # Remove prj_parent_dir from results_layer_list
+        results_layer_list = [i.replace(prj_parent_dir, '') for i in results_layer_list]
+        
         output_list.extend(results_layer_list)
         output_list = list(set(output_list))
     
@@ -295,7 +332,7 @@ def parse_model_application(args, output_dir, hazard_layer_list=None, inventory_
         model_application_template = json.load(f)
     
     # Keys to not include in the model_application.json output
-    dropkeys_list = ['_id', 'keywords', 'common_parameters', 'spatial_valid_extent', 'common_software_version', 'temporal_resolution', \
+    dropkeys_list = ['_id', 'common_parameters', 'spatial_valid_extent', 'common_software_version', 'temporal_resolution', \
                  'temporal_extent', 'spatial_valid_extent_resolved', 'linked_resources', 'spatial_extent_resolved', \
                  'authors', 'purpose']
     
@@ -303,6 +340,9 @@ def parse_model_application(args, output_dir, hazard_layer_list=None, inventory_
     # Remove keys from model_application_template that are in dropkeys_list
     for dropkey in dropkeys_list:
         model_application_template.pop(dropkey)
+
+    # Remove prj_parent_dir from args.pr_file
+    prj_file = args.prj_file.replace(prj_parent_dir, '')
     
     # Update Decription with line breaks.
     description_str = f"Description: {args.prj_description}"
@@ -319,11 +359,12 @@ def parse_model_application(args, output_dir, hazard_layer_list=None, inventory_
     model_application_template['application_date'] = datetime.datetime.now().strftime("%Y-%m-%d")
 
     # Add Common Files to model_application output
-    model_application_template['common_files_details'] = []
-    model_application_template['common_files_details'].append(
+    model_application_template['common_input_files'] = []
+    model_application_template['common_output_files'] = []
+    model_application_template['common_input_files'].extend(
         [{
             "description": "The project's Main Go-Consequences run script file",
-            "location": args.prj_file,
+            "location": prj_file,
             "source_dataset": None,
             "title": "Project File"
         },
@@ -338,8 +379,10 @@ def parse_model_application(args, output_dir, hazard_layer_list=None, inventory_
             "location": shp_list,
             "source_dataset": None,
             "title": "Structure Inventory Feature Layers"
-        },
-        {
+        }]
+    )
+    model_application_template['common_output_files'].extend(
+        [{
             "description": "There may be multiple Output Feature Layers.",
             "location": output_list,
             "source_dataset": "Go-Consequences Output",

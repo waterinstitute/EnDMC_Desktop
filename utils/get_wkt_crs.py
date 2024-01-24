@@ -33,7 +33,7 @@ def parse_shp(shp, prj_wkt, prj_name, output_dir):
     return wkt, crs
 
 if __name__ == '__main__':
-    # test
+    # For testing purposes only.
     shp = r"Z:\LWI\WSP\RAS_Export_Geometry_Region.shp"
     prj_name = "SDeerCr"
     output_dir = r"Z:\LWI\WSP"
