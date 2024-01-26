@@ -156,6 +156,7 @@ def parse_fia():
 def parse_consequences():
     cons_args = SimpleNamespace()
     cons_args.run_type = run_type.get()
+    print('Run Type: ', cons_args.run_type)
     
     # Ensure Project Name and Desc are not empty
     if cons_prj_name.text == "" or cons_prj_desc.text == "":
@@ -238,6 +239,7 @@ def cons_single_run_type_selected():
         cons_runtable_select.entPath.config(state="disabled")
         cons_runtable_select.lblName.config(state="disabled")
         cons_runtable_select.btnFind.config(state="disabled")
+        run_type.set(0)
     except:
         pass
 
@@ -264,6 +266,7 @@ def cons_multi_run_type_selected():
         cons_res_select.entPath.config(state="disabled")
         cons_res_select.lblName.config(state="disabled")
         cons_res_select.btnFind.config(state="disabled")
+        run_type.set(1)
     except:
         pass
 

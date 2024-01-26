@@ -437,6 +437,9 @@ def parse_consequences(args):
         sim_list = [f'{args.sim_name} - {args.sim_description}']
         parse_model_application(args, output_dir, sim_list=sim_list)
     elif args.run_type == 1:
+        args.hazard_layer = None
+        args.inventory_layer = None
+        args.results_layer = None
         hazard_layer_list, inventory_layer_list, results_layer_list, sim_list = parse_sim_multiple_runs(args, output_dir)
         parse_model_application(args, output_dir, hazard_layer_list, inventory_layer_list, results_layer_list, sim_list)
 
