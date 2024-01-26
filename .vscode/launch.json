@@ -32,7 +32,9 @@
                 // "--hazard_layer",
                 // "C:/py/hec_meta_extract/dev/go-consequences/data/Amite_Katrina2005_AORC_ADCIRC_2021Geometry.tif",
                 // "--inventory_layer",
-                // "C:/py/hec_meta_extract/dev/go-consequences/data/NSI.shp"                
+                // "C:/py/hec_meta_extract/dev/go-consequences/data/NSI.shp"
+                // "--results_layer",
+                // "C:/py/hec_meta_extract/dev/go-consequences/output/Amite_Isaac2012_AORC_ADCIRC_NoWind_2022Geometry_NSI.gpkg"               
             ],
         },
         {

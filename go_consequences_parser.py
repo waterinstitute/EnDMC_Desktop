@@ -76,6 +76,16 @@ def parse_sim_single_run(args, output_dir):
     # Remove keys from model_application_template that are in dropkeys_list
     for dropkey in dropkeys_list:
         sim_template.pop(dropkey)
+        
+    # Get root project directory from prj_file
+    prj_dir = os.path.dirname(args.prj_file)
+    # get parent directory of prj_dir
+    prj_parent_dir = os.path.dirname(prj_dir)
+    # Remove parent directory from lists
+    prj_parent_dir = os.path.dirname(os.path.dirname(args.prj_file))
+    hazard_layer = hazard_layer.replace('\\', '/').replace(prj_parent_dir, '')
+    structure_inventory_layer = structure_inventory_layer.replace('\\', '/').replace(prj_parent_dir, '')
+    results_layer = results_layer.replace('\\', '/').replace(prj_parent_dir, '')
 
     # Update/Add values to simulation output.
     sim_template['title'] = f'{args.prj_name} Go-Consequences Simulation: {args.sim_name}'
@@ -175,10 +185,7 @@ def parse_model_application(args, output_dir, hazard_layer_list=None, inventory_
     except:
         tif_list = []
 
-    tif_list = [i.replace('\\', '/') for i in tif_list]
-
-    # Remove prj_parent_dir from tif_list
-    tif_list = [i.replace(prj_parent_dir, '') for i in tif_list]
+    
 
     if len(tif_list) == 0 and args.hazard_layer is None and hazard_layer_list is None:
         print("No tifs found in data directory. Please Specify the Layer Manually. Setting Common Files Hazard Layer List to None.")
@@ -186,14 +193,21 @@ def parse_model_application(args, output_dir, hazard_layer_list=None, inventory_
     
     if len(tif_list) == 0 and args.hazard_layer is not None:
         print(f'Using Specified Hazard Layer: {args.hazard_layer}')
+        hazard_layer = args.hazard_layer.replace('\\', '/').replace(prj_parent_dir, '')
         tif_list = [args.hazard_layer]
+        
 
     # Add hazard layer list to tif_list for common_files output key.
     if hazard_layer_list is not None:
-        # Remove prj_parent_dir from hazard_layer_list
-        hazard_layer_list = [i.replace(prj_parent_dir, '') for i in hazard_layer_list]
         tif_list.extend(hazard_layer_list)
         tif_list = list(set(tif_list))
+    
+    tif_list = [i.replace('\\', '/') for i in tif_list]
+    # Remove prj_parent_dir from tif_list
+    tif_list = [i.replace(prj_parent_dir, '') for i in tif_list]
+    if len(tif_list) == 1:
+        tif_list = tif_list[0]
+        
     
     # Get list of shps from data directory
     shp_endswith = [".shp", ".geojson", ".json", ".gpkg"]
@@ -259,6 +273,7 @@ def parse_model_application(args, output_dir, hazard_layer_list=None, inventory_
                 print("Error reading inventory layer, setting spatial_extent to None.")
                 spatial_extent = None
                 crs = None
+            
         elif args.run_type == 0 and args.inventory_layer is None:
             print("No Structure Inventory layer found in data directory. Please Specify the Layer Manually. \n\
             Setting Common Files Structure Inventory Layer List to None. Setting spatial_extent to None.")
@@ -294,11 +309,16 @@ def parse_model_application(args, output_dir, hazard_layer_list=None, inventory_
     if inventory_layer_list is not None:
         # Remove prj_parent_dir from inventory_layer_list
         inventory_layer_list = [i.replace(prj_parent_dir, '') for i in inventory_layer_list]
-        shp_list.extend(inventory_layer_list)
+        shp_list.extend(inventory_layer_list.replace('\\', '/').replace(prj_parent_dir, ''))
         shp_list = list(set(shp_list))
     
-    if len(shp_list) == 0:
-        shp_list = None
+    # Add Specified Inventory Layer to shp_list for common_files output key.
+    if args.inventory_layer is not None:
+        shp_list.append(args.inventory_layer.replace('\\', '/').replace(prj_parent_dir, ''))
+        shp_list = list(set(shp_list))
+    
+    if len(shp_list) == 1:
+        shp_list = shp_list[0]
 
     # Get list of output files from out_dir.
     output_endswith = [".gpkg"]
@@ -306,6 +326,12 @@ def parse_model_application(args, output_dir, hazard_layer_list=None, inventory_
         output_list = [os.path.join(args.model_out_dir, f) for f in os.listdir(args.model_out_dir) if f.lower().endswith(tuple(output_endswith))]
     except:
         output_list = []
+    
+    # Get specified results layer if run_type is 0
+    if args.run_type == 0 and args.results_layer is not None:
+        print (f'Using Specified Results Layer: {args.results_layer}')
+        output_list.append(args.results_layer)
+
     output_list = [i.replace('\\', '/') for i in output_list]
     # Remove prj_parent_dir from output_list
     output_list = [i.replace(prj_parent_dir, '') for i in output_list]
@@ -317,6 +343,9 @@ def parse_model_application(args, output_dir, hazard_layer_list=None, inventory_
         
         output_list.extend(results_layer_list)
         output_list = list(set(output_list))
+    
+    if len(output_list) == 1:
+        output_list = output_list[0]
     
     # Set to none if no output layers are found in run table and data directory.
     if len(output_list) == 0 and results_layer_list is None:
@@ -506,6 +535,14 @@ if __name__ == '__main__':
     if not os.path.exists(args.prj_file):
         raise ValueError(f"prj_file specified does not exist:\n\
                          {args.prj_file}")
+
+    # If optional arguments are not specified, set to None.
+    if not hasattr(args, 'hazard_layer'):
+        args.hazard_layer = None
+    if not hasattr(args, 'inventory_layer'):
+        args.inventory_layer = None
+    if not hasattr(args, 'results_layer'):
+        args.results_layer = None
 
     # Run type is 0 or 1
     if (args.run_type != 0) & (args.run_type != 1):
