@@ -309,7 +309,8 @@ def parse_model_application(args, output_dir, hazard_layer_list=None, inventory_
     if inventory_layer_list is not None:
         # Remove prj_parent_dir from inventory_layer_list
         inventory_layer_list = [i.replace(prj_parent_dir, '') for i in inventory_layer_list]
-        shp_list.extend(inventory_layer_list.replace('\\', '/').replace(prj_parent_dir, ''))
+        inventory_layer_list = [i.replace('\\', '/') for i in inventory_layer_list]
+        shp_list.extend(inventory_layer_list)
         shp_list = list(set(shp_list))
     
     # Add Specified Inventory Layer to shp_list for common_files output key.

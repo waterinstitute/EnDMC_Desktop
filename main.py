@@ -11,11 +11,11 @@ import webbrowser
 from types import SimpleNamespace
 
 
-version = '1.4.0'
+version = '2.0'
 
 gui = Tk()
 # gui.geometry("800x50")
-gui.title(f"The Water Institute: Metadata Extraction for HEC Models v{version}")
+gui.title(f"EnDMC Desktop: Metadata Extraction for HEC Models v{version}")
 gui.resizable(False, False)
 
 # Set Column Weight
@@ -206,7 +206,7 @@ def parse_consequences():
         if cons_runtable_select.file_path == "":
             messagebox.showinfo(title='Go-Consequences', message="Run Table File must be provided for Run Type: Multiple.")
         else:
-            cons_runtable = cons_runtable_select.file_path
+            cons_args.run_table = cons_runtable_select.file_path
     
     print("\nParsing Go-Consequences..")
     print(cons_args)
@@ -426,46 +426,56 @@ separator = ttk.Separator(scrollable_frame, orient='horizontal')
 separator.grid(row=row, ipady=10)
 row += 1
 
-# Metadata website link
-link = Label(scrollable_frame, text="Upload Output to: The Water Institute Model Repository",font=('Helveticabold', 15), fg="blue", cursor="hand2")
-link.grid(row=row, pady=10)
+# Upload To label
+upload_label = Label(scrollable_frame, text="Upload output to one of the following EnDMC websites:", font=('Helveticabold', 15))
+upload_label.grid(row=row, column=0, sticky="we")
 row += 1
-link.bind("<Button-1>", lambda e: callback("https://metadata-creation-tool.herokuapp.com/signup"))
 
-# Metadata website link
-link = Label(scrollable_frame, text="Questions/Comments: Github",font=('Helveticabold', 10), fg="blue", cursor="hand2", anchor=SW)
+# LWI website link
+link = Label(scrollable_frame, text="Louisiana Watershed Initivative",font=('Helveticabold', 13), fg="blue", cursor="hand2")
 link.grid(row=row)
+row += 1
+link.bind("<Button-1>", lambda e: callback("https://lwi.endmc.org/"))
+
+# TWI website link
+link = Label(scrollable_frame, text="The Water Institute",font=('Helveticabold', 13), fg="blue", cursor="hand2")
+link.grid(row=row)
+row += 1
+link.bind("<Button-1>", lambda e: callback("https://twi.endmc.org/"))
+
+# Github Issues website link
+link = Label(scrollable_frame, text="Questions/Comments: Github",font=('Helveticabold', 10), fg="blue", cursor="hand2", anchor=SW)
+link.grid(row=row, pady=10)
 row += 1
 link.bind("<Button-1>", lambda e: callback("https://github.com/waterinstitute/hec_meta_extract/issues"))
 
 
 # For testing only, auto input file paths.
 # RAS
-ras_prj_select.filePath.set("V:/projects/p00813_nps_2023_greenbelt_ig/02_analysis/HEC-RAS_MainModel/Greenbelt_RAS.prj")
-ras_shp_select.filePath.set("V:/projects/p00813_nps_2023_greenbelt_ig/02_analysis/HEC-RAS_MainModel/Shapes/2DFlowArea.shp")
-# HMS
-hms_prj_select.filePath.set("C:/py/WestPark_HMS/WestPark_HMS.hms")
-hms_shp_select.filePath.set("C:/py/WestPark_HMS/maps/WestPark_Boundary_3451.shp")
-hms_dss_select.folderPath.set("C:/py/WestPark_HMS/data")
-# FIA
-fia_prj_select.filePath.set("Z:/LWI/FIA Darlington/AmiteWatershed_2016Event_WithDarlingtonReservoir/AmiteWatershed_2016Event.prj")
-fia_shp_select.filePath.set("Z:/LWI/FIA Darlington/AmiteWatershed_2016Event_WithDarlingtonReservoir/maps/AmiteHUC8_NAD83_Albers.shp")
-# Go-Consequences either run type
-cons_prj_name.text.set("Amite")
-cons_prj_desc.text.set("Amite Go-Consequences Model Based on Dewberry Amite River HEC-RAS Model Results and USACE National Structure Inventory Data")
-cons_prj_select.filePath.set("C:/py/hec_meta_extract/dev/go-consequences/main.go")
-cons_data_dir_select.folderPath.set("C:/py/hec_meta_extract/dev/go-consequences/data")
-cons_results_dir_select.folderPath.set("C:/py/hec_meta_extract/dev/go-consequences/output")
-# Go-Consequences single run
-cons_sim_name.text.set("Hurricane Ida 2021")
-cons_sim_desc.text.set("Hurricane Ida 2021 Water Surface Elevation Results from Dewberry Amite River HEC-RAS Model with NSI Data")
-# Go-Consequences single run - optional layers
-cons_hazard_select.filePath.set("C:/py/hec_meta_extract/dev/go-consequences/data/Amite_Katrina2005_AORC_ADCIRC_2021Geometry.tif")
-cons_inv_select.filePath.set("C:/py/hec_meta_extract/dev/go-consequences/data/NSI.shp")
-cons_res_select.filePath.set("C:/py/hec_meta_extract/dev/go-consequences/output/Amite_Isaac2012_AORC_ADCIRC_NoWind_2022Geometry_NSI.gpkg")
-# Go-Consequences multiple run
-cons_runtable_select.filePath.set("C:/py/hec_meta_extract/example/input/go-consequences/run_table.csv")
-
+# ras_prj_select.filePath.set("V:/projects/p00813_nps_2023_greenbelt_ig/02_analysis/HEC-RAS_MainModel/Greenbelt_RAS.prj")
+# ras_shp_select.filePath.set("V:/projects/p00813_nps_2023_greenbelt_ig/02_analysis/HEC-RAS_MainModel/Shapes/2DFlowArea.shp")
+# # HMS
+# hms_prj_select.filePath.set("C:/py/WestPark_HMS/WestPark_HMS.hms")
+# hms_shp_select.filePath.set("C:/py/WestPark_HMS/maps/WestPark_Boundary_3451.shp")
+# hms_dss_select.folderPath.set("C:/py/WestPark_HMS/data")
+# # FIA
+# fia_prj_select.filePath.set("Z:/LWI/FIA Darlington/AmiteWatershed_2016Event_WithDarlingtonReservoir/AmiteWatershed_2016Event.prj")
+# fia_shp_select.filePath.set("Z:/LWI/FIA Darlington/AmiteWatershed_2016Event_WithDarlingtonReservoir/maps/AmiteHUC8_NAD83_Albers.shp")
+# # Go-Consequences either run type
+# cons_prj_name.text.set("Amite")
+# cons_prj_desc.text.set("Amite Go-Consequences Model Based on Dewberry Amite River HEC-RAS Model Results and USACE National Structure Inventory Data")
+# cons_prj_select.filePath.set("C:/py/hec_meta_extract/dev/go-consequences/main.go")
+# cons_data_dir_select.folderPath.set("C:/py/hec_meta_extract/dev/go-consequences/data")
+# cons_results_dir_select.folderPath.set("C:/py/hec_meta_extract/dev/go-consequences/output")
+# # Go-Consequences single run
+# cons_sim_name.text.set("Hurricane Ida 2021")
+# cons_sim_desc.text.set("Hurricane Ida 2021 Water Surface Elevation Results from Dewberry Amite River HEC-RAS Model with NSI Data")
+# # Go-Consequences single run - optional layers
+# cons_hazard_select.filePath.set("C:/py/hec_meta_extract/dev/go-consequences/data/Amite_Katrina2005_AORC_ADCIRC_2021Geometry.tif")
+# cons_inv_select.filePath.set("C:/py/hec_meta_extract/dev/go-consequences/data/NSI.shp")
+# cons_res_select.filePath.set("C:/py/hec_meta_extract/dev/go-consequences/output/Amite_Isaac2012_AORC_ADCIRC_NoWind_2022Geometry_NSI.gpkg")
+# # Go-Consequences multiple run
+# cons_runtable_select.filePath.set("C:/py/hec_meta_extract/example/input/go-consequences/run_table.csv")
 
 # run app
 gui.mainloop()
