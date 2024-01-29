@@ -29,7 +29,7 @@ exe = EXE(
     a.zipfiles,
     a.datas,
     [],
-    name='Extract_HEC_Meta_Data.exe',
+    name='EnDMC Desktop.exe',
     debug=False,
     bootloader_ignore_signals=False,
     strip=False,
