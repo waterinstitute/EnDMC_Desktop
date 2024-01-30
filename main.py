@@ -270,7 +270,7 @@ def cons_multi_run_type_selected():
     except:
         pass
 
-print("\nWelcome to EnDMC Desktop.\nPlease keep this window open while the program is running.\nAdditional Output information will be displayed here.\nReport any issues via Github: https://github.com/waterinstitute/EnDMC_Desktop/issues\n")
+print("\nWelcome to EnDMC Desktop.\nPlease keep this window open while the program is running.\nAdditional Output information will be displayed here.\nReport any issues via Github: https://github.com/waterinstitute/EnDMC_Desktop/issues\n\n")
 
 filePath = StringVar()
 row = 0
