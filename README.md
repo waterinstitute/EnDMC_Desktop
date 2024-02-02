@@ -53,14 +53,16 @@ For a Multiple `Run Type` a `Run Table` is required. This CSV table is used to s
 
 To upload the output Json's to `EnDMC`, you can click the Link to go to a specific EnDMC Website instance.
 
-![RAS Output](https://github.com/waterinstitute/EnDMC_Desktop/assets/64209352/8be8ecb4-6e64-4c6d-8287-2afe21a4212f)
+![image](https://github.com/waterinstitute/EnDMC_Desktop/assets/64209352/85fede6a-5ec1-4003-8934-315ca7e349e6)
 
 This will open EnDMC website to the front page.
 ![image](https://github.com/waterinstitute/EnDMC_Desktop/assets/64209352/121c4cc2-7b3c-4c6b-ba7b-5619907ae18c)
 
 If you have not done so already, Create an EnDMC account.
 
--  Go to [Create Account - EnDMC](https://lwi.endmc.org/signup)
+-  Go to:
+    -  [Create Account - LWI EnDMC](https://lwi.endmc.org/signup)
+    -  [Create Account - TWI EnDMC](https://twi.endmc.org/signup)
 
 - Note that you’ll be requesting an editor role which needs to be approved by the organization’s admin, so it’s best to do this a few days before you plan to start creating metadata records.
 
