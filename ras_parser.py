@@ -15,7 +15,10 @@ def get_ras_prj_wkt(p_file):
             ras_prj_wkt = f.attrs['Projection'].decode('UTF-8')
             # print (f'Extracted spatial projection from HDF: {ras_prj_wkt}')
     except:
-        print (f'Unable to extract spatial projection from HDF. May have to manually specify .shp projection using a GIS.')
+        print (f'''
+               Unable to extract spatial projection from HDF plan file:
+               {p_file}.hdf
+               May have to manually specify .shp projection using a GIS.''')
     
     return ras_prj_wkt
 
@@ -399,6 +402,7 @@ def parse_p(p_file_list, prj_name, wkt, crs, output_dir):
 
 def parse(prj, shp):
     try:
+        msg = None
         # Get project name
         prj_dir, prj_file_tail = os.path.split(prj)
         prj_name = prj_file_tail.split(".")[0]
