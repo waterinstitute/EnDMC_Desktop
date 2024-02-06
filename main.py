@@ -44,33 +44,18 @@ scrollable_frame.bind(
     )
 )
 
-canvas.create_window((0,0), window=scrollable_frame, anchor='nw')
+canvas.create_window((0, 0), window=scrollable_frame, anchor='nw')
 canvas.configure(yscrollcommand=scrollbar.set)
 
 canvas.grid(row=0, column=0)
 scrollbar.grid(row=0, column=1, sticky='ns')
 
-
-
-# # Create a frame for the gui with non-zero row&column weights
-# frame_canvas = Frame(canvas)
-# frame_canvas.grid(row=0, column=0, pady=(5, 0), sticky='nw')
-# frame_canvas.grid_rowconfigure(0, weight=1)
-# frame_canvas.grid_columnconfigure(0, weight=1)
-# # Set grid_propagate to False to allow 5-by-5 buttons resizing later
-# frame_canvas.grid_propagate(False)
-
-# # Add a canvas in that frame
-# canvas = canvas(frame_canvas, bg="yellow")
-# canvas.grid(row=0, column=0, sticky="news")
-
-# v = Scrollbar(frame_canvas, orient='vertical', command=canvas.yview)
-# v.grid(row=0, column=1, sticky='ns')
-# canvas.configure(yscrollcommand=v.set)
-
 # Define a callback function
+
+
 def callback(url):
-   webbrowser.open_new_tab(url)
+    webbrowser.open_new_tab(url)
+
 
 class FileSelect(Frame):
     def __init__(self, parent=None, fileDescription="", **kw):
@@ -110,10 +95,11 @@ class FolderSelect(Frame):
     def setFolderPath(self):
         folder_selected = filedialog.askdirectory()
         self.folderPath.set(folder_selected)
-    
+
     @property
     def folder_path(self):
         return self.folderPath.get()
+
 
 class TextField(Frame):
     def __init__(self, parent=None, textDescription="", **kw):
@@ -145,6 +131,7 @@ def parse_hms():
     print(msg)
     messagebox.showinfo(title='HMS', message=msg)
 
+
 def parse_fia():
     fia_prj = fia_prj_select.file_path
     fia_shp = fia_shp_select.file_path
@@ -153,40 +140,45 @@ def parse_fia():
     print(msg)
     messagebox.showinfo(title='FIA', message=msg)
 
+
 def parse_consequences():
     cons_args = SimpleNamespace()
     cons_args.run_type = run_type.get()
     print('Run Type: ', cons_args.run_type)
-    
+
     # Ensure Project Name and Desc are not empty
     if cons_prj_name.text == "" or cons_prj_desc.text == "":
-        messagebox.showinfo(title='Go-Consequences', message="Project Name and Description must be provided")
+        messagebox.showinfo(title='Go-Consequences',
+                            message="Project Name and Description must be provided")
     else:
         cons_args.prj_name = cons_prj_name.text.get()
         cons_args.prj_description = cons_prj_desc.text.get()
-    
+
     # Ensure Run File is not empty
     if cons_prj_select.file_path == "":
-        messagebox.showinfo(title='Go-Consequences', message="Go-Consequences Run File must be provided")
+        messagebox.showinfo(title='Go-Consequences',
+                            message="Go-Consequences Run File must be provided")
     else:
         cons_args.prj_file = cons_prj_select.file_path
-    
+
     # Ensure Data and Results Directory are not empty
     if cons_data_dir_select.folder_path == "" or cons_results_dir_select.folder_path == "":
-        messagebox.showinfo(title='Go-Consequences', message="Go-Consequences Input Data Directory and Model Results Directory must be provided.")
+        messagebox.showinfo(title='Go-Consequences',
+                            message="Go-Consequences Input Data Directory and Model Results Directory must be provided.")
     else:
         cons_args._data_dir = cons_data_dir_select.folder_path
         cons_args.results_dir = cons_results_dir_select.folder_path
-    
+
     # Check all Single Run specific fields.
-    if cons_args.run_type == 0: # single run
+    if cons_args.run_type == 0:  # single run
         # Ensure Sim Name and Sim Desc are not empty.
         if cons_sim_name.text.get() == "" or cons_sim_desc.text.get() == "":
-            messagebox.showinfo(title='Go-Consequences', message="Simulation Name and Description must be provided for Run Type: Single.")
+            messagebox.showinfo(
+                title='Go-Consequences', message="Simulation Name and Description must be provided for Run Type: Single.")
         else:
             cons_args.sim_name = cons_sim_name.text.get()
             cons_args.sim_description = cons_sim_desc.text.get()
-        
+
         # Check if Optional Layers are provided.
         if cons_hazard_select.file_path != "":
             cons_args.hazard_layer = cons_hazard_select.file_path
@@ -200,20 +192,22 @@ def parse_consequences():
             cons_args.results_layer = cons_res_select.file_path
         else:
             cons_args.results_layer = None
-    
+
     # Check all Multiple Run specific fields.
-    elif cons_args.run_type == 1: # multiple run
+    elif cons_args.run_type == 1:  # multiple run
         if cons_runtable_select.file_path == "":
-            messagebox.showinfo(title='Go-Consequences', message="Run Table File must be provided for Run Type: Multiple.")
+            messagebox.showinfo(
+                title='Go-Consequences', message="Run Table File must be provided for Run Type: Multiple.")
         else:
             cons_args.run_table = cons_runtable_select.file_path
-    
+
     print("\nParsing Go-Consequences..")
     print(cons_args)
     # msg = go_consequences_parser.parse(cons_args)
     go_consequences_parser.parse_consequences(cons_args)
     # print(msg)
     # messagebox.showinfo(title='Go-Consequences', message=msg)
+
 
 def cons_single_run_type_selected():
     try:
@@ -227,11 +221,11 @@ def cons_single_run_type_selected():
         cons_hazard_select.entPath.config(state="normal")
         cons_hazard_select.lblName.config(state="normal")
         cons_hazard_select.btnFind.config(state="normal")
-        
+
         cons_inv_select.entPath.config(state="normal")
         cons_inv_select.lblName.config(state="normal")
         cons_inv_select.btnFind.config(state="normal")
-        
+
         cons_res_select.entPath.config(state="normal")
         cons_res_select.lblName.config(state="normal")
         cons_res_select.btnFind.config(state="normal")
@@ -242,6 +236,7 @@ def cons_single_run_type_selected():
         run_type.set(0)
     except:
         pass
+
 
 def cons_multi_run_type_selected():
     try:
@@ -258,17 +253,19 @@ def cons_multi_run_type_selected():
         cons_hazard_select.entPath.config(state="disabled")
         cons_hazard_select.lblName.config(state="disabled")
         cons_hazard_select.btnFind.config(state="disabled")
-        
+
         cons_inv_select.entPath.config(state="disabled")
         cons_inv_select.lblName.config(state="disabled")
         cons_inv_select.btnFind.config(state="disabled")
-        
+
         cons_res_select.entPath.config(state="disabled")
         cons_res_select.lblName.config(state="disabled")
         cons_res_select.btnFind.config(state="disabled")
         run_type.set(1)
     except:
         pass
+
+
 print('''
 
  _______ .-. .-.,---.                                           
@@ -322,6 +319,31 @@ separator = ttk.Separator(scrollable_frame, orient='horizontal')
 separator.grid(row=0, ipady=10)
 row += 1
 
+# Global Keywords
+global_label = Label(
+    scrollable_frame, text="Global Keywords", font=('Helveticabold', 15))
+global_label.grid(row=row, column=0, sticky="we")
+row += 1
+
+global_label2 = Label(
+    scrollable_frame, text="(Optional. Will be added as keywords to every extracted metadata file.)", font=('Helvetica', 10))
+global_label2.grid(row=row, column=0, sticky="we")
+row += 1
+
+global_prj_id = TextField(
+    scrollable_frame, "Project ID (Internal Organizational Code): ")
+global_prj_id.grid(row=row)
+row += 1
+
+global_keywords = TextField(
+    scrollable_frame, "Additional Keywords (ex: LWI, Region 7):")
+global_keywords.grid(row=row)
+row += 1
+
+# Separator object
+separator = ttk.Separator(scrollable_frame, orient='horizontal')
+separator.grid(row=0, ipady=10)
+row += 1
 
 # RAS gui objects
 ras_label = Label(scrollable_frame, text="HEC-RAS", font=('Helveticabold', 15))
@@ -332,11 +354,13 @@ ras_prj_select = FileSelect(scrollable_frame, "RAS project file (*.prj): ")
 ras_prj_select.grid(row=row)
 row += 1
 
-ras_shp_select = FileSelect(scrollable_frame, "RAS boundary Polygon shape file (*.shp): ")
+ras_shp_select = FileSelect(
+    scrollable_frame, "RAS boundary Polygon shape file (*.shp): ")
 ras_shp_select.grid(row=row)
 row += 1
 
-c = ttk.Button(scrollable_frame, text="Extract RAS MetaData", command=parse_ras)
+c = ttk.Button(scrollable_frame, text="Extract RAS MetaData",
+               command=parse_ras)
 c.grid(row=row, column=0)
 row += 1
 
@@ -354,15 +378,18 @@ hms_prj_select = FileSelect(scrollable_frame, "HMS project file (*.hms): ")
 hms_prj_select.grid(row=row)
 row += 1
 
-hms_shp_select = FileSelect(scrollable_frame, "HMS boundary outline shape file (*.shp): ")
+hms_shp_select = FileSelect(
+    scrollable_frame, "HMS boundary outline shape file (*.shp): ")
 hms_shp_select.grid(row=row)
 row += 1
 
-hms_dss_select = FolderSelect(scrollable_frame, "Optional. DSS Data Directory: ")
+hms_dss_select = FolderSelect(
+    scrollable_frame, "Optional. DSS Data Directory: ")
 hms_dss_select.grid(row=row)
 row += 1
 
-c2 = ttk.Button(scrollable_frame, text="Extract HMS MetaData", command=parse_hms)
+c2 = ttk.Button(scrollable_frame, text="Extract HMS MetaData",
+                command=parse_hms)
 c2.grid(row=row, column=0)
 row += 1
 
@@ -380,11 +407,13 @@ fia_prj_select = FileSelect(scrollable_frame, "FIA project file (*.prj): ")
 fia_prj_select.grid(row=row)
 row += 1
 
-fia_shp_select = FileSelect(scrollable_frame, "FIA boundary Polygon shape file (*.shp): ")
+fia_shp_select = FileSelect(
+    scrollable_frame, "FIA boundary Polygon shape file (*.shp): ")
 fia_shp_select.grid(row=row)
 row += 1
 
-c3 = ttk.Button(scrollable_frame, text="Extract FIA MetaData", command=parse_fia)
+c3 = ttk.Button(scrollable_frame, text="Extract FIA MetaData",
+                command=parse_fia)
 c3.grid(row=row, column=0)
 row += 1
 
@@ -394,19 +423,22 @@ separator.grid(row=row, ipady=10)
 row += 1
 
 # Go-Consequences scrollable_frame objects
-cons_label = Label(scrollable_frame, text="Go-Consequences", font=('Helveticabold', 15))
+cons_label = Label(scrollable_frame, text="Go-Consequences",
+                   font=('Helveticabold', 15))
 cons_label.grid(row=row, column=0, sticky="we")
 row += 1
 
 run_type = IntVar()
 
 cons_run_type_radio1_row = row
-cons_run_type_radio1 = Radiobutton(scrollable_frame, text="Run Type: Single", value=0, variable="run_type", command=cons_single_run_type_selected)
+cons_run_type_radio1 = Radiobutton(scrollable_frame, text="Run Type: Single",
+                                   value=0, variable="run_type", command=cons_single_run_type_selected)
 cons_run_type_radio1.grid(row=row, sticky=W, ipadx=300)
 row += 1
 
 cons_run_type_radio2_row = row
-cons_run_type_radio2 = Radiobutton(scrollable_frame, text="Run Type: Multiple", value=1, variable="run_type", command=cons_multi_run_type_selected)
+cons_run_type_radio2 = Radiobutton(scrollable_frame, text="Run Type: Multiple",
+                                   value=1, variable="run_type", command=cons_multi_run_type_selected)
 cons_run_type_radio2.grid(row=row, sticky=W, ipadx=300)
 row += 1
 
@@ -433,27 +465,33 @@ cons_prj_select = FileSelect(scrollable_frame, "Model Run file (*.go): ")
 cons_prj_select.grid(row=row)
 row += 1
 
-cons_data_dir_select = FolderSelect(scrollable_frame, "Model Input Data Directory: ")
+cons_data_dir_select = FolderSelect(
+    scrollable_frame, "Model Input Data Directory: ")
 cons_data_dir_select.grid(row=row)
 row += 1
 
-cons_results_dir_select = FolderSelect(scrollable_frame, "Model Results Directory: ")
+cons_results_dir_select = FolderSelect(
+    scrollable_frame, "Model Results Directory: ")
 cons_results_dir_select.grid(row=row)
 row += 1
 
-cons_hazard_select = FileSelect(scrollable_frame, "Optional. Specified WSE Hazard Layer (*.tif): ")
+cons_hazard_select = FileSelect(
+    scrollable_frame, "Optional. Specified WSE Hazard Layer (*.tif): ")
 cons_hazard_select.grid(row=row)
 row += 1
 
-cons_inv_select = FileSelect(scrollable_frame, "Optional. Specified Structure Inventory (*.shp): ")
+cons_inv_select = FileSelect(
+    scrollable_frame, "Optional. Specified Structure Inventory (*.shp): ")
 cons_inv_select.grid(row=row)
 row += 1
 
-cons_res_select = FileSelect(scrollable_frame, "Optional. Specified Results Layer (*.gpkg): ")
+cons_res_select = FileSelect(
+    scrollable_frame, "Optional. Specified Results Layer (*.gpkg): ")
 cons_res_select.grid(row=row)
 row += 1
 
-cons_runtable_select = FileSelect(scrollable_frame, "Multiple Run Table Data (*.csv): ")
+cons_runtable_select = FileSelect(
+    scrollable_frame, "Multiple Run Table Data (*.csv): ")
 cons_runtable_select.grid(row=row)
 row += 1
 
@@ -461,7 +499,8 @@ cons_runtable_select.entPath.config(state="disabled")
 cons_runtable_select.lblName.config(state="disabled")
 cons_runtable_select.btnFind.config(state="disabled")
 
-c4 = ttk.Button(scrollable_frame, text="Extract Consequences MetaData", command=parse_consequences)
+c4 = ttk.Button(scrollable_frame,
+                text="Extract Consequences MetaData", command=parse_consequences)
 c4.grid(row=row, column=0)
 row += 1
 
@@ -471,27 +510,32 @@ separator.grid(row=row, ipady=10)
 row += 1
 
 # Upload To label
-upload_label = Label(scrollable_frame, text="Upload output to one of the following EnDMC websites:", font=('Helveticabold', 15))
+upload_label = Label(
+    scrollable_frame, text="Upload output to one of the following EnDMC websites:", font=('Helveticabold', 15))
 upload_label.grid(row=row, column=0, sticky="we")
 row += 1
 
 # LWI website link
-link = Label(scrollable_frame, text="Louisiana Watershed Initivative",font=('Helveticabold', 13), fg="blue", cursor="hand2")
+link = Label(scrollable_frame, text="Louisiana Watershed Initivative",
+             font=('Helveticabold', 13), fg="blue", cursor="hand2")
 link.grid(row=row)
 row += 1
 link.bind("<Button-1>", lambda e: callback("https://lwi.endmc.org/"))
 
 # TWI website link
-link = Label(scrollable_frame, text="The Water Institute",font=('Helveticabold', 13), fg="blue", cursor="hand2")
+link = Label(scrollable_frame, text="The Water Institute",
+             font=('Helveticabold', 13), fg="blue", cursor="hand2")
 link.grid(row=row)
 row += 1
 link.bind("<Button-1>", lambda e: callback("https://twi.endmc.org/"))
 
 # Github Issues website link
-link = Label(scrollable_frame, text="Questions/Comments: Github",font=('Helveticabold', 10), fg="blue", cursor="hand2", anchor=SW)
+link = Label(scrollable_frame, text="Questions/Comments: Github",
+             font=('Helveticabold', 10), fg="blue", cursor="hand2", anchor=SW)
 link.grid(row=row, pady=10)
 row += 1
-link.bind("<Button-1>", lambda e: callback("https://github.com/waterinstitute/hec_meta_extract/issues"))
+link.bind("<Button-1>",
+          lambda e: callback("https://github.com/waterinstitute/hec_meta_extract/issues"))
 
 
 # For testing only, auto input file paths.
