@@ -1,10 +1,10 @@
 Metadata-Version: 2.1
-Name: hec-meta-extract
+Name: hec_meta_extract
 Version: 0.1.0
-Summary: UNKNOWN
-Home-page: UNKNOWN
-License: UNKNOWN
-Platform: UNKNOWN
-
-UNKNOWN
-
+Requires-Dist: cython
+Requires-Dist: numpy
+Requires-Dist: pkgconfig
+Requires-Dist: PyYAML
+Requires-Dist: geopandas
+Requires-Dist: h5py
+Requires-Dist: pyinstaller
