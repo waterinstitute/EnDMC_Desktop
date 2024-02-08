@@ -1,12 +1,14 @@
 import glob
 import copy
 import traceback
-import yaml, json
+import yaml
+import json
 import os
 import argparse
 from datetime import datetime
 import h5py
 from utils import get_wkt_crs, trimmer
+
 
 def get_ras_prj_wkt(p_file):
     # Open a plan hdf file, get WKT from it.
@@ -15,72 +17,78 @@ def get_ras_prj_wkt(p_file):
             ras_prj_wkt = f.attrs['Projection'].decode('UTF-8')
             # print (f'Extracted spatial projection from HDF: {ras_prj_wkt}')
     except:
-        print (f'''
+        print(f'''
                Unable to extract spatial projection from HDF plan file:
                {p_file}.hdf
                May have to manually specify .shp projection using a GIS.''')
-    
+
     return ras_prj_wkt
 
 
 def getDSSPaths(lines):
     # Get lines with 'DSS Filename'
-    dss_file_lines= [[i,v] for i,v in enumerate(lines) if "DSS File" in v]
-    
+    dss_file_lines = [[i, v] for i, v in enumerate(lines) if "DSS File" in v]
+
     # Get dss pathnames for each dss_file_line
     dss_file_and_paths = []
     for dss_file_line in dss_file_lines:
         # The line in the u file with a dss pathname is always +1 lines from the line specifying the DSS File.
         dss_pathname = lines[dss_file_line[0]+1]
         # Create a list of lists containing just the [[DSS Files, DSS Pathnames]]
-        dss_file_and_paths.append([dss_file_line[1],dss_pathname])    
+        dss_file_and_paths.append([dss_file_line[1], dss_pathname])
 
     return dss_file_and_paths
 
-def dict_to_model_app_json(keyValues_dict, output_prj_json):    
-        # Open ras_model_application Json template
-        with open(r"example\input\json\ras_model_application.json", 'r') as f:
-            ras_model_template_json = json.load(f)
 
-        # keys to drop from json template
-        drop_keys = ['_id', 'linked_resources', 'common_parameters', 'common_software_version', 'authors', 
-        'spatial_extent_resolved', 'spatial_valid_extent_resolved', 'temporal_extent', 'temporal_resolution', 'spatial_valid_extent', 'common_input_files', 'common_output_files']
-        for key in drop_keys:
-            del ras_model_template_json[key]
+def dict_to_model_app_json(keyValues_dict, output_prj_json, args):
+    # Open ras_model_application Json template
+    with open(r"example\input\json\ras_model_application.json", 'r') as f:
+        ras_model_template_json = json.load(f)
 
-        # set basic keywords
-        ras_model_template_json['keywords'] = ['hec-ras','hec','ras','hydraulic','model']
+    # keys to drop from json template
+    drop_keys = ['_id', 'linked_resources', 'common_parameters', 'common_software_version', 'authors',
+                 'spatial_extent_resolved', 'spatial_valid_extent_resolved', 'temporal_extent', 'temporal_resolution', 'spatial_valid_extent', 'common_input_files', 'common_output_files']
+    for key in drop_keys:
+        del ras_model_template_json[key]
 
-        # Map to web-app Json
-        ras_model_template_json['title'] = keyValues_dict['Proj Title']
-        ras_model_template_json['description'] = {}
-        ras_model_template_json['description']['Project Description'] = keyValues_dict['Description']
-        ras_model_template_json['description']['Simulations'] = keyValues_dict['Plans']['Plan Title']
-        ras_model_template_json['purpose'] = keyValues_dict['Description']
-        ras_model_template_json['grid']['coordinate_system'] = keyValues_dict['coordinate_system']
-        ras_model_template_json['spatial_extent'][0] = keyValues_dict['spatial_extent']
-        ras_model_template_json['common_input_files'] = []
-        ras_model_template_json['common_output_files'] = []
-        ras_model_template_json['common_input_files'].append( {
+    # set basic keywords
+    ras_model_template_json['keywords'] = [
+        'hec-ras', 'hec', 'ras', 'hydraulic', 'model']
+    # Add any optional keywords
+    ras_model_template_json['keywords'].extend(args.keywords)
+
+    # Map to web-app Json
+    ras_model_template_json['title'] = keyValues_dict['Proj Title']
+    ras_model_template_json['description'] = {}
+    ras_model_template_json['description']['Project Description'] = keyValues_dict['Description']
+    ras_model_template_json['description']['Simulations'] = keyValues_dict['Plans']['Plan Title']
+    ras_model_template_json['purpose'] = keyValues_dict['Description']
+    ras_model_template_json['grid']['coordinate_system'] = keyValues_dict['coordinate_system']
+    ras_model_template_json['spatial_extent'][0] = keyValues_dict['spatial_extent']
+    ras_model_template_json['common_input_files'] = []
+    ras_model_template_json['common_output_files'] = []
+    ras_model_template_json['common_input_files'].append({
+        'source_dataset': None,
+        'description': 'RAS project file which links projects with plans, geometry, and flow files',
+        'location': keyValues_dict['Project File'],
+        'title': 'prj file'
+    })
+
+    # Add each p file to common_file_details
+    plan_zipList = zip(
+        keyValues_dict['Plans']['Plan Title'], keyValues_dict['Plans']['P File'])
+    for plan in plan_zipList:
+        ras_model_template_json['common_input_files'].append({
             'source_dataset': None,
-            'description': 'RAS project file which links projects with plans, geometry, and flow files',
-            'location': keyValues_dict['Project File'],
-            'title': 'prj file'
+            'description': plan[0],
+            'location': plan[1],
+            'title': f"p file for {plan[0]}"
         })
-        
-        # Add each p file to common_file_details
-        plan_zipList = zip(keyValues_dict['Plans']['Plan Title'], keyValues_dict['Plans']['P File'])
-        for plan in plan_zipList:
-            ras_model_template_json['common_input_files'].append( {
-                'source_dataset': None,
-                'description': plan[0],
-                'location': plan[1],
-                'title': f"p file for {plan[0]}"
-            })
 
-        # Output mapped json
-        with open(output_prj_json, "w") as outfile:
-            json.dump(ras_model_template_json, outfile)
+    # Output mapped json
+    with open(output_prj_json, "w") as outfile:
+        json.dump(ras_model_template_json, outfile)
+
 
 def dict_to_sim_json(keyValues_dict, prj_name, p_file, output_p_json):
     # Open RAS Simulation Json Template
@@ -89,11 +97,11 @@ def dict_to_sim_json(keyValues_dict, prj_name, p_file, output_p_json):
         ras_sim_template_json = json.load(f)
 
     # keys to drop
-    drop_keys = ['_id', 'model_software', 'model_application', 'parameters', 
-    'linked_resources', 'type', 'output_files']
+    drop_keys = ['_id', 'model_software', 'model_application', 'parameters',
+                 'linked_resources', 'type', 'output_files']
     for key in drop_keys:
         del ras_sim_template_json[key]
-    
+
     # Format Simulation Date to match web app format
     dt_raw = keyValues_dict['Simulation Date'].split(",")
     sDate_dt = datetime.strptime(dt_raw[0], '%d%b%Y')
@@ -133,7 +141,7 @@ def dict_to_sim_json(keyValues_dict, prj_name, p_file, output_p_json):
                     "source_dataset": None
                 }
             )
-    
+
     # Extending input files list with common files
     input_files.extend(
         [{
@@ -142,49 +150,49 @@ def dict_to_sim_json(keyValues_dict, prj_name, p_file, output_p_json):
             "description": "Terrain used by model",
             "source_dataset": None
         },
-        {
+            {
             "title": "b file",
             "location": f'{prj_name}.b{p_num}',
             "description": "RAS master input text file",
             "source_dataset": None
         },
-        {
+            {
             "title": "g file",
             "location": f"{prj_name}.{keyValues_dict['Geom File']}",
             "description": "RAS geometry file",
             "source_dataset": None
         },
-        {
+            {
             "title": "prj file",
             "location": f'{prj_name}.prj',
             "description": "RAS project file which links projects with plans, geometry, and flow files",
             "source_dataset": None
-            },
-        {
+        },
+            {
             "title": "c file",
             "location": f"{prj_name}.c{g_num}",
             "description": "Binary Geometry file from Geom Prep",
             "source_dataset": None
         },
-        {
+            {
             "title": "x file",
             "location": f"{prj_name}.x{g_num}",
             "description": "Geometry master input text file",
             "source_dataset": None
         },
-        {
+            {
             "title": "p file",
             "location": f"{prj_name}.p{p_num}",
             "description": "Model plan data",
             "source_dataset": None
         },
-        {
+            {
             "title": "u file",
             "location": f"{prj_name}.u{u_num}",
             "description": "unsteady flow file",
             "source_dataset": None
         },
-        {
+            {
             "title": "u hdf file",
             "location": f"{prj_name}.u{u_num}.hdf",
             "description": "unsteady flow file in HDF format",
@@ -198,22 +206,22 @@ def dict_to_sim_json(keyValues_dict, prj_name, p_file, output_p_json):
     try:
         ras_sim_template_json['description'] = keyValues_dict['Description']
     except:
-        print (f'No Description found for: {p_file}.')
+        print(f'No Description found for: {p_file}.')
     ras_sim_template_json['temporal_extent'] = temporal_extent
     ras_sim_template_json['temporal_resolution'] = keyValues_dict['Computation Interval']
     ras_sim_template_json['output_files'] = [
         {
-                "title": "output dss file",
-                "location": keyValues_dict['DSS Output File'],
-                "description": "output model data in dss",
-                "source_dataset": None
-            },
-            {
-                "title": "p hdf file",
-                "location": f"{prj_name}.p{p_num}.hdf",
-                "description": "result output in HDF format",
-                "source_dataset": None
-            }
+            "title": "output dss file",
+            "location": keyValues_dict['DSS Output File'],
+            "description": "output model data in dss",
+            "source_dataset": None
+        },
+        {
+            "title": "p hdf file",
+            "location": f"{prj_name}.p{p_num}.hdf",
+            "description": "result output in HDF format",
+            "source_dataset": None
+        }
     ]
 
     ras_sim_template_json['input_files'] = input_files
@@ -223,25 +231,26 @@ def dict_to_sim_json(keyValues_dict, prj_name, p_file, output_p_json):
         json.dump(ras_sim_template_json, outfile)
 
 
-def parse_prj(prj_file, prj_name, wkt, crs, plan_titles, output_dir):
+def parse_prj(args, prj_name, wkt, crs, plan_titles, output_dir):
     # output_prj_yaml = os.path.join(output_dir, f'{prj_name}_ras_prj.yml')
-    output_prj_json = os.path.join(output_dir, f'{prj_name}_ras_model_application.json')
+    output_prj_json = os.path.join(
+        output_dir, f'{prj_name}_ras_model_application.json')
 
-    with open(prj_file, "r") as f:
+    with open(args.prj, "r") as f:
         lines = f.readlines()
-    
+
     lines = [s.strip('\n') for s in lines]
     keyValues_dict, popList = trimmer.trim(lines)
 
     # Remove unneeded keys
     # for key, value in keyValues_dict.items() :
     #     print (key)
-    popKeys = ['Current Plan', 'Default Exp/Contr','Geom File',
-    'Unsteady File','Plan File','Background Map Layer','Y Axis Title',
-    'X Axis Title(PF)','X Axis Title(XS)','DSS Start Date',
-    'DSS Start Time','DSS End Date','DSS End Time','DXF Filename',
-    'DXF OffsetX','DXF OffsetY','DXF ScaleX','DXF ScaleY']
-    
+    popKeys = ['Current Plan', 'Default Exp/Contr', 'Geom File',
+               'Unsteady File', 'Plan File', 'Background Map Layer', 'Y Axis Title',
+               'X Axis Title(PF)', 'X Axis Title(XS)', 'DSS Start Date',
+               'DSS Start Time', 'DSS End Date', 'DSS End Time', 'DXF Filename',
+               'DXF OffsetX', 'DXF OffsetY', 'DXF ScaleX', 'DXF ScaleY']
+
     for key in popKeys:
         try:
             del keyValues_dict[key]
@@ -249,7 +258,7 @@ def parse_prj(prj_file, prj_name, wkt, crs, plan_titles, output_dir):
             continue
 
     # Add specific popList lines from prj file to keyValue_dict
-    for i,v in enumerate(popList):
+    for i, v in enumerate(popList):
         if "BEGIN DESCRIPTION:" in lines[v]:
             # description = lines[v+1]
             beginDescriptionIndex = v+1
@@ -257,8 +266,9 @@ def parse_prj(prj_file, prj_name, wkt, crs, plan_titles, output_dir):
             endDescriptionIndex = v
 
     if beginDescriptionIndex and endDescriptionIndex is not None:
-        description = ' '.join(lines[beginDescriptionIndex:endDescriptionIndex])
-    else: 
+        description = ' '.join(
+            lines[beginDescriptionIndex:endDescriptionIndex])
+    else:
         description = None
 
     keyValues_dict['Description'] = description
@@ -266,7 +276,7 @@ def parse_prj(prj_file, prj_name, wkt, crs, plan_titles, output_dir):
     # Update project title
     keyValues_dict['Proj Title'] = f'{prj_name} HEC-RAS Model'
     # Add project file location
-    keyValues_dict['Project File'] = prj_file
+    keyValues_dict['Project File'] = args.prj
 
     # Add spatial_extent and coordinate_system from wkt and crs.
     keyValues_dict["spatial_extent"] = wkt
@@ -275,14 +285,15 @@ def parse_prj(prj_file, prj_name, wkt, crs, plan_titles, output_dir):
     # Add plan titles
     keyValues_dict["Plans"] = plan_titles
 
-    # Add application_date from prj_file modified date
-    modTimeUnix = os.path.getmtime(prj_file) 
-    keyValues_dict['application_date'] = datetime.fromtimestamp(modTimeUnix).strftime('%Y-%m-%d')
+    # Add application_date from args.prj modified date
+    modTimeUnix = os.path.getmtime(args.prj)
+    keyValues_dict['application_date'] = datetime.fromtimestamp(
+        modTimeUnix).strftime('%Y-%m-%d')
 
     # with open(output_prj_yaml, 'w+') as f:
     #     yaml.dump(keyValues_dict, f)
-    
-    dict_to_model_app_json(keyValues_dict, output_prj_json)
+
+    dict_to_model_app_json(keyValues_dict, output_prj_json, args)
 
 
 def get_p_files(prj_dir, prj_name):
@@ -298,7 +309,7 @@ def get_p_files(prj_dir, prj_name):
 
 
 def parse_p(p_file_list, prj_name, wkt, crs, output_dir):
-    
+
     plan_titles = {}
     plan_titles['Plan Title'] = []
     plan_titles['Plan Title w P File'] = []
@@ -306,18 +317,18 @@ def parse_p(p_file_list, prj_name, wkt, crs, output_dir):
     for p in p_file_list:
         # print (p)
         prj_dir, p_file_tail = os.path.split(p)
-        print (p_file_tail)
+        print(p_file_tail)
         with open(p, "r") as f:
             # print(f.readlines())
             lines = f.readlines()
-        
+
         lines = [s.strip('\n') for s in lines]
 
         # Create Dictionary
         keyValues_dict, popList = trimmer.trim(lines)
 
         # Add specific popList lines from prj file to keyValue_dict
-        for i,v in enumerate(popList):
+        for i, v in enumerate(popList):
             if "BEGIN DESCRIPTION:" in lines[v]:
                 # description = lines[v+1]
                 beginDescriptionIndex = v+1
@@ -329,21 +340,20 @@ def parse_p(p_file_list, prj_name, wkt, crs, output_dir):
                 endDescriptionIndex = None
 
         if beginDescriptionIndex and endDescriptionIndex is not None:
-            description = ' '.join(lines[beginDescriptionIndex:endDescriptionIndex])
-        else: 
+            description = ' '.join(
+                lines[beginDescriptionIndex:endDescriptionIndex])
+        else:
             description = None
 
         keyValues_dict['Description'] = description
 
-        
-        
         # Add spatial_extent and coordinate_system from wkt and crs
         keyValues_dict["spatial_extent"] = wkt
         keyValues_dict["coordinate_system"] = crs
 
         # Get associated geometry file
         geom_file_extension = keyValues_dict['Geom File']
-        geom_file = os.path.join(prj_dir, prj_name +"."+ geom_file_extension)
+        geom_file = os.path.join(prj_dir, prj_name + "." + geom_file_extension)
         with open(geom_file, "r") as f:
             geom_lines = f.readlines()
         geom_lines = [s.strip('\n') for s in geom_lines]
@@ -356,7 +366,7 @@ def parse_p(p_file_list, prj_name, wkt, crs, output_dir):
 
         # Get associated u flow file
         flow_file_extension = keyValues_dict['Flow File']
-        flow_file = os.path.join(prj_dir, prj_name +"."+ flow_file_extension)
+        flow_file = os.path.join(prj_dir, prj_name + "." + flow_file_extension)
         with open(flow_file, "r") as f:
             flow_lines = f.readlines()
         flow_lines = [s.strip('\n') for s in flow_lines]
@@ -367,10 +377,12 @@ def parse_p(p_file_list, prj_name, wkt, crs, output_dir):
         # Get associated plan hdf file
         try:
             with h5py.File(rf"{p}.hdf", "r") as f:
-                terrain = f['Geometry'].attrs['Terrain Filename'].decode('UTF-8')
+                terrain = f['Geometry'].attrs['Terrain Filename'].decode(
+                    'UTF-8')
             keyValues_dict['terrain'] = terrain
         except:
-            print (f'Unable to extract terrain file used. HDF Output File Missing: {p}.hdf')
+            print(
+                f'Unable to extract terrain file used. HDF Output File Missing: {p}.hdf')
             keyValues_dict['terrain'] = ''
 
          # Get Input DSS files and paths from flow file to p file.
@@ -384,7 +396,8 @@ def parse_p(p_file_list, prj_name, wkt, crs, output_dir):
         keyValues_dict['Plan Title'] = f"{prj_name} HEC-RAS Model Simulation: {keyValues_dict['Plan Title']}"
         keyValues_dict['Plan Title w P File'] = f"{prj_name} HEC-RAS Model Simulation: {keyValues_dict['Plan Title']}, File: {p_file_tail}"
         plan_titles['Plan Title'].append(keyValues_dict['Plan Title'])
-        plan_titles['Plan Title w P File'].append(keyValues_dict['Plan Title w P File'])
+        plan_titles['Plan Title w P File'].append(
+            keyValues_dict['Plan Title w P File'])
         plan_titles['P File'].append(p_file_tail)
 
         # Set dss output file to default path
@@ -393,18 +406,20 @@ def parse_p(p_file_list, prj_name, wkt, crs, output_dir):
         # Write the output yaml for each .p## file.
         # with open(os.path.join(output_dir,f'{p_file_tail}.yml'), 'w+') as f:
         #     yaml.dump(keyValues_dict, f)
-        
+
         # Write output Json for each .p## file.
-        output_p_json = os.path.join(output_dir,f'{p_file_tail}_Simulation.json')
+        output_p_json = os.path.join(
+            output_dir, f'{p_file_tail}_Simulation.json')
         dict_to_sim_json(keyValues_dict, prj_name, p, output_p_json)
 
     return plan_titles
 
-def parse(prj, shp):
+
+def parse(args):
     try:
         msg = None
         # Get project name
-        prj_dir, prj_file_tail = os.path.split(prj)
+        prj_dir, prj_file_tail = os.path.split(args.prj)
         prj_name = prj_file_tail.split(".")[0]
 
         # Set output directory
@@ -415,54 +430,75 @@ def parse(prj, shp):
 
         # Get .p## files in prj_dir
         p_file_list = get_p_files(prj_dir, prj_name)
-        
+
         # Validate that project has plan files.
         if len(p_file_list) == 0:
             msg = f'\nError: No .p## files found in {prj_dir} . Please check project file location.'
             raise Exception(msg)
-        
+
         # Else continue parsing.
         else:
             # Get RAS Project's Spatial Projection WKT
             ras_prj_wkt = get_ras_prj_wkt(p_file_list[0])
 
             # Get WKT and CRS from shp
-            wkt, crs = get_wkt_crs.parse_shp(shp, ras_prj_wkt, prj_name, output_dir)
-            
-            # Parse p files and include data from geometry, flow files. and add wkt. 
+            wkt, crs = get_wkt_crs.parse_shp(
+                args.shp, ras_prj_wkt, prj_name, output_dir)
+
+            # Parse p files and include data from geometry, flow files. and add wkt.
             # Returns the plan titles of each p file as a list.
-            plan_titles = parse_p(p_file_list, prj_name, wkt, crs, output_dir)
+            plan_titles = parse_p(p_file_list, prj_name,
+                                  wkt, crs, output_dir, args)
 
             # Parse prj, remove extra fields, add list of p file titles, and wkt.
-            parse_prj(prj, prj_name, wkt, crs, plan_titles, output_dir)
+            parse_prj(args, prj_name, wkt, crs, plan_titles, output_dir)
 
             #  Return Successful Output message.
             msg = f'RAS Parsing Complete. Output files located at: {output_dir}'
             return msg
-    
+
     except Exception:
         if msg is None:
             msg = traceback.format_exc()
         print(msg)
         return msg
 
+
 if __name__ == '__main__':
     # Parse Command Line Arguments
     p = argparse.ArgumentParser(description="HEC-RAS metadata extraction. \
         Requires a RAS project file (*.prj) and an ESRI shapefile (*.shp) for the spatial boundary of the model.")
-    
+
     p.add_argument(
-    "--prj", help="The HEC-RAS project file. (Ex: C:\RAS_Models\Amite\Amite_2022.prj)", 
-    required=True, 
-    type=str
+        "--prj", help="The HEC-RAS project file. (Ex: C:\RAS_Models\Amite\Amite_2022.prj)",
+        required=True,
+        type=str
+    )
+    p.add_argument(
+        "--shp", help="The HEC-RAS model boundary spatial extent as ESRI shapefile. \
+        (Ex: C:\RAS_Models\Amite\Features\Amite_Optimized_Geometry.shp)",
+        required=True,
+        type=str
+    )
+    p.add_argument(
+        '--keywords', help='Optional. Additional Keywords for the project such as the client. Add multiple keywords with a comma (Ex: "LWI, National Park Service, CPRA")',
+        required=False,
+        type=str
     )
 
     p.add_argument(
-    "--shp", help="The HEC-RAS model boundary spatial extent as ESRI shapefile. \
-        (Ex: C:\RAS_Models\Amite\Features\Amite_Optimized_Geometry.shp)", 
-    required=True, 
-    type=str
+        "--id", help="The Internal Organizational Project ID. This is ussually specifc to your own organization or company. \
+        (Ex: P00813)",
+        required=False,
+        type=str
     )
 
     args = p.parse_args()
-    parse(args.prj, args.shp)
+    args.keywords = args.keywords.split(",")
+    args.keywords = [x.strip() for x in args.keywords]
+    print(args.keywords)
+    # print(args.keywords[0].split('"'))
+    # keywords = args.keywords[0].split('"')
+    # keywords = [x for x in keywords if x != '']
+    # print(keywords)
+    parse(args)

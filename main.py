@@ -326,7 +326,7 @@ global_label.grid(row=row, column=0, sticky="we")
 row += 1
 
 global_label2 = Label(
-    scrollable_frame, text="(Optional. Will be added as keywords to every extracted metadata file.)", font=('Helvetica', 10))
+    scrollable_frame, text="(Optional. Will be added as keywords to every extracted model.)", font=('Helvetica', 10))
 global_label2.grid(row=row, column=0, sticky="we")
 row += 1
 
