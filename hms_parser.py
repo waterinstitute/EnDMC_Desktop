@@ -110,7 +110,7 @@ def get_extra_dss_files(input_dss_dir, prj_name):
 
     return dss_common_files_input
 
-def parse_prj(prj, wkt, crs, dss_common_files_input, output_dir):
+def parse_prj(prj, wkt, crs, dss_common_files_input, output_dir, keywords, prj_id):
 
     prj_dir, prj_file_tail = os.path.split(prj)
     prj_name = prj_file_tail.split(".")[0]
@@ -187,6 +187,14 @@ def parse_prj(prj, wkt, crs, dss_common_files_input, output_dir):
 
     # set basic keywords
     model_template_json['keywords'] = ['hec-hms','hec','hms','hydrology','model']
+    # Add any optional keywords
+    try:
+        if keywords is not None and len(keywords[0]) > 0:
+            model_template_json['keywords'].extend(keywords)
+        if prj_id is not None and len(prj_id[0]) > 0:
+            model_template_json['keywords'].append(prj_id)
+    except:
+        pass
 
     model_template_json['purpose'] = kv['Project']['Description']
     model_template_json['description'] = kv['Project']['Description']
@@ -457,7 +465,7 @@ Control: {sim_kv[title]['Control']}, {sim_kv[title]['Control Description']}."
         print (f'{prj_name}_{title}_simulation.json')
 
 
-def parse(prj, shp, dss):
+def parse(prj, shp, dss, keywords, prj_id):
     try:
         # Get project name
         prj_dir, prj_file_tail = os.path.split(prj)
@@ -481,7 +489,7 @@ def parse(prj, shp, dss):
             extra_dss_files_list = None
 
         # Parse project file
-        parse_prj(prj, wkt, crs, extra_dss_files_list, output_dir)
+        parse_prj(prj, wkt, crs, extra_dss_files_list, output_dir, keywords, prj_id)
 
         # Run file parse
         parse_runs(prj, output_dir)
@@ -519,6 +527,22 @@ if __name__ == '__main__':
     required=False, 
     type=str
     )
+    
+    p.add_argument(
+        '--keywords', help='Optional. Additional Keywords for the project such as the client. Add multiple keywords with a comma (Ex: "LWI, National Park Service, CPRA")',
+        required=False,
+        type=str
+    )
+
+    p.add_argument(
+        "--id", help="The Internal Organizational Project ID. This is ussually specifc to your own organization or company. \
+        (Ex: P00813)",
+        required=False,
+        type=str
+    )
 
     args = p.parse_args()
-    parse(args.hms, args.shp, args.dss)
+    args.keywords = args.keywords.split(",")
+    args.keywords = [x.strip() for x in args.keywords]
+    
+    parse(args.hms, args.shp, args.dss, args.keywords, args.id)

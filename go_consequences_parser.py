@@ -230,16 +230,16 @@ def parse_model_application(args, output_dir, hazard_layer_list=None, inventory_
         try:
 
             # You may comment out these lines for testing purposes to speed up the script.
-            # gdf = gpd.read_file(structure_inventory_layer)
-            # crs = gdf.crs
-            # gdf.to_crs(epsg=4326, inplace=True)
-            # bounding_box = box(*gdf.total_bounds)
-            # gpd.GeoSeries([bounding_box]).to_file(os.path.join(output_dir,f"{args.prj_name}_bounding_box.geojson"), driver='GeoJSON')
-            # spatial_extent = str(gpd.GeoSeries([bounding_box])[0])
+            gdf = gpd.read_file(structure_inventory_layer)
+            crs = gdf.crs
+            gdf.to_crs(epsg=4326, inplace=True)
+            bounding_box = box(*gdf.total_bounds)
+            gpd.GeoSeries([bounding_box]).to_file(os.path.join(output_dir,f"{args.prj_name}_bounding_box.geojson"), driver='GeoJSON')
+            spatial_extent = str(gpd.GeoSeries([bounding_box])[0])
             
             # The lines below are commented out for testing, because creating the spatial_extent takes a few minutes.
-            spatial_extent = 'Testing'
-            crs = 'Testing'
+            # spatial_extent = 'Testing'
+            # crs = 'Testing'
             
             print (f'Done creating geospatial extent: {os.path.join(output_dir,f"{args.prj_name}_bounding_box.geojson")}')
         except:
@@ -257,16 +257,16 @@ def parse_model_application(args, output_dir, hazard_layer_list=None, inventory_
             try:
                 
                 # You may comment out these lines for testing purposes to speed up the script.
-                # gdf = gpd.read_file(args.inventory_layer)
-                # crs = gdf.crs
-                # gdf.to_crs(epsg=4326, inplace=True)
-                # bounding_box = box(*gdf.total_bounds)
-                # gpd.GeoSeries([bounding_box]).to_file(os.path.join(output_dir,f"{args.prj_name}_bounding_box.geojson"), driver='GeoJSON')
-                # spatial_extent = str(gpd.GeoSeries([bounding_box])[0])
+                gdf = gpd.read_file(args.inventory_layer)
+                crs = gdf.crs
+                gdf.to_crs(epsg=4326, inplace=True)
+                bounding_box = box(*gdf.total_bounds)
+                gpd.GeoSeries([bounding_box]).to_file(os.path.join(output_dir,f"{args.prj_name}_bounding_box.geojson"), driver='GeoJSON')
+                spatial_extent = str(gpd.GeoSeries([bounding_box])[0])
 
                 # The lines below are commented out for testing, because creating the spatial_extent takes a few minutes.
-                spatial_extent = 'Testing'
-                crs = 'Testing'
+                # spatial_extent = 'Testing'
+                # crs = 'Testing'
 
                 print (f'Done creating geospatial extent: {os.path.join(output_dir,f"{args.prj_name}_bounding_box.geojson")}')
             except:
@@ -288,16 +288,16 @@ def parse_model_application(args, output_dir, hazard_layer_list=None, inventory_
             try:
 
                 # You may comment out these lines for testing purposes to speed up the script.
-                # gdf = gpd.read_file(inventory_layer_list[0])
-                # crs = gdf.crs
-                # gdf.to_crs(epsg=4326, inplace=True)
-                # bounding_box = box(*gdf.total_bounds)
-                # gpd.GeoSeries([bounding_box]).to_file(os.path.join(output_dir,f"{args.prj_name}_bounding_box.geojson"), driver='GeoJSON')
-                # spatial_extent = str(gpd.GeoSeries([bounding_box])[0])
+                gdf = gpd.read_file(inventory_layer_list[0])
+                crs = gdf.crs
+                gdf.to_crs(epsg=4326, inplace=True)
+                bounding_box = box(*gdf.total_bounds)
+                gpd.GeoSeries([bounding_box]).to_file(os.path.join(output_dir,f"{args.prj_name}_bounding_box.geojson"), driver='GeoJSON')
+                spatial_extent = str(gpd.GeoSeries([bounding_box])[0])
 
                 # The lines below are commented out for testing, because creating the spatial_extent takes a few minutes.
-                spatial_extent = 'Testing'
-                crs = 'Testing'
+                # spatial_extent = 'Testing'
+                # crs = 'Testing'
 
                 print (f'Spatial extent created based on Run Table: {os.path.join(output_dir,f"{args.prj_name}_bounding_box.geojson")}')
             except:
@@ -380,6 +380,15 @@ def parse_model_application(args, output_dir, hazard_layer_list=None, inventory_
     for s in sim_list:
         # print('\n\n',s)
         description_str += '\n\n\n'+s
+
+    # Add any optional keywords
+    try:
+        if args.keywords is not None and len(args.keywords[0]) > 0:
+            model_application_template['keywords'].extend(args.keywords)
+        if args.id is not None and len(args.id[0]) > 0:
+            model_application_template['keywords'].append(args.id)
+    except:
+        pass
 
     # Add values to model_application output
     model_application_template['title'] = f'Go-Consequences {args.prj_name}'
@@ -531,9 +540,25 @@ if __name__ == '__main__':
     type=str
     )
 
-    args = p.parse_args()
+    p.add_argument(
+        '--keywords', help='Optional. Additional Keywords for the project such as the client. Add multiple keywords with a comma (Ex: "LWI, National Park Service, CPRA")',
+        required=False,
+        type=str
+    )
 
+    p.add_argument(
+        "--id", help="The Internal Organizational Project ID. This is ussually specifc to your own organization or company. \
+        (Ex: P00813)",
+        required=False,
+        type=str
+    )
+
+    args = p.parse_args()
+    
     ### Validate Arguments
+
+    args.keywords = args.keywords.split(",")
+    args.keywords = [x.strip() for x in args.keywords]
 
     # Project file exists
     if not os.path.exists(args.prj_file):

@@ -1,3 +1,4 @@
+from argparse import Namespace
 from tkinter import *
 from tkinter import ttk
 from tkinter import filedialog, messagebox, Radiobutton, Label, Scrollbar, Frame, Canvas
@@ -114,31 +115,31 @@ class TextField(Frame):
 
 
 def parse_ras():
-    ras_prj = ras_prj_select.file_path
-    ras_shp = ras_shp_select.file_path
-    project_id = global_prj_id.text.get()
-    additional_keywords = global_keywords.text.get()
+    args = Namespace(prj=ras_prj_select.file_path, shp=ras_shp_select.file_path, keywords=global_keywords.text.get(), id=global_prj_id.text.get())
+    args.keywords = args.keywords.split(",")
+    args.keywords = [x.strip() for x in args.keywords]
     print("Parsing RAS..")
-    msg = ras_parser.parse(ras_prj, ras_shp, project_id, additional_keywords)
+    msg = ras_parser.parse(args)
     print(msg)
     messagebox.showinfo(title='RAS', message=msg)
 
 
 def parse_hms():
-    hms_prj = hms_prj_select.file_path
-    hms_shp = hms_shp_select.file_path
-    hms_dss = hms_dss_select.folder_path
+    args = Namespace(prj=hms_prj_select.file_path, shp=hms_shp_select.file_path, dss=hms_dss_select.folder_path, keywords=global_keywords.text.get(), id=global_prj_id.text.get())
+    args.keywords = args.keywords.split(",")
+    args.keywords = [x.strip() for x in args.keywords]
     print("\nParsing HMS..")
-    msg = hms_parser.parse(hms_prj, hms_shp, hms_dss)
+    msg = hms_parser.parse(args.prj, args.shp, args.dss, args.keywords, args.id)
     print(msg)
     messagebox.showinfo(title='HMS', message=msg)
 
 
 def parse_fia():
-    fia_prj = fia_prj_select.file_path
-    fia_shp = fia_shp_select.file_path
+    args = Namespace(prj=fia_prj_select.file_path, shp=fia_shp_select.file_path, keywords=global_keywords.text.get(), id=global_prj_id.text.get())
+    args.keywords = args.keywords.split(",")
+    args.keywords = [x.strip() for x in args.keywords]
     print("\nParsing FIA..")
-    msg = fia_parser.parse(fia_prj, fia_shp)
+    msg = fia_parser.parse(args.prj, args.shp, args.keywords, args.id)
     print(msg)
     messagebox.showinfo(title='FIA', message=msg)
 
@@ -147,6 +148,14 @@ def parse_consequences():
     cons_args = SimpleNamespace()
     cons_args.run_type = run_type.get()
     print('Run Type: ', cons_args.run_type)
+
+    # Get Global Keywords
+    cons_args.keywords = global_keywords.text.get()
+    cons_args.keywords = cons_args.keywords.split(",")
+    cons_args.keywords = [x.strip() for x in cons_args.keywords]
+
+    # Get Project ID
+    cons_args.prj_id = global_prj_id.text.get()
 
     # Ensure Project Name and Desc are not empty
     if cons_prj_name.text == "" or cons_prj_desc.text == "":
@@ -541,6 +550,9 @@ link.bind("<Button-1>",
 
 
 # For testing only, auto input file paths.
+# Global Variables
+global_prj_id.text.set("P00813")
+global_keywords.text.set("LWI, Region 7")
 # RAS
 ras_prj_select.filePath.set("V:/projects/p00813_nps_2023_greenbelt_ig/02_analysis/HEC-RAS_MainModel/Greenbelt_RAS.prj")
 ras_shp_select.filePath.set("V:/projects/p00813_nps_2023_greenbelt_ig/02_analysis/HEC-RAS_MainModel/Shapes/2DFlowArea.shp")

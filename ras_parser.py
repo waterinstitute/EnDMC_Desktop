@@ -56,9 +56,9 @@ def dict_to_model_app_json(keyValues_dict, output_prj_json, args):
         'hec-ras', 'hec', 'ras', 'hydraulic', 'model']
     # Add any optional keywords
     try:
-        if args.keywords is not None:
+        if args.keywords is not None and len(args.keywords[0]) > 0:
             ras_model_template_json['keywords'].extend(args.keywords)
-        if args.id is not None:
+        if args.id is not None and len(args.id[0]) > 0:
             ras_model_template_json['keywords'].append(args.id)
     except:
         pass
@@ -314,7 +314,7 @@ def get_p_files(prj_dir, prj_name):
     return pList
 
 
-def parse_p(p_file_list, prj_name, wkt, crs, output_dir):
+def parse_p(p_file_list, prj_name, wkt, crs, output_dir, args):
 
     plan_titles = {}
     plan_titles['Plan Title'] = []

@@ -10,7 +10,7 @@ import pandas as pd
 import argparse
 from utils import get_wkt_crs
 
-def parse_prj(prj, prj_dir, prj_name, prj_template_json, shp, output_dir):
+def parse_prj(prj, prj_dir, prj_name, prj_template_json, shp, output_dir, keywords, prj_id):
     # Open the project file, read lines, strip newlines, copy lines to keyValueList
     with open(prj, "r") as f:
         lines = f.readlines()
@@ -153,6 +153,15 @@ def parse_prj(prj, prj_dir, prj_name, prj_template_json, shp, output_dir):
                 "title": "Agricultural Manager: AgriculturalGrid"
             }
         ]
+
+    # Add any optional keywords
+    try:
+        if keywords is not None and len(keywords[0]) > 0:
+            model_template_json['keywords'].extend(keywords)
+        if prj_id is not None and len(prj_id[0]) > 0:
+            model_template_json['keywords'].append(prj_id)
+    except:
+        pass
 
     # Match common_input_files dataframe to template
     manager_df = manager_df.rename(columns={"Name": "title", "Description": "description", "File": "location"})
@@ -327,7 +336,7 @@ def parse_sims(sim_pathnames, prj_dir, prj_name, sim_template_json, output_dir):
     with open(output_sim_json, "w") as outfile:
         json.dump(sim_template_json, outfile)
 
-def parse(prj, shp):
+def parse(prj, shp, keywords, prj_id):
     try:
         prj_dir, prj_file_tail = os.path.split(prj)
         prj_name = prj_file_tail.split(".")[0]
@@ -337,7 +346,7 @@ def parse(prj, shp):
 
         output_dir = os.path.join(os.getcwd(), 'output', 'fia')
 
-        sim_pathnames = parse_prj(prj, prj_dir, prj_name, prj_template_json, shp, output_dir)
+        sim_pathnames = parse_prj(prj, prj_dir, prj_name, prj_template_json, shp, output_dir, keywords, prj_id)
         parse_sims(sim_pathnames, prj_dir, prj_name, sim_template_json, output_dir)
 
         # Return Successful Output message
@@ -369,7 +378,22 @@ if __name__ == '__main__':
     type=str
     )
 
-    args = p.parse_args()
+    p.add_argument(
+        '--keywords', help='Optional. Additional Keywords for the project such as the client. Add multiple keywords with a comma (Ex: "LWI, National Park Service, CPRA")',
+        required=False,
+        type=str
+    )
 
-    msg = parse(args.fia, args.shp)
+    p.add_argument(
+        "--id", help="The Internal Organizational Project ID. This is ussually specifc to your own organization or company. \
+        (Ex: P00813)",
+        required=False,
+        type=str
+    )
+
+    args = p.parse_args()
+    args.keywords = args.keywords.split(",")
+    args.keywords = [x.strip() for x in args.keywords]
+
+    msg = parse(args.fia, args.shp, args.keywords, args.id)
     print(msg)
