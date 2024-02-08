@@ -55,7 +55,13 @@ def dict_to_model_app_json(keyValues_dict, output_prj_json, args):
     ras_model_template_json['keywords'] = [
         'hec-ras', 'hec', 'ras', 'hydraulic', 'model']
     # Add any optional keywords
-    ras_model_template_json['keywords'].extend(args.keywords)
+    try:
+        if args.keywords is not None:
+            ras_model_template_json['keywords'].extend(args.keywords)
+        if args.id is not None:
+            ras_model_template_json['keywords'].append(args.id)
+    except:
+        pass
 
     # Map to web-app Json
     ras_model_template_json['title'] = keyValues_dict['Proj Title']
