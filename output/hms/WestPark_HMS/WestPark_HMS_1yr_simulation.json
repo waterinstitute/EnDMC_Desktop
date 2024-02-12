@@ -1,1 +1,73 @@
-{"description": "Basin: WestPark_LowLoss, None. Meteorology: 1yr, None. Control: Control 1, None.", "title": "WestPark_HMS HEC-HMS Simulation: 1yr", "output_files": [{"title": "Output DSS File", "source_dataset": null, "location": "WestPark_All.dss", "description": null}], "input_files": [{"title": "Basin File", "source_dataset": null, "location": "WestPark_LowLoss.basin", "description": null}, {"title": "Meteorology File", "source_dataset": null, "location": "1yr.met", "description": null}, {"title": "Control File", "source_dataset": null, "location": "Control_1.control", "description": null}], "parameters": [{"parameter": "Canopy", "value": ["None"]}, {"parameter": "LossRate", "value": ["SCS"]}, {"parameter": "Transform", "value": ["Modified Clark"]}, {"parameter": "Baseflow", "value": ["Monthly Constant"]}, {"parameter": "Route", "value": ["Lag"]}, {"parameter": "Precipitation Method", "value": "Frequency Based Hypothetical"}], "temporal_extent": ["2999-12-31", "3000-01-02"], "temporal_resolution": "15 Minutes"}
+{
+    "title": "WestPark_HMS HEC-HMS Simulation: 1yr",
+    "description": "Basin: WestPark_LowLoss, None. Meteorology: 1yr, None. Control: Control 1, None.",
+    "input_files": [
+        {
+            "title": "Basin File",
+            "source_dataset": null,
+            "description": null,
+            "location": "WestPark_LowLoss.basin"
+        },
+        {
+            "title": "Meteorology File",
+            "source_dataset": null,
+            "description": null,
+            "location": "1yr.met"
+        },
+        {
+            "title": "Control File",
+            "source_dataset": null,
+            "description": null,
+            "location": "Control_1.control"
+        }
+    ],
+    "output_files": [
+        {
+            "title": "Output DSS File",
+            "source_dataset": null,
+            "description": null,
+            "location": "WestPark_All.dss"
+        }
+    ],
+    "parameters": [
+        {
+            "parameter": "Canopy",
+            "value": [
+                "None"
+            ]
+        },
+        {
+            "parameter": "LossRate",
+            "value": [
+                "SCS"
+            ]
+        },
+        {
+            "parameter": "Transform",
+            "value": [
+                "Modified Clark"
+            ]
+        },
+        {
+            "parameter": "Baseflow",
+            "value": [
+                "Monthly Constant"
+            ]
+        },
+        {
+            "parameter": "Route",
+            "value": [
+                "Lag"
+            ]
+        },
+        {
+            "parameter": "Precipitation Method",
+            "value": "Frequency Based Hypothetical"
+        }
+    ],
+    "temporal_extent": [
+        "2999-12-31",
+        "3000-01-02"
+    ],
+    "temporal_resolution": "15 Minutes"
+}

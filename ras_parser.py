@@ -7,7 +7,7 @@ import os
 import argparse
 from datetime import datetime
 import h5py
-from utils import get_wkt_crs, trimmer
+from utils import get_wkt_crs, trimmer, get_schema_keys
 
 
 def get_ras_prj_wkt(p_file):
@@ -40,7 +40,7 @@ def getDSSPaths(lines):
     return dss_file_and_paths
 
 
-def dict_to_model_app_json(keyValues_dict, output_prj_json, args):
+def dict_to_model_app_json(keyValues_dict, output_prj_json, args, model_application_key_order):
     # Open ras_model_application Json template
     with open(r"example\input\json\ras_model_application.json", 'r') as f:
         ras_model_template_json = json.load(f)
@@ -74,10 +74,10 @@ def dict_to_model_app_json(keyValues_dict, output_prj_json, args):
     ras_model_template_json['common_input_files'] = []
     ras_model_template_json['common_output_files'] = []
     ras_model_template_json['common_input_files'].append({
+        'title': 'prj file',
         'source_dataset': None,
         'description': 'RAS project file which links projects with plans, geometry, and flow files',
         'location': keyValues_dict['Project File'],
-        'title': 'prj file'
     })
 
     # Add each p file to common_file_details
@@ -85,18 +85,21 @@ def dict_to_model_app_json(keyValues_dict, output_prj_json, args):
         keyValues_dict['Plans']['Plan Title'], keyValues_dict['Plans']['P File'])
     for plan in plan_zipList:
         ras_model_template_json['common_input_files'].append({
+            'title': f"p file for {plan[0]}",
             'source_dataset': None,
             'description': plan[0],
             'location': plan[1],
-            'title': f"p file for {plan[0]}"
         })
+
+    # use key order to sort output json
+    ras_model_template_json = {k: ras_model_template_json[k] for k in model_application_key_order if k in ras_model_template_json.keys()}
 
     # Output mapped json
     with open(output_prj_json, "w") as outfile:
-        json.dump(ras_model_template_json, outfile)
+        json.dump(ras_model_template_json, outfile, indent=4)
 
 
-def dict_to_sim_json(keyValues_dict, prj_name, p_file, output_p_json):
+def dict_to_sim_json(keyValues_dict, prj_name, p_file, output_p_json, simulation_key_order):
     # Open RAS Simulation Json Template
     cwd = os.getcwd()
     with open(r"example\input\json\ras_simulation.json", 'r') as f:
@@ -133,18 +136,18 @@ def dict_to_sim_json(keyValues_dict, prj_name, p_file, output_p_json):
             input_files.append(
                 {
                     "title": j[0]+" "+j[1],
-                    "location": j[-1],
+                    "source_dataset": None,
                     "description": j[0]+" "+j[1],
-                    "source_dataset": None
+                    "location": j[-1],
                 }
             )
         else:
             input_files.append(
                 {
                     "title": j[0],
-                    "location": j[-1],
+                    "source_dataset": None,
                     "description": j[0],
-                    "source_dataset": None
+                    "location": j[-1],
                 }
             )
 
@@ -152,57 +155,57 @@ def dict_to_sim_json(keyValues_dict, prj_name, p_file, output_p_json):
     input_files.extend(
         [{
             "title": "Terrain",
-            "location": keyValues_dict['terrain'],
+            "source_dataset": None,
             "description": "Terrain used by model",
-            "source_dataset": None
+            "location": keyValues_dict['terrain'],
         },
             {
             "title": "b file",
-            "location": f'{prj_name}.b{p_num}',
+            "source_dataset": None,
             "description": "RAS master input text file",
-            "source_dataset": None
+            "location": f'{prj_name}.b{p_num}',
         },
             {
             "title": "g file",
-            "location": f"{prj_name}.{keyValues_dict['Geom File']}",
+            "source_dataset": None,
             "description": "RAS geometry file",
-            "source_dataset": None
+            "location": f"{prj_name}.{keyValues_dict['Geom File']}",
         },
             {
             "title": "prj file",
-            "location": f'{prj_name}.prj',
+            "source_dataset": None,
             "description": "RAS project file which links projects with plans, geometry, and flow files",
-            "source_dataset": None
+            "location": f'{prj_name}.prj',
         },
             {
             "title": "c file",
-            "location": f"{prj_name}.c{g_num}",
+            "source_dataset": None,
             "description": "Binary Geometry file from Geom Prep",
-            "source_dataset": None
+            "location": f"{prj_name}.c{g_num}",
         },
             {
             "title": "x file",
-            "location": f"{prj_name}.x{g_num}",
+            "source_dataset": None,
             "description": "Geometry master input text file",
-            "source_dataset": None
+            "location": f"{prj_name}.x{g_num}",
         },
             {
             "title": "p file",
-            "location": f"{prj_name}.p{p_num}",
+            "source_dataset": None,
             "description": "Model plan data",
-            "source_dataset": None
+            "location": f"{prj_name}.p{p_num}",
         },
             {
             "title": "u file",
-            "location": f"{prj_name}.u{u_num}",
+            "source_dataset": None,
             "description": "unsteady flow file",
-            "source_dataset": None
+            "location": f"{prj_name}.u{u_num}",
         },
             {
             "title": "u hdf file",
-            "location": f"{prj_name}.u{u_num}.hdf",
+            "source_dataset": None,
             "description": "unsteady flow file in HDF format",
-            "source_dataset": None
+            "location": f"{prj_name}.u{u_num}.hdf",
         }]
     )
 
@@ -218,26 +221,29 @@ def dict_to_sim_json(keyValues_dict, prj_name, p_file, output_p_json):
     ras_sim_template_json['output_files'] = [
         {
             "title": "output dss file",
-            "location": keyValues_dict['DSS Output File'],
+            "source_dataset": None,
             "description": "output model data in dss",
-            "source_dataset": None
+            "location": keyValues_dict['DSS Output File'],
         },
         {
             "title": "p hdf file",
-            "location": f"{prj_name}.p{p_num}.hdf",
+            "source_dataset": None,
             "description": "result output in HDF format",
-            "source_dataset": None
+            "location": f"{prj_name}.p{p_num}.hdf",
         }
     ]
 
     ras_sim_template_json['input_files'] = input_files
 
+    # use key order to sort output json
+    ras_sim_template_json = {k: ras_sim_template_json[k] for k in simulation_key_order if k in ras_sim_template_json.keys()}
+
     # Output json
     with open(output_p_json, "w") as outfile:
-        json.dump(ras_sim_template_json, outfile)
+        json.dump(ras_sim_template_json, outfile, indent=4)
 
 
-def parse_prj(args, prj_name, wkt, crs, plan_titles, output_dir):
+def parse_prj(args, prj_name, wkt, crs, plan_titles, output_dir, model_application_key_order):
     # output_prj_yaml = os.path.join(output_dir, f'{prj_name}_ras_prj.yml')
     output_prj_json = os.path.join(
         output_dir, f'{prj_name}_ras_model_application.json')
@@ -299,7 +305,7 @@ def parse_prj(args, prj_name, wkt, crs, plan_titles, output_dir):
     # with open(output_prj_yaml, 'w+') as f:
     #     yaml.dump(keyValues_dict, f)
 
-    dict_to_model_app_json(keyValues_dict, output_prj_json, args)
+    dict_to_model_app_json(keyValues_dict, output_prj_json, args, model_application_key_order)
 
 
 def get_p_files(prj_dir, prj_name):
@@ -314,7 +320,7 @@ def get_p_files(prj_dir, prj_name):
     return pList
 
 
-def parse_p(p_file_list, prj_name, wkt, crs, output_dir, args):
+def parse_p(p_file_list, prj_name, wkt, crs, output_dir, args, simulation_key_order):
 
     plan_titles = {}
     plan_titles['Plan Title'] = []
@@ -416,7 +422,7 @@ def parse_p(p_file_list, prj_name, wkt, crs, output_dir, args):
         # Write output Json for each .p## file.
         output_p_json = os.path.join(
             output_dir, f'{p_file_tail}_Simulation.json')
-        dict_to_sim_json(keyValues_dict, prj_name, p, output_p_json)
+        dict_to_sim_json(keyValues_dict, prj_name, p, output_p_json, simulation_key_order)
 
     return plan_titles
 
@@ -450,14 +456,20 @@ def parse(args):
             # Get WKT and CRS from shp
             wkt, crs = get_wkt_crs.parse_shp(
                 args.shp, ras_prj_wkt, prj_name, output_dir)
+            
+            # get schema keys
+            model_application_key_order = get_schema_keys.get_schema_keys("./example/input/json/model_application_schema.json")
+            simulation_key_order = get_schema_keys.get_schema_keys("./example/input/json/simulation_schema.json")  
 
             # Parse p files and include data from geometry, flow files. and add wkt.
             # Returns the plan titles of each p file as a list.
             plan_titles = parse_p(p_file_list, prj_name,
-                                  wkt, crs, output_dir, args)
+                                  wkt, crs, output_dir, args, simulation_key_order)
+            
+            
 
             # Parse prj, remove extra fields, add list of p file titles, and wkt.
-            parse_prj(args, prj_name, wkt, crs, plan_titles, output_dir)
+            parse_prj(args, prj_name, wkt, crs, plan_titles, output_dir, model_application_key_order)
 
             #  Return Successful Output message.
             msg = f'RAS Parsing Complete. Output files located at: {output_dir}'

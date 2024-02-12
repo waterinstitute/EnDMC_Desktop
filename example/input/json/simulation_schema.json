@@ -1,0 +1,191 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "type": "object",
+    "title": "Simulation",
+    "description": "This metadata layer describes a specific simulation performed with a specific model application (e.g., validation run for a specific application). A simulation is linked to a parent model application and to a model software version. It requires descriptions of all model inputs and outputs.",
+    "definitions": {
+      "ParameterValue": {
+        "isActivated": true,
+        "type": "object",
+        "properties": {
+          "parameter": {
+            "title": "Parameter",
+            "isActivated": true,
+            "type": "string"
+          },
+          "value": {
+            "title": "Value",
+            "isActivated": true,
+            "type": "string"
+          }
+        },
+        "additionalProperties": false,
+        "required": ["parameter", "value"]
+      },
+      "FileDetails": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "description": "Inherited from the Model Software File description"
+          },
+          "source_dataset": {
+            "type": "string",
+            "format": "uri-reference"
+          },
+          "description": {
+            "type": "string",
+            "format": "textarea"
+          },
+          "location": {
+            "type": "string",
+            "format": "uri-reference",
+            "description": "Either a reference to a resource (file/service) or a location inside a resource (link_to_a_tar#/file/inside/tarfile)\nOptional"
+          }
+        },
+        "additionalProperties": false,
+        "headerTemplate": "File {{ i1 }} - {{ self.title }}"
+      }
+    },
+    "properties": {
+      "title": {
+        "title": "Title",
+        "type": "string",
+        "description": "Name of this simulation"
+      },
+      "description": {
+        "title": "Simulation Description",
+        "description": "Provide an introduction to this simulation.",
+        "type": "string",
+        "format": "markdown"
+      },
+      "model_application": {
+        "title": "Model Application",
+        "isActivated": true,
+        "type": "string",
+        "description": "Model application framing this simulation",
+        "format": "autocomplete",
+        "options": {
+          "autocomplete": {
+            "search": "search_model_application",
+            "getResultValue": "getResultValue_model_application",
+            "renderResult": "renderResult_model_application",
+            "onSubmit": "onSubmit_model_application_simulation",
+            "autoSelect": true
+          }
+        }
+      },
+      "model_software": {
+        "title": "Model Software Version",
+        "isActivated": true,
+        "type": "string",
+        "description": "Model software used to run this simulation",
+        "format": "autocomplete",
+        "options": {
+          "autocomplete": {
+            "search": "search_model_version",
+            "getResultValue": "getResultValue_model_version",
+            "renderResult": "renderResult_model_version",
+            "onSubmit": "onSubmit_model_version_simulation",
+            "autoSelect": true
+          }
+        }
+      },
+      "type": {
+        "title": "Simulation Type",
+        "description": "e.g. VALIDATION, CALIBRATION, SCENARIO, RUN",
+        "type": "string",
+        "enum": [
+          "VALIDATION",
+          "CALIBRATION",
+          "SCENARIO",
+          "PRODUCTION_RUN",
+          "OTHER"
+        ]
+      },
+      "input_files": {
+        "title": "Input Files",
+        "isActivated": true,
+        "type": "array",
+        "format": "tabs",
+        "items": {
+          "$ref": "#/definitions/FileDetails"
+        },
+        "description": "Description of the input files"
+      },
+      "output_files": {
+        "title": "Output files",
+        "isActivated": true,
+        "type": "array",
+        "format": "tabs",
+        "items": {
+          "$ref": "#/definitions/FileDetails"
+        },
+        "description": "Information about the dataset included in the output data."
+      },
+      "parameters": {
+        "title": "Parameters",
+        "description": "What parameters are used in this simulation?",
+        "isActivated": true,
+        "type": "array",
+        "additionalItems": true,
+        "items": {
+          "$ref": "#/definitions/ParameterValue",
+          "isActivated": true,
+          "displayName": "ParameterValue"
+        }
+      },
+      "temporal_extent": {
+        "type": "array",
+        "description": "Beginning and end date of simulation",
+        "title": "Temporal extent",
+        "additionalItems": true,
+        "minItems": 2,
+        "uniqueItems": true,
+        "items": {
+          "type": "string",
+          "format": "date"
+        }
+      },
+      "temporal_resolution": {
+        "type": "string",
+        "title": "Temporal resolution",
+        "description": "Temporal resolution of the output files"
+      },
+      "linked_resources": {
+        "title": "Linked resources",
+        "type": "array",
+        "description": "Provide a list of resources describing this simulation. Please include technical report and/or publications",
+        "format": "tabs",
+        "items": {
+          "type": "object",
+          "properties": {
+            "title": {
+              "type": "string"
+            },
+            "url": {
+              "type": "string",
+              "format": "uri-reference"
+            },
+            "type": {
+              "type": "string"
+            }
+          },
+          "headerTemplate": "Resource {{ i1 }} - {{ self.title }}",
+          "required": ["title", "url"]
+        }
+      }
+    },
+    "additionalProperties": false,
+    "required": [
+      "title",
+      "description",
+      "model_application",
+      "model_software",
+      "input_files",
+      "output_files",
+      "parameters",
+      "type"
+    ]
+  }
+  

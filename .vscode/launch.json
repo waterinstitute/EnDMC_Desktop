@@ -6,9 +6,9 @@
     "configurations": [
         {
             "name": "current file",
-            "type": "python",
+            "type": "debugpy",
             "request": "launch",
-            "program": "${file}"
+            "program": "${file}",
             "console": "integratedTerminal",
             "justMyCode": true, 
         }

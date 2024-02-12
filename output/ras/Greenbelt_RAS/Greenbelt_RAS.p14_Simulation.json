@@ -1,1 +1,103 @@
-{"input_files": [{"title": "Met BC Precipitation|Gridded DSS Filename", "location": ".\\DSS\\MRMS_PRCP_Greenbelt_May2021.dss", "description": "Met BC Precipitation|Gridded DSS Filename", "source_dataset": null}, {"title": "DSS File", "location": ".\\DSS\\BC_English_Bayou_UTC.dss", "description": "DSS File", "source_dataset": null}, {"title": "DSS File", "location": ".\\DSS\\BC_Calcasieu_UTC.dss", "description": "DSS File", "source_dataset": null}, {"title": "DSS File", "location": ".\\DSS\\BC_stage_UTC.dss", "description": "DSS File", "source_dataset": null}, {"title": "Terrain", "location": ".\\Terrain\\FINAL_10192023_withProject_Luis.FINAL_11212023_WithProjectMay17th.hdf", "description": "Terrain used by model", "source_dataset": null}, {"title": "b file", "location": "Greenbelt_RAS.b14", "description": "RAS master input text file", "source_dataset": null}, {"title": "g file", "location": "Greenbelt_RAS.g02", "description": "RAS geometry file", "source_dataset": null}, {"title": "prj file", "location": "Greenbelt_RAS.prj", "description": "RAS project file which links projects with plans, geometry, and flow files", "source_dataset": null}, {"title": "c file", "location": "Greenbelt_RAS.c02", "description": "Binary Geometry file from Geom Prep", "source_dataset": null}, {"title": "x file", "location": "Greenbelt_RAS.x02", "description": "Geometry master input text file", "source_dataset": null}, {"title": "p file", "location": "Greenbelt_RAS.p14", "description": "Model plan data", "source_dataset": null}, {"title": "u file", "location": "Greenbelt_RAS.u02", "description": "unsteady flow file", "source_dataset": null}, {"title": "u hdf file", "location": "Greenbelt_RAS.u02.hdf", "description": "unsteady flow file in HDF format", "source_dataset": null}], "title": "Greenbelt_RAS HEC-RAS Model Simulation: May_17th_2021_WithProject", "temporal_extent": ["2021-05-16", "2021-05-24"], "description": null, "temporal_resolution": "10SEC", "output_files": [{"title": "output dss file", "location": "Greenbelt_RAS.dss", "description": "output model data in dss", "source_dataset": null}, {"title": "p hdf file", "location": "Greenbelt_RAS.p14.hdf", "description": "result output in HDF format", "source_dataset": null}]}
+{
+    "title": "Greenbelt_RAS HEC-RAS Model Simulation: May_17th_2021_WithProject",
+    "description": null,
+    "input_files": [
+        {
+            "title": "DSS File",
+            "source_dataset": null,
+            "description": "DSS File",
+            "location": ".\\DSS\\BC_Calcasieu_UTC.dss"
+        },
+        {
+            "title": "DSS File",
+            "source_dataset": null,
+            "description": "DSS File",
+            "location": ".\\DSS\\BC_English_Bayou_UTC.dss"
+        },
+        {
+            "title": "DSS File",
+            "source_dataset": null,
+            "description": "DSS File",
+            "location": ".\\DSS\\BC_stage_UTC.dss"
+        },
+        {
+            "title": "Met BC Precipitation|Gridded DSS Filename",
+            "source_dataset": null,
+            "description": "Met BC Precipitation|Gridded DSS Filename",
+            "location": ".\\DSS\\MRMS_PRCP_Greenbelt_May2021.dss"
+        },
+        {
+            "title": "Terrain",
+            "source_dataset": null,
+            "description": "Terrain used by model",
+            "location": ".\\Terrain\\FINAL_10192023_withProject_Luis.FINAL_11212023_WithProjectMay17th.hdf"
+        },
+        {
+            "title": "b file",
+            "source_dataset": null,
+            "description": "RAS master input text file",
+            "location": "Greenbelt_RAS.b14"
+        },
+        {
+            "title": "g file",
+            "source_dataset": null,
+            "description": "RAS geometry file",
+            "location": "Greenbelt_RAS.g02"
+        },
+        {
+            "title": "prj file",
+            "source_dataset": null,
+            "description": "RAS project file which links projects with plans, geometry, and flow files",
+            "location": "Greenbelt_RAS.prj"
+        },
+        {
+            "title": "c file",
+            "source_dataset": null,
+            "description": "Binary Geometry file from Geom Prep",
+            "location": "Greenbelt_RAS.c02"
+        },
+        {
+            "title": "x file",
+            "source_dataset": null,
+            "description": "Geometry master input text file",
+            "location": "Greenbelt_RAS.x02"
+        },
+        {
+            "title": "p file",
+            "source_dataset": null,
+            "description": "Model plan data",
+            "location": "Greenbelt_RAS.p14"
+        },
+        {
+            "title": "u file",
+            "source_dataset": null,
+            "description": "unsteady flow file",
+            "location": "Greenbelt_RAS.u02"
+        },
+        {
+            "title": "u hdf file",
+            "source_dataset": null,
+            "description": "unsteady flow file in HDF format",
+            "location": "Greenbelt_RAS.u02.hdf"
+        }
+    ],
+    "output_files": [
+        {
+            "title": "output dss file",
+            "source_dataset": null,
+            "description": "output model data in dss",
+            "location": "Greenbelt_RAS.dss"
+        },
+        {
+            "title": "p hdf file",
+            "source_dataset": null,
+            "description": "result output in HDF format",
+            "location": "Greenbelt_RAS.p14.hdf"
+        }
+    ],
+    "temporal_extent": [
+        "2021-05-16",
+        "2021-05-24"
+    ],
+    "temporal_resolution": "10SEC"
+}

@@ -4,13 +4,15 @@ import json
 from datetime import datetime
 import traceback
 from bs4 import BeautifulSoup
+import numpy as np
 # import lxml
 # import copy
 import pandas as pd
 import argparse
 from utils import get_wkt_crs
+from utils import get_schema_keys
 
-def parse_prj(prj, prj_dir, prj_name, prj_template_json, shp, output_dir, keywords, prj_id):
+def parse_prj(prj, prj_dir, prj_name, prj_template_json, shp, output_dir, keywords, prj_id, model_application_key_order):
     # Open the project file, read lines, strip newlines, copy lines to keyValueList
     with open(prj, "r") as f:
         lines = f.readlines()
@@ -148,9 +150,10 @@ def parse_prj(prj, prj_dir, prj_name, prj_template_json, shp, output_dir, keywor
 
     model_template_json["common_input_files"] = [
             {
+                "title": "Agricultural Manager: AgriculturalGrid",
+                "source_dataset": None,
                 "description": "AgricultureManager",
                 "location": "Inventory/Agriculture Data/AgriculturalGrid.tif",
-                "title": "Agricultural Manager: AgriculturalGrid"
             }
         ]
 
@@ -171,16 +174,22 @@ def parse_prj(prj, prj_dir, prj_name, prj_template_json, shp, output_dir, keywor
     #Concatenate manager and map dataframes
     df = pd.concat([manager_df_clean, map_df], axis=0)
 
+    # Update description for common_input_files
+    df['description'] = np.where(df['description'] == " ", df['title'], df['description'])
+
     # Use Pandas to_dict("records") method, it outputs to the required list of objects format: [{}, {}].
     model_template_json["common_input_files"] = df.to_dict('records')
     model_template_json["common_input_files"]
+  
+    # use key order to sort output json
+    model_template_json = {k: model_template_json[k] for k in model_application_key_order if k in model_template_json.keys()}
 
     # output model application json
     if not os.path.exists(output_dir):
         os.makedirs(output_dir)
     output_model_json = os.path.join(output_dir,f'{prj_name}_model_application.json')
     with open(output_model_json, "w") as outfile:
-        json.dump(model_template_json, outfile)
+        json.dump(model_template_json, outfile, indent=4)
 
 
     # Get Sim Files.
@@ -191,7 +200,7 @@ def parse_prj(prj, prj_dir, prj_name, prj_template_json, shp, output_dir, keywor
 
     return sim_pathnames
 
-def parse_sims(sim_pathnames, prj_dir, prj_name, sim_template_json, output_dir):
+def parse_sims(sim_pathnames, prj_dir, prj_name, sim_template_json, output_dir, simulation_key_order):
     # Parse Sims from each sim file get basics and alt file. from alt file get inputs
     path = sim_pathnames[0]
     # for path in sim_pathnames:
@@ -214,6 +223,8 @@ def parse_sims(sim_pathnames, prj_dir, prj_name, sim_template_json, output_dir):
 
     alt_description = soupData_alt.find_all('Description')[0].text
 
+    
+    # Typos are in the xml file: 'Structrue Inventory' and 'Agriculgure Duration Grid'
     wanted_tags = ['Impact Area', 'Inundation Configuration', 'Structrue Inventory', 'Agriculture Inventory', 'Warning Issuance']
     # The grid_wanted_tags list comes from the gridlc xml file which is linked in the Alternative XML file.
     grid_wanted_tags = ['Inundation Grid', 'Depth Velocity Grid', 'Life Lose Arrival Grid', 'Agriculture Arrival Grid', 'Agriculgure Duration Grid']
@@ -234,7 +245,8 @@ def parse_sims(sim_pathnames, prj_dir, prj_name, sim_template_json, output_dir):
             
             alt_kv_list.append({
                 'title':tag,
-                'description': ' ',
+                'source_dataset': None,
+                'description': tag,
                 'location': text_path
             })
 
@@ -256,7 +268,8 @@ def parse_sims(sim_pathnames, prj_dir, prj_name, sim_template_json, output_dir):
 
                         alt_kv_list.append({
                             'title':tag,
-                            'description': ' ',
+                            'source_dataset': None,
+                            'description': tag,
                             'location': text_path
                         })
         
@@ -273,7 +286,8 @@ def parse_sims(sim_pathnames, prj_dir, prj_name, sim_template_json, output_dir):
         sim_results_dir_forwardslash = sim_results_dir.replace("\\", "/")
         output_kv_list.append({
             'title': tail.split('.shp')[0],
-            'description': ' ',
+            'source_dataset': None,
+            'description': tail.split('.shp')[0],
             'location': f'{sim_results_dir_forwardslash}/{tail}'
         })
 
@@ -329,12 +343,15 @@ def parse_sims(sim_pathnames, prj_dir, prj_name, sim_template_json, output_dir):
     sim_template_json['output_files'] = output_kv_list
     sim_template_json['parameters'] = parameter_kv_list
 
+    # use key order to sort output json
+    sim_template_json = {k: sim_template_json[k] for k in simulation_key_order if k in sim_template_json.keys()}
+
     # output sim json
     if not os.path.exists(output_dir):
         os.makedirs(output_dir)
     output_sim_json = os.path.join(output_dir,f'{prj_name}_{sim_name}_simulation.json')
     with open(output_sim_json, "w") as outfile:
-        json.dump(sim_template_json, outfile)
+        json.dump(sim_template_json, outfile, indent=4)
 
 def parse(prj, shp, keywords, prj_id):
     try:
@@ -342,12 +359,17 @@ def parse(prj, shp, keywords, prj_id):
         prj_name = prj_file_tail.split(".")[0]
         prj_template_json =  r"example\input\json\fia_model_application_template.json"
         sim_template_json =  r"example\input\json\fia_simulation_template.json"
-        print(os.getcwd())
-
+        
+        # get schema keys
+        model_application_key_order = get_schema_keys.get_schema_keys("./example/input/json/model_application_schema.json")
+        simulation_key_order = get_schema_keys.get_schema_keys("./example/input/json/simulation_schema.json")  
+        
         output_dir = os.path.join(os.getcwd(), 'output', 'fia')
 
-        sim_pathnames = parse_prj(prj, prj_dir, prj_name, prj_template_json, shp, output_dir, keywords, prj_id)
-        parse_sims(sim_pathnames, prj_dir, prj_name, sim_template_json, output_dir)
+        # Parse Project and return sim file paths
+        sim_pathnames = parse_prj(prj, prj_dir, prj_name, prj_template_json, shp, output_dir, keywords, prj_id, model_application_key_order)
+        # Parse Sims
+        parse_sims(sim_pathnames, prj_dir, prj_name, sim_template_json, output_dir, simulation_key_order)
 
         # Return Successful Output message
         msg = f'FIA Parsing Complete. Output files located at: {output_dir}'
@@ -358,7 +380,6 @@ def parse(prj, shp, keywords, prj_id):
         # print(msg)
         return msg
     
-
 if __name__ == '__main__':
 
     # Parse Command Line Arguments
@@ -397,3 +418,4 @@ if __name__ == '__main__':
 
     msg = parse(args.fia, args.shp, args.keywords, args.id)
     print(msg)
+# %%

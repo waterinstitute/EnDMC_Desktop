@@ -9,6 +9,7 @@ import os
 import argparse
 from utils import get_wkt_crs
 from datetime import datetime
+from utils import get_schema_keys
 
 def gage_file_parse(prj_dir, prj_name):
     gage_kv ={}
@@ -110,7 +111,7 @@ def get_extra_dss_files(input_dss_dir, prj_name):
 
     return dss_common_files_input
 
-def parse_prj(prj, wkt, crs, dss_common_files_input, output_dir, keywords, prj_id):
+def parse_prj(prj, wkt, crs, dss_common_files_input, output_dir, keywords, prj_id, model_application_key_order):
 
     prj_dir, prj_file_tail = os.path.split(prj)
     prj_name = prj_file_tail.split(".")[0]
@@ -203,28 +204,28 @@ def parse_prj(prj, wkt, crs, dss_common_files_input, output_dir, keywords, prj_i
     model_template_json['common_input_files'] = []
     model_template_json['common_input_files'].extend(
         [{
+            "title": "Project File",
+            "source_dataset": None,
             "description": "The HMS Project File",
             "location": prj_file_tail,
-            "source_dataset": None,
-            "title": "Project File"
         },
         {
+            "title": "Basin Files",
+            "source_dataset": None,
             "description": "There may be multiple basins in the HMS model project",
             "location": f"{prj_name}/*.basin",
-            "source_dataset": None,
-            "title": "Basin Files"
         },
         {
+            "title": "Meteorological Model Files",
+            "source_dataset": None,
             "description": "There may be multiple Meteorological Models",
             "location": f"{prj_name}/*.met",
-            "source_dataset": None,
-            "title": "Meteorological Model Files"
         },
         {
+            "title": "Control Specification Files",
+            "source_dataset": None,
             "description": "There may be multiple control specifications.",
             "location": f"{prj_name}/*.control",
-            "source_dataset": None,
-            "title": "Control Specification Files"
         }]
     )
 
@@ -236,14 +237,17 @@ def parse_prj(prj, wkt, crs, dss_common_files_input, output_dir, keywords, prj_i
     gage_dss_files = gage_file_parse(prj_dir,prj_name)
     if gage_dss_files is not None:
         model_template_json['common_input_files'].extend(gage_dss_files)
+
+    # use key order to sort output json
+    model_template_json = {k: model_template_json[k] for k in model_application_key_order if k in model_template_json.keys()}
     
     # output model application json
     output_prj_json = os.path.join(output_dir,f'{prj_name}_model_application.json')
     with open(output_prj_json, "w") as outfile:
-        json.dump(model_template_json, outfile)
+        json.dump(model_template_json, outfile, indent=4)
     print (f'\nmodel_application file output to: {output_prj_json}')
 
-def parse_runs(prj, output_dir):
+def parse_runs(prj, output_dir, simulation_key_order):
     # Get project name
     prj_dir, prj_file_tail = os.path.split(prj)
     prj_name = prj_file_tail.split(".")[0]
@@ -419,8 +423,8 @@ Control: {sim_kv[title]['Control']}, {sim_kv[title]['Control Description']}."
             {
                 "title": "Output DSS File",
                 "source_dataset": None,
+                "description": None,
                 "location": sim_kv[title]['DSS File'],
-                "description": None
             }
         ]
         
@@ -432,20 +436,20 @@ Control: {sim_kv[title]['Control']}, {sim_kv[title]['Control Description']}."
              {
                 "title": "Basin File",
                 "source_dataset": None,
+                "description": sim_kv[title]['Basin Description'],
                 "location": basin_name,
-                "description": sim_kv[title]['Basin Description']
             },
             {
                 "title": "Meteorology File",
                 "source_dataset": None,
+                "description": sim_kv[title]['Meteorology Description'],
                 "location": precip_name,
-                "description": sim_kv[title]['Meteorology Description']
             },
             {
                 "title": "Control File",
                 "source_dataset": None,
+                "description": sim_kv[title]['Control Description'],
                 "location": control_name,
-                "description": sim_kv[title]['Control Description']
             },
 
         ])
@@ -458,10 +462,13 @@ Control: {sim_kv[title]['Control']}, {sim_kv[title]['Control Description']}."
 
         simulation_template_json["parameters"] = sim_kv[title]['parameters']    
 
+        # use key order to sort output json
+        simulation_template_json = {k: simulation_template_json[k] for k in simulation_key_order if k in simulation_template_json.keys()}
+
         # output each simulation json
         output_sim_json = os.path.join(output_dir,f'{prj_name}_{title}_simulation.json')
         with open(output_sim_json, "w") as outfile:
-            json.dump(simulation_template_json, outfile)
+            json.dump(simulation_template_json, outfile, indent=4)
         print (f'{prj_name}_{title}_simulation.json')
 
 
@@ -487,12 +494,16 @@ def parse(prj, shp, dss, keywords, prj_id):
             extra_dss_files_list = get_extra_dss_files(dss, prj_name)
         else:
             extra_dss_files_list = None
+        
+        # get schema keys
+        model_application_key_order = get_schema_keys.get_schema_keys("./example/input/json/model_application_schema.json")
+        simulation_key_order = get_schema_keys.get_schema_keys("./example/input/json/simulation_schema.json")  
 
         # Parse project file
-        parse_prj(prj, wkt, crs, extra_dss_files_list, output_dir, keywords, prj_id)
+        parse_prj(prj, wkt, crs, extra_dss_files_list, output_dir, keywords, prj_id, model_application_key_order)
 
         # Run file parse
-        parse_runs(prj, output_dir)
+        parse_runs(prj, output_dir, simulation_key_order)
 
         # Return Successful Output message.
         msg = f'HMS Parsing Complete. Output files located at: {output_dir}'

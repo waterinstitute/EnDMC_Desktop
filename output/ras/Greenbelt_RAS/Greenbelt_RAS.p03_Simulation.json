@@ -1,1 +1,85 @@
-{"input_files": [{"title": "Met BC Precipitation|Gridded DSS Filename", "location": ".\\DSS\\Atlas14\\Atlas14_Southeast_010yr_Partial_Duration_24hPrecip_24hDistribution_50PercentOccurence_ALL.dss", "description": "Met BC Precipitation|Gridded DSS Filename", "source_dataset": null}, {"title": "Terrain", "location": ".\\Terrain\\FINAL_10192023_withProject_Luis.hdf", "description": "Terrain used by model", "source_dataset": null}, {"title": "b file", "location": "Greenbelt_RAS.b03", "description": "RAS master input text file", "source_dataset": null}, {"title": "g file", "location": "Greenbelt_RAS.g03", "description": "RAS geometry file", "source_dataset": null}, {"title": "prj file", "location": "Greenbelt_RAS.prj", "description": "RAS project file which links projects with plans, geometry, and flow files", "source_dataset": null}, {"title": "c file", "location": "Greenbelt_RAS.c03", "description": "Binary Geometry file from Geom Prep", "source_dataset": null}, {"title": "x file", "location": "Greenbelt_RAS.x03", "description": "Geometry master input text file", "source_dataset": null}, {"title": "p file", "location": "Greenbelt_RAS.p03", "description": "Model plan data", "source_dataset": null}, {"title": "u file", "location": "Greenbelt_RAS.u01", "description": "unsteady flow file", "source_dataset": null}, {"title": "u hdf file", "location": "Greenbelt_RAS.u01.hdf", "description": "unsteady flow file in HDF format", "source_dataset": null}], "title": "Greenbelt_RAS HEC-RAS Model Simulation: 010yr_24hr_WithProject_MeanTide50%", "temporal_extent": ["1970-01-02", "1970-01-09"], "description": null, "temporal_resolution": "10SEC", "output_files": [{"title": "output dss file", "location": "Greenbelt_RAS.dss", "description": "output model data in dss", "source_dataset": null}, {"title": "p hdf file", "location": "Greenbelt_RAS.p03.hdf", "description": "result output in HDF format", "source_dataset": null}]}
+{
+    "title": "Greenbelt_RAS HEC-RAS Model Simulation: 010yr_24hr_WithProject_MeanTide50%",
+    "description": null,
+    "input_files": [
+        {
+            "title": "Met BC Precipitation|Gridded DSS Filename",
+            "source_dataset": null,
+            "description": "Met BC Precipitation|Gridded DSS Filename",
+            "location": ".\\DSS\\Atlas14\\Atlas14_Southeast_010yr_Partial_Duration_24hPrecip_24hDistribution_50PercentOccurence_ALL.dss"
+        },
+        {
+            "title": "Terrain",
+            "source_dataset": null,
+            "description": "Terrain used by model",
+            "location": ".\\Terrain\\FINAL_10192023_withProject_Luis.hdf"
+        },
+        {
+            "title": "b file",
+            "source_dataset": null,
+            "description": "RAS master input text file",
+            "location": "Greenbelt_RAS.b03"
+        },
+        {
+            "title": "g file",
+            "source_dataset": null,
+            "description": "RAS geometry file",
+            "location": "Greenbelt_RAS.g03"
+        },
+        {
+            "title": "prj file",
+            "source_dataset": null,
+            "description": "RAS project file which links projects with plans, geometry, and flow files",
+            "location": "Greenbelt_RAS.prj"
+        },
+        {
+            "title": "c file",
+            "source_dataset": null,
+            "description": "Binary Geometry file from Geom Prep",
+            "location": "Greenbelt_RAS.c03"
+        },
+        {
+            "title": "x file",
+            "source_dataset": null,
+            "description": "Geometry master input text file",
+            "location": "Greenbelt_RAS.x03"
+        },
+        {
+            "title": "p file",
+            "source_dataset": null,
+            "description": "Model plan data",
+            "location": "Greenbelt_RAS.p03"
+        },
+        {
+            "title": "u file",
+            "source_dataset": null,
+            "description": "unsteady flow file",
+            "location": "Greenbelt_RAS.u01"
+        },
+        {
+            "title": "u hdf file",
+            "source_dataset": null,
+            "description": "unsteady flow file in HDF format",
+            "location": "Greenbelt_RAS.u01.hdf"
+        }
+    ],
+    "output_files": [
+        {
+            "title": "output dss file",
+            "source_dataset": null,
+            "description": "output model data in dss",
+            "location": "Greenbelt_RAS.dss"
+        },
+        {
+            "title": "p hdf file",
+            "source_dataset": null,
+            "description": "result output in HDF format",
+            "location": "Greenbelt_RAS.p03.hdf"
+        }
+    ],
+    "temporal_extent": [
+        "1970-01-02",
+        "1970-01-09"
+    ],
+    "temporal_resolution": "10SEC"
+}

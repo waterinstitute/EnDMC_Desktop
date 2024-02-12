@@ -5,8 +5,9 @@ import pandas as pd
 import geopandas as gpd
 from shapely.geometry import box
 import json
+from utils import get_schema_keys
 
-def parse_sim_single_run(args, output_dir):
+def parse_sim_single_run(args, output_dir, key_order):
     # Parse the Go-Consequences run file
     try:
         with open(args.prj_file, "r") as f:
@@ -91,38 +92,42 @@ def parse_sim_single_run(args, output_dir):
     sim_template['title'] = f'{args.prj_name} Go-Consequences Simulation: {args.sim_name}'
     sim_template['description'] = f'{args.sim_description}'
     sim_template['output_files'] = [
-        {
+        {           
+            "title": f"{args.prj_name} Go-Consequences Simulation: {args.sim_name} Output Feature Layer",
+            "source_dataset": "Go-Consequences Output",
             "description": "The Go-Consequences Simulation output feature layer.",
             "location": results_layer,
-            "source_dataset": "Go-Consequences Output",
-            "title": f"{args.prj_name} Go-Consequences Simulation: {args.sim_name} Output Feature Layer"
         }
     ]
     sim_template['input_files'] = [
         {
+            
+            "title": f"{args.prj_name} Go-Consequences Simulation: {args.sim_name} Input Hazard Layer",
+            "source_dataset": "HEC-RAS",
             "description": "The Go-Consequences Simulation Hazard Layer.",
             "location": hazard_layer,
-            "source_dataset": "HEC-RAS",
-            "title": f"{args.prj_name} Go-Consequences Simulation: {args.sim_name} Input Hazard Layer"
         },
         {
+            "title": f"{args.prj_name} Go-Consequences Simulation: {args.sim_name} Input Structure Inventory Layer",
+            "source_dataset": "NSI",
             "description": "The Go-Consequences Simulation Structure Inventory Layer.",
             "location": structure_inventory_layer,
-            "source_dataset": "NSI",
-            "title": f"{args.prj_name} Go-Consequences Simulation: {args.sim_name} Input Structure Inventory Layer"
         }
     ]
+
+    # use key order to sort output json
+    sim_template = {k: sim_template[k] for k in key_order if k in sim_template.keys()}
 
     # output simulation json
     sim_name = args.sim_name.replace(" ", "_")
     output_sim_json = os.path.join(output_dir,f'{args.prj_name}_simulation_{sim_name}.json')
     with open(output_sim_json, "w") as outfile:
-        json.dump(sim_template, outfile)
+        json.dump(sim_template, outfile, indent=4)
     print (f'\nSimulation file output to: {output_sim_json}')
 
     return hazard_layer, structure_inventory_layer, results_layer
 
-def parse_sim_multiple_runs(args, output_dir):
+def parse_sim_multiple_runs(args, output_dir, key_order):
     # Parse the Go-Consequences run file
     try:
         with open(args.prj_file, "r") as f:
@@ -152,7 +157,7 @@ def parse_sim_multiple_runs(args, output_dir):
         args.hazard_layer = row["WSE File"]
         args.inventory_layer = row["Structure Inventory File"]
         args.results_layer = os.path.dirname(row["Model Result Output File"])
-        hazard_layer, inventory_layer, results_layer = parse_sim_single_run(args, output_dir)
+        hazard_layer, inventory_layer, results_layer = parse_sim_single_run(args, output_dir, key_order)
         
         # Add layers to lists for model application json
         hazard_layer_list.append(args.hazard_layer)
@@ -169,7 +174,7 @@ def parse_sim_multiple_runs(args, output_dir):
 
     return hazard_layer_list, inventory_layer_list, results_layer_list, sim_list
 
-def parse_model_application(args, output_dir, hazard_layer_list=None, inventory_layer_list=None, results_layer_list=None, sim_list=None):
+def parse_model_application(args, output_dir, key_order, hazard_layer_list=None, inventory_layer_list=None, results_layer_list=None, sim_list=None):
 
     print("\nModel Application Parsing Begin...")
 
@@ -217,9 +222,6 @@ def parse_model_application(args, output_dir, hazard_layer_list=None, inventory_
         shp_list = []
 
     shp_list = [i.replace('\\', '/') for i in shp_list]
-
-    # Remove prj_parent_dir from shp_list
-    shp_list = [i.replace(prj_parent_dir, '') for i in shp_list]
     
     # Try to create spatial extent from structure inventory layer from data directory.
     if len(shp_list) > 0:
@@ -312,6 +314,7 @@ def parse_model_application(args, output_dir, hazard_layer_list=None, inventory_
         inventory_layer_list = [i.replace('\\', '/') for i in inventory_layer_list]
         shp_list.extend(inventory_layer_list)
         shp_list = list(set(shp_list))
+        
     
     # Add Specified Inventory Layer to shp_list for common_files output key.
     if args.inventory_layer is not None:
@@ -320,6 +323,9 @@ def parse_model_application(args, output_dir, hazard_layer_list=None, inventory_
     
     if len(shp_list) == 1:
         shp_list = shp_list[0]
+    
+    # Remove prj_parent_dir from shp_list
+    shp_list = [i.replace(prj_parent_dir, '') for i in shp_list]
 
     # Get list of output files from out_dir.
     output_endswith = [".gpkg"]
@@ -352,11 +358,9 @@ def parse_model_application(args, output_dir, hazard_layer_list=None, inventory_
     if len(output_list) == 0 and results_layer_list is None:
         print("No gpkg files found in output directory. Please Specify the Layer Manually. \n\
             Setting Common Files Output Layer List to None.")
-        output_list = None
+        output_list = None    
     
-    
-    
-    # Output model_application.json
+    # Open model_application template
     model_application_template_fn = "./example/input/json/go_consequences_model_application_template.json"
     with open(model_application_template_fn, "r") as f:
         model_application_template = json.load(f)
@@ -366,7 +370,6 @@ def parse_model_application(args, output_dir, hazard_layer_list=None, inventory_
                  'temporal_extent', 'spatial_valid_extent_resolved', 'linked_resources', 'spatial_extent_resolved', \
                  'authors', 'purpose']
     
-    key_list = list(model_application_template.keys())
     # Remove keys from model_application_template that are in dropkeys_list
     for dropkey in dropkeys_list:
         model_application_template.pop(dropkey)
@@ -402,37 +405,40 @@ def parse_model_application(args, output_dir, hazard_layer_list=None, inventory_
     model_application_template['common_output_files'] = []
     model_application_template['common_input_files'].extend(
         [{
+            "title": "Project File",
+            "source_dataset": None,
             "description": "The project's Main Go-Consequences run script file",
             "location": prj_file,
-            "source_dataset": None,
-            "title": "Project File"
         },
         {
+            "title": "Hazard Layers as Water Surface Elevation Raster Files",
+            "source_dataset": "HEC-RAS",
             "description": "There may be multiple Water Surface Elevation Rasters in the Go-Consequences data directory.",
             "location": tif_list,
-            "source_dataset": "HEC-RAS",
-            "title": "Hazard Layers as Water Surface Elevation Raster Files"
         },
         {
+            "title": "Structure Inventory Feature Layers",
+            "source_dataset": None,
             "description": "There may be multiple Structure Inventories in the Go-Consequences data directory.",
             "location": shp_list,
-            "source_dataset": None,
-            "title": "Structure Inventory Feature Layers"
         }]
     )
     model_application_template['common_output_files'].extend(
-        [{
+        [{            
+            "title": "Output Feature Layers",
+            "source_dataset": "Go-Consequences Output",
             "description": "There may be multiple Output Feature Layers.",
             "location": output_list,
-            "source_dataset": "Go-Consequences Output",
-            "title": "Output Feature Layers"
         }]
     )
+
+    # use key order to sort output json
+    model_application_template = {k: model_application_template[k] for k in key_order if k in model_application_template.keys()}
 
     # output model application json
     output_model_json = os.path.join(output_dir,f'{args.prj_name}_model_application.json')
     with open(output_model_json, "w") as outfile:
-        json.dump(model_application_template, outfile)
+        json.dump(model_application_template, outfile, indent=4)
     
     print (f'\nModel Application file output to: {output_model_json}')
 
@@ -441,17 +447,21 @@ def parse_consequences(args):
     output_dir = os.path.join(os.getcwd(), "output", "go-consequences", args.prj_name)
     if not os.path.exists(output_dir):
         os.makedirs(output_dir)
+        
+    # get schema keys
+    model_application_key_order = get_schema_keys.get_schema_keys("./example/input/json/model_application_schema.json")
+    simulation_key_order = get_schema_keys.get_schema_keys("./example/input/json/simulation_schema.json")    
 
     if args.run_type == 0:
-        hazard_layer, inventory_layer, results_layer = parse_sim_single_run(args, output_dir)
+        hazard_layer, inventory_layer, results_layer = parse_sim_single_run(args, output_dir, simulation_key_order)
         sim_list = [f'{args.sim_name} - {args.sim_description}']
-        parse_model_application(args, output_dir, sim_list=sim_list)
+        parse_model_application(args, output_dir, model_application_key_order, sim_list=sim_list)
     elif args.run_type == 1:
         args.hazard_layer = None
         args.inventory_layer = None
         args.results_layer = None
-        hazard_layer_list, inventory_layer_list, results_layer_list, sim_list = parse_sim_multiple_runs(args, output_dir)
-        parse_model_application(args, output_dir, hazard_layer_list, inventory_layer_list, results_layer_list, sim_list)
+        hazard_layer_list, inventory_layer_list, results_layer_list, sim_list = parse_sim_multiple_runs(args, output_dir, simulation_key_order)
+        parse_model_application(args, output_dir, model_application_key_order, hazard_layer_list, inventory_layer_list, results_layer_list, sim_list)
 
 if __name__ == '__main__':
     # Parse Command Line Arguments
@@ -547,7 +557,7 @@ if __name__ == '__main__':
     )
 
     p.add_argument(
-        "--id", help="The Internal Organizational Project ID. This is ussually specifc to your own organization or company. \
+        "--id", help="The Internal Organizational Project ID. This is usually specifc to your own organization or company. \
         (Ex: P00813)",
         required=False,
         type=str

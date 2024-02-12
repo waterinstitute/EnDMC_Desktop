@@ -1,0 +1,276 @@
+{
+    "$schema": "https://json-schema.org/draft/2019-09/schema",
+    "type": "object",
+    "title": "Model Application",
+    "description": "This metadata layer describes a specific model application that was built with a specific software aimed to simulate a specific environmental process (e.g., water transport) in a specific area (e.g., Barataria basin).",
+  
+    "properties": {
+      "title": {
+        "title": "Title",
+        "description": "Name of this model application",
+        "type": "string"
+      },
+      "description": {
+        "type": "string",
+        "title": "Description",
+        "description": "Provide an introduction to this model application",
+        "format": "markdown"
+      },
+      "purpose": {
+        "title": "Purpose",
+        "description": "What is the primary use case for this model application?",
+        "type": "string",
+        "format": "markdown"
+      },
+      "keywords": {
+        "title": "Keywords",
+        "description": "Keywords help users discover this model application; please include terms that would be used by technical and non-technical users",
+        "isActivated": true,
+        "type": "array",
+        "format": "table",
+        "additionalItems": true,
+        "minItems": 1,
+        "items": {
+          "isActivated": true,
+          "type": "string",
+          "minLength": 2
+        }
+      },
+      "grid": {
+        "title": "Grid description",
+        "description": "Grid shapes may be rectangular, triangular, hexagonal, hybrid, unstructured, block structure, etc.",
+        "$ref": "#/$defs/grid"
+      },
+      "spatial_extent": {
+        "title": "Spatial extent",
+        "description": "A list of places representing the extent of the model\nIt can be either a nam (using the autocomplete), a HUC code, or a custom Well Known Text (WKT; you can define a bounding box using a custom WKT string with a <a href='https://clydedacruz.github.io/openstreetmap-wkt-playground/' target='_blank'>service like this</a>)",
+        "type": "array",
+        "format": "table",
+        "items": {
+          "type": "string",
+          "format": "autocomplete",
+          "options": {
+            "autocomplete": {
+              "search": "search_place",
+              "getResultValue": "getResultValue_place",
+              "renderResult": "renderResult_place",
+              "autoSelect": true
+            }
+          }
+        }
+      },
+      "spatial_valid_extent": {
+        "title": "Intended usage area",
+        "description": "A list of places representing the area where the model was validated.\nIt can be either a name (using the autocomplete), a HUC code, or a custom Well Known Text (WKT; you can define a bounding box using a custom WKT string with a <a href='https://clydedacruz.github.io/openstreetmap-wkt-playground/' target='_blank'>service like this</a>)",
+        "type": "array",
+        "format": "table",
+        "items": {
+          "type": "string",
+          "format": "autocomplete",
+          "options": {
+            "autocomplete": {
+              "search": "search_place",
+              "getResultValue": "getResultValue_place",
+              "renderResult": "renderResult_place",
+              "autoSelect": true
+            }
+          }
+        }
+      },
+      "temporal_extent": {
+        "title": "Temporal extent (range of dates or date points)",
+        "description": "Start and end date of applicability for the data",
+        "type": "array",
+        "minItems": 2,
+        "uniqueItems": true,
+        "items": {
+          "type": "string",
+          "format": "date"
+        }
+      },
+      "application_date": {
+        "title": "Application date",
+        "description": "Date created",
+        "type": "string",
+        "format": "date"
+      },
+      "authors": {
+        "type": "array",
+        "description": "Who are the main creators of this model application?",
+        "title": "Authors",
+        "format": "tabs",
+        "items": {
+          "$ref": "#/$defs/Author"
+        }
+      },
+      "common_software_version": {
+        "title": "Common software version",
+        "description": "optional -  if filled it will be inherited by the simulations belonging to this application",
+        "type": "string",
+        "format": "autocomplete",
+        "options": {
+          "autocomplete": {
+            "search": "search_model_version",
+            "getResultValue": "getResultValue_model_version",
+            "renderResult": "renderResult_model_version",
+            "onSubmit": "onSubmit_model_version_application",
+            "autoSelect": true
+          }
+        }
+      },
+      "common_input_files": {
+        "title": "Common input files",
+        "description": "If a common software is selected, this field can be used to describe common inputs for all the simulations belonging to this model application",
+        "type": "array",
+        "additionalItems": true,
+        "format": "tabs",
+        "items": {
+          "$ref": "#/$defs/FileDetails"
+        }
+      },
+      "common_output_files": {
+        "title": "Common output files",
+        "description": "If a common software is selected, this field can be used to describe common outputs for all the simulations belonging to this model application",
+        "type": "array",
+        "additionalItems": true,
+        "format": "tabs",
+        "items": {
+          "$ref": "#/$defs/FileDetails"
+        }
+      },
+      "common_parameters": {
+        "type": "array",
+        "title": "Common parameters",
+        "description": "If a common software is selected, this field can be used to describe common inputs for all the simulations belonging to this model application",
+  
+        "format": "tabs",
+        "additionalItems": true,
+        "items": {
+          "$ref": "#/$defs/ParameterValue"
+        }
+      },
+      "linked_resources": {
+        "type": "array",
+        "title": "Linked resources",
+        "description": "Provide a list of resources describing this model application. Please include technical report and/or publications",
+        "format": "tabs",
+        "items": {
+          "type": "object",
+          "properties": {
+            "title": {
+              "type": "string"
+            },
+            "url": {
+              "type": "string",
+              "format": "uri-reference"
+            },
+            "type": {
+              "type": "string"
+            }
+          },
+          "required": ["title", "url"],
+          "headerTemplate": "Resource {{ i1 }} - {{ self.title }}"
+        }
+      }
+    },
+    "additionalProperties": false,
+    "required": [
+      "title",
+      "description",
+      "purpose",
+      "keywords",
+      "spatial_valid_extent",
+      "application_date"
+    ],
+    "$defs": {
+      "Author": {
+        "type": "object",
+        "properties": {
+          "fn": {
+            "title": "Full name",
+            "type": "string",
+            "readOnly": false
+          },
+          "has_email": {
+            "title": "email",
+            "type": "string"
+          }
+        },
+        "additionalProperties": false,
+        "title": "Author",
+        "headerTemplate": "Author {{ i1 }} - {{ self.fn }}",
+        "required": ["fn", "has_email"]
+      },
+      "ParameterValue": {
+        "type": "object",
+        "properties": {
+          "parameter": {
+            "title": "Parameter",
+            "type": "string"
+          },
+          "value": {
+            "title": "Value",
+            "type": "string"
+          }
+        },
+        "additionalProperties": false,
+        "required": ["parameter", "value"],
+        "headerTemplate": "{{ self.parameter }} - {{ self.value }}"
+      },
+      "grid": {
+        "title": "Grid",
+        "type": "object",
+        "properties": {
+          "dimension": {
+            "type": "string",
+            "enum": ["1D", "2D", "3D"]
+          },
+          "coordinate_system": {
+            "type": "string",
+            "description": "Coordinate system used in a grid (EPSG code)",
+            "$comment": "Coordinate system used in a grid (EPSG code)"
+          },
+          "shape": {
+            "type": "string",
+            "description": "Grids may be: rectangular, triangular, hexagonal, hybrid, unstructured, block structure, etc.",
+            "$comment": "Grids may be: rectangular, triangular, hexagonal, hybrid, unstructured, block structure, etc."
+          },
+          "description": {
+            "type": "string",
+            "description": "A general description of the grid (optional)"
+          }
+        },
+        "additionalProperties": false,
+        "required": ["dimension", "shape"]
+      },
+      "FileDetails": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "title": "Title",
+            "type": "string",
+            "description": "Inherited from the ModelSoftware File description"
+          },
+          "source_dataset": {
+            "title": "Source dataset",
+            "type": "string",
+            "format": "uri-reference"
+          },
+          "description": {
+            "title": "Description",
+            "type": "string"
+          },
+          "location": {
+            "title": "Location",
+            "type": "string",
+            "format": "uri-reference",
+            "description": "Either a reference to a resource (file/service) or a location inside a resource (link_to_a_tar#/file/inside/tarfile"
+          }
+        },
+        "headerTemplate": "File {{ i1 }} - {{ self.title }}",
+        "additionalProperties": false,
+        "required": ["title", "description"]
+      }
+    }
+  }
+  
