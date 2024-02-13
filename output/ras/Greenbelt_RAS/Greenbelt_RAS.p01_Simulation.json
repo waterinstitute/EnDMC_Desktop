@@ -9,6 +9,18 @@
             "location": ".\\DSS\\Atlas14\\Atlas14_Southeast_010yr_Partial_Duration_24hPrecip_24hDistribution_50PercentOccurence_ALL.dss"
         },
         {
+            "title": "prj file",
+            "source_dataset": null,
+            "description": "RAS project file which links projects with plans, geometry, and flow files",
+            "location": "Greenbelt_RAS.prj"
+        },
+        {
+            "title": "Model Boundary",
+            "source_dataset": null,
+            "description": "The HEC-RAS model boundary spatial extent",
+            "location": "/HEC-RAS_MainModel/Shapes/2DFlowArea.shp"
+        },
+        {
             "title": "Terrain",
             "source_dataset": null,
             "description": "Terrain used by model",
@@ -27,12 +39,6 @@
             "location": "Greenbelt_RAS.g04"
         },
         {
-            "title": "prj file",
-            "source_dataset": null,
-            "description": "RAS project file which links projects with plans, geometry, and flow files",
-            "location": "Greenbelt_RAS.prj"
-        },
-        {
             "title": "c file",
             "source_dataset": null,
             "description": "Binary Geometry file from Geom Prep",
@@ -43,12 +49,6 @@
             "source_dataset": null,
             "description": "Geometry master input text file",
             "location": "Greenbelt_RAS.x04"
-        },
-        {
-            "title": "p file",
-            "source_dataset": null,
-            "description": "Model plan data",
-            "location": "Greenbelt_RAS.p01"
         },
         {
             "title": "u file",
@@ -69,6 +69,12 @@
             "source_dataset": null,
             "description": "output model data in dss",
             "location": "Greenbelt_RAS.dss"
+        },
+        {
+            "title": "p file",
+            "source_dataset": null,
+            "description": "Model plan data",
+            "location": "Greenbelt_RAS.p01"
         },
         {
             "title": "p hdf file",

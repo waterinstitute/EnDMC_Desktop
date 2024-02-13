@@ -3,10 +3,16 @@
     "description": null,
     "input_files": [
         {
+            "title": "Met BC Precipitation|Gridded DSS Filename",
+            "source_dataset": null,
+            "description": "Met BC Precipitation|Gridded DSS Filename",
+            "location": ".\\DSS\\MRMS_PRCP_Greenbelt_May2021.dss"
+        },
+        {
             "title": "DSS File",
             "source_dataset": null,
             "description": "DSS File",
-            "location": ".\\DSS\\BC_Calcasieu_UTC.dss"
+            "location": ".\\DSS\\BC_stage_UTC.dss"
         },
         {
             "title": "DSS File",
@@ -18,13 +24,19 @@
             "title": "DSS File",
             "source_dataset": null,
             "description": "DSS File",
-            "location": ".\\DSS\\BC_stage_UTC.dss"
+            "location": ".\\DSS\\BC_Calcasieu_UTC.dss"
         },
         {
-            "title": "Met BC Precipitation|Gridded DSS Filename",
+            "title": "prj file",
             "source_dataset": null,
-            "description": "Met BC Precipitation|Gridded DSS Filename",
-            "location": ".\\DSS\\MRMS_PRCP_Greenbelt_May2021.dss"
+            "description": "RAS project file which links projects with plans, geometry, and flow files",
+            "location": "Greenbelt_RAS.prj"
+        },
+        {
+            "title": "Model Boundary",
+            "source_dataset": null,
+            "description": "The HEC-RAS model boundary spatial extent",
+            "location": "/HEC-RAS_MainModel/Shapes/2DFlowArea.shp"
         },
         {
             "title": "Terrain",
@@ -45,12 +57,6 @@
             "location": "Greenbelt_RAS.g02"
         },
         {
-            "title": "prj file",
-            "source_dataset": null,
-            "description": "RAS project file which links projects with plans, geometry, and flow files",
-            "location": "Greenbelt_RAS.prj"
-        },
-        {
             "title": "c file",
             "source_dataset": null,
             "description": "Binary Geometry file from Geom Prep",
@@ -61,12 +67,6 @@
             "source_dataset": null,
             "description": "Geometry master input text file",
             "location": "Greenbelt_RAS.x02"
-        },
-        {
-            "title": "p file",
-            "source_dataset": null,
-            "description": "Model plan data",
-            "location": "Greenbelt_RAS.p14"
         },
         {
             "title": "u file",
@@ -87,6 +87,12 @@
             "source_dataset": null,
             "description": "output model data in dss",
             "location": "Greenbelt_RAS.dss"
+        },
+        {
+            "title": "p file",
+            "source_dataset": null,
+            "description": "Model plan data",
+            "location": "Greenbelt_RAS.p14"
         },
         {
             "title": "p hdf file",

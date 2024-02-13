@@ -73,18 +73,25 @@ def dict_to_model_app_json(keyValues_dict, output_prj_json, args, model_applicat
     ras_model_template_json['spatial_extent'][0] = keyValues_dict['spatial_extent']
     ras_model_template_json['common_input_files'] = []
     ras_model_template_json['common_output_files'] = []
-    ras_model_template_json['common_input_files'].append({
-        'title': 'prj file',
+    ras_model_template_json['common_input_files'].extend([{
+        'title': 'Model Project file',
         'source_dataset': None,
-        'description': 'RAS project file which links projects with plans, geometry, and flow files',
+        'description': 'HEC-RAS project file which links projects with plans, geometry, and flow files',
         'location': keyValues_dict['Project File'],
-    })
+    },
+    {
+        'title': 'Model Boundary',
+        'source_dataset': None,
+        'description': 'TThe HEC-RAS model boundary spatial extent',
+        'location': keyValues_dict['shp'],
+    
+    }])
 
     # Add each p file to common_file_details
     plan_zipList = zip(
         keyValues_dict['Plans']['Plan Title'], keyValues_dict['Plans']['P File'])
     for plan in plan_zipList:
-        ras_model_template_json['common_input_files'].append({
+        ras_model_template_json['common_output_files'].append({
             'title': f"p file for {plan[0]}",
             'source_dataset': None,
             'description': plan[0],
@@ -151,9 +158,22 @@ def dict_to_sim_json(keyValues_dict, prj_name, p_file, output_p_json, simulation
                 }
             )
 
-    # Extending input files list with common files
+
+
     input_files.extend(
         [{
+            "title": "prj file",
+            "source_dataset": None,
+            "description": "RAS project file which links projects with plans, geometry, and flow files",
+            "location": f'{prj_name}.prj',
+        },
+        {
+            "title": "Model Boundary",
+            "source_dataset": None,
+            "description": "The HEC-RAS model boundary spatial extent",
+            "location": keyValues_dict['shp'],
+        },
+        {
             "title": "Terrain",
             "source_dataset": None,
             "description": "Terrain used by model",
@@ -172,12 +192,6 @@ def dict_to_sim_json(keyValues_dict, prj_name, p_file, output_p_json, simulation
             "location": f"{prj_name}.{keyValues_dict['Geom File']}",
         },
             {
-            "title": "prj file",
-            "source_dataset": None,
-            "description": "RAS project file which links projects with plans, geometry, and flow files",
-            "location": f'{prj_name}.prj',
-        },
-            {
             "title": "c file",
             "source_dataset": None,
             "description": "Binary Geometry file from Geom Prep",
@@ -188,12 +202,6 @@ def dict_to_sim_json(keyValues_dict, prj_name, p_file, output_p_json, simulation
             "source_dataset": None,
             "description": "Geometry master input text file",
             "location": f"{prj_name}.x{g_num}",
-        },
-            {
-            "title": "p file",
-            "source_dataset": None,
-            "description": "Model plan data",
-            "location": f"{prj_name}.p{p_num}",
         },
             {
             "title": "u file",
@@ -224,6 +232,12 @@ def dict_to_sim_json(keyValues_dict, prj_name, p_file, output_p_json, simulation
             "source_dataset": None,
             "description": "output model data in dss",
             "location": keyValues_dict['DSS Output File'],
+        },
+        {
+            "title": "p file",
+            "source_dataset": None,
+            "description": "Model plan data",
+            "location": f"{prj_name}.p{p_num}",
         },
         {
             "title": "p hdf file",
@@ -287,23 +301,28 @@ def parse_prj(args, prj_name, wkt, crs, plan_titles, output_dir, model_applicati
 
     # Update project title
     keyValues_dict['Proj Title'] = f'{prj_name} HEC-RAS Model'
-    # Add project file location
-    keyValues_dict['Project File'] = args.prj
 
-    # Add spatial_extent and coordinate_system from wkt and crs.
+    # Get root project directory from args.prj
+    prj_dir = os.path.dirname(args.prj)
+    
+    # Get parent directory of prj_dir
+    prj_parent_dir = os.path.dirname(prj_dir)
+   
+   # get project file and shp location relative to prj_parent_dir
+    prj_file = args.prj.replace(prj_parent_dir, '').replace('\\', '/')
+    shp_file = args.shp.replace(prj_parent_dir, '').replace('\\', '/')
+    
+    # Add processed variables keyValues_dict
+    keyValues_dict['Project File'] = prj_file
+    keyValues_dict['shp'] = shp_file
+    keyValues_dict["Plans"] = plan_titles
     keyValues_dict["spatial_extent"] = wkt
     keyValues_dict["coordinate_system"] = crs
-
-    # Add plan titles
-    keyValues_dict["Plans"] = plan_titles
 
     # Add application_date from args.prj modified date
     modTimeUnix = os.path.getmtime(args.prj)
     keyValues_dict['application_date'] = datetime.fromtimestamp(
         modTimeUnix).strftime('%Y-%m-%d')
-
-    # with open(output_prj_yaml, 'w+') as f:
-    #     yaml.dump(keyValues_dict, f)
 
     dict_to_model_app_json(keyValues_dict, output_prj_json, args, model_application_key_order)
 
@@ -415,6 +434,14 @@ def parse_p(p_file_list, prj_name, wkt, crs, output_dir, args, simulation_key_or
         # Set dss output file to default path
         keyValues_dict['DSS Output File'] = f'{prj_name}.dss'
 
+        # Get root project directory from args.prj
+        prj_dir = os.path.dirname(args.prj)
+        # Get parent directory of prj_dir
+        prj_parent_dir = os.path.dirname(prj_dir)
+        shp_file = args.shp.replace(prj_parent_dir, '').replace('\\', '/')
+        # Add shp file location
+        keyValues_dict['shp'] = shp_file
+
         # Write the output yaml for each .p## file.
         # with open(os.path.join(output_dir,f'{p_file_tail}.yml'), 'w+') as f:
         #     yaml.dump(keyValues_dict, f)
@@ -512,11 +539,9 @@ if __name__ == '__main__':
     )
 
     args = p.parse_args()
+
+    # Split keywords argument into a list
     args.keywords = args.keywords.split(",")
     args.keywords = [x.strip() for x in args.keywords]
-    print(args.keywords)
-    # print(args.keywords[0].split('"'))
-    # keywords = args.keywords[0].split('"')
-    # keywords = [x for x in keywords if x != '']
-    # print(keywords)
+
     parse(args)

@@ -14,7 +14,7 @@
         }
         {
             "name": "go-consequences_parser Single",
-            "type": "python",
+            "type": "debugpy",
             "request": "launch",
             "program": "C:/py/hec_meta_extract/go_consequences_parser.py",
             "console": "integratedTerminal",
@@ -45,12 +45,12 @@
                 "--keywords",
                 "TWI, NPS",
                 "--id",
-                "P00710"               
+                "P-00710"               
             ],
         },
         {
             "name": "go-consequences_parser Multiple",
-            "type": "python",
+            "type": "debugpy",
             "request": "launch",
             "program": "C:/py/hec_meta_extract/go_consequences_parser.py",
             "console": "integratedTerminal",
@@ -73,12 +73,12 @@
                 "--keywords",
                 "TWI, NPS",
                 "--id",
-                "P00710"                
+                "P-00710"                
             ],
         },
         {
             "name": "ras_parser",
-            "type": "python",
+            "type": "debugpy",
             "request": "launch",
             "program": "C:/py/hec_meta_extract/ras_parser.py",
             // "program": "C:/py/EnDMC_Desktop/ras_parser.py",
@@ -96,13 +96,13 @@
                 "TWI, National Park Service",
                 // "TWI, NPS",
                 "--id",
-                "P00813"
+                "P-00813"
                 
             ],
         },
         {
             "name": "hms_parser",
-            "type": "python",
+            "type": "debugpy",
             "request": "launch",
             "program": "C:/py/hec_meta_extract/hms_parser.py",
             "console": "integratedTerminal",
@@ -117,12 +117,12 @@
                 "--keywords",
                 "TWI, NPS",
                 "--id",
-                "P00810"
+                "P-00810"
             ],
         },
         {
             "name": "fia_parser",
-            "type": "python",
+            "type": "debugpy",
             "request": "launch",
             "program": "C:/py/hec_meta_extract/fia_parser.py",
             "console": "integratedTerminal",
@@ -135,7 +135,7 @@
                 "--keywords",
                 "TWI, NPS",
                 "--id",
-                "P00710"
+                "P-00710"
             ],
         },
     ]

@@ -28,7 +28,7 @@
         "model",
         "LWI",
         "Region 7",
-        "P-00813"
+        "P00813"
     ],
     "grid": {
         "shape": "unstructured",
@@ -42,11 +42,19 @@
     "application_date": "2022-11-01",
     "common_input_files": [
         {
-            "title": "prj file",
+            "title": "Model Project file",
             "source_dataset": null,
-            "description": "RAS project file which links projects with plans, geometry, and flow files",
-            "location": "V:/projects/p00813_nps_2023_greenbelt_ig/02_analysis/HEC-RAS_MainModel/Greenbelt_RAS.prj"
+            "description": "HEC-RAS project file which links projects with plans, geometry, and flow files",
+            "location": "/HEC-RAS_MainModel/Greenbelt_RAS.prj"
         },
+        {
+            "title": "Model Boundary",
+            "source_dataset": null,
+            "description": "TThe HEC-RAS model boundary spatial extent",
+            "location": "/HEC-RAS_MainModel/Shapes/2DFlowArea.shp"
+        }
+    ],
+    "common_output_files": [
         {
             "title": "p file for Greenbelt_RAS HEC-RAS Model Simulation: 010yr_24hr_Without_MeanTide50%",
             "source_dataset": null,
@@ -131,6 +139,5 @@
             "description": "Greenbelt_RAS HEC-RAS Model Simulation: May_17th_2021_WithProject",
             "location": "Greenbelt_RAS.p14"
         }
-    ],
-    "common_output_files": []
+    ]
 }
