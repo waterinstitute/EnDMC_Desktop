@@ -1,1 +1,91 @@
-{"input_files": [{"title": "DSS File", "location": ".\\DSS\\WestPark_Output.dss", "description": "DSS File", "source_dataset": null}, {"title": "Terrain", "location": ".\\Terrain\\2018_Terrain.Prop_5.hdf", "description": "Terrain used by model", "source_dataset": null}, {"title": "b file", "location": "WestPark.b13", "description": "RAS master input text file", "source_dataset": null}, {"title": "g file", "location": "WestPark.g06", "description": "RAS geometry file", "source_dataset": null}, {"title": "prj file", "location": "WestPark.prj", "description": "RAS project file which links projects with plans, geometry, and flow files", "source_dataset": null}, {"title": "c file", "location": "WestPark.c06", "description": "Binary Geometry file from Geom Prep", "source_dataset": null}, {"title": "x file", "location": "WestPark.x06", "description": "Geometry master input text file", "source_dataset": null}, {"title": "p file", "location": "WestPark.p13", "description": "Model plan data", "source_dataset": null}, {"title": "u file", "location": "WestPark.u01", "description": "unsteady flow file", "source_dataset": null}, {"title": "u hdf file", "location": "WestPark.u01.hdf", "description": "unsteady flow file in HDF format", "source_dataset": null}], "title": "WestPark HEC-RAS Model Simulation: 100yrProposed_5", "temporal_extent": ["3000-01-01", "3000-01-03"], "description": null, "temporal_resolution": "1MIN", "output_files": [{"title": "output dss file", "location": "WestPark.dss", "description": "output model data in dss", "source_dataset": null}, {"title": "p hdf file", "location": "WestPark.p13.hdf", "description": "result output in HDF format", "source_dataset": null}]}
+{
+    "title": "WestPark HEC-RAS Model Simulation: 100yrProposed_5",
+    "description": "This plan evaluated inline retention and a large pond outsdie of the parks ROW. This plan would require a pump and due to that, and not having the ROW for the pond was not feasible for the client.",
+    "input_files": [
+        {
+            "title": "DSS File",
+            "source_dataset": null,
+            "description": "DSS File",
+            "location": ".\\DSS\\WestPark_Output.dss"
+        },
+        {
+            "title": "prj file",
+            "source_dataset": null,
+            "description": "RAS project file which links projects with plans, geometry, and flow files",
+            "location": "WestPark.prj"
+        },
+        {
+            "title": "Model Boundary",
+            "source_dataset": null,
+            "description": "The HEC-RAS model boundary spatial extent",
+            "location": "/GIS/!backup/WestPark_Boundary_3451.shp"
+        },
+        {
+            "title": "Terrain",
+            "source_dataset": null,
+            "description": "Terrain used by model",
+            "location": ".\\Terrain\\2018_Terrain.Prop_5.hdf"
+        },
+        {
+            "title": "b file",
+            "source_dataset": null,
+            "description": "RAS master input text file",
+            "location": "WestPark.b13"
+        },
+        {
+            "title": "g file",
+            "source_dataset": null,
+            "description": "RAS geometry file",
+            "location": "WestPark.g06"
+        },
+        {
+            "title": "c file",
+            "source_dataset": null,
+            "description": "Binary Geometry file from Geom Prep",
+            "location": "WestPark.c06"
+        },
+        {
+            "title": "x file",
+            "source_dataset": null,
+            "description": "Geometry master input text file",
+            "location": "WestPark.x06"
+        },
+        {
+            "title": "u file",
+            "source_dataset": null,
+            "description": "unsteady flow file",
+            "location": "WestPark.u01"
+        },
+        {
+            "title": "u hdf file",
+            "source_dataset": null,
+            "description": "unsteady flow file in HDF format",
+            "location": "WestPark.u01.hdf"
+        }
+    ],
+    "output_files": [
+        {
+            "title": "output dss file",
+            "source_dataset": null,
+            "description": "output model data in dss",
+            "location": "WestPark.dss"
+        },
+        {
+            "title": "p file",
+            "source_dataset": null,
+            "description": "Model plan data",
+            "location": "WestPark.p13"
+        },
+        {
+            "title": "p hdf file",
+            "source_dataset": null,
+            "description": "result output in HDF format",
+            "location": "WestPark.p13.hdf"
+        }
+    ],
+    "temporal_extent": [
+        "3000-01-01",
+        "3000-01-03"
+    ],
+    "temporal_resolution": "1MIN"
+}

@@ -1,6 +1,6 @@
 {
-    "title": "WestPark HEC-RAS Model Simulation: 10yrProposed_4",
-    "description": "This plan evaluated inline retention along the stream centerline which was also deepened to approximately 10ft deep and would require a pump to fully drain. This scenariow as not desired by the client.",
+    "title": "WestPark HEC-RAS Model Simulation: 10yrProposed_1.5",
+    "description": "This plan evaluates The propsoed model 1 scnario which is a gravity draining detention pond but with an increased slope from underthe Park Rd. Bridge ",
     "input_files": [
         {
             "title": "DSS File",
@@ -24,31 +24,31 @@
             "title": "Terrain",
             "source_dataset": null,
             "description": "Terrain used by model",
-            "location": ".\\Terrain\\2018_Terrain.Prop_4.hdf"
+            "location": ".\\Terrain\\2018_Terrain.Prop_1.Prop1.5.hdf"
         },
         {
             "title": "b file",
             "source_dataset": null,
             "description": "RAS master input text file",
-            "location": "WestPark.b09"
+            "location": "WestPark.b27"
         },
         {
             "title": "g file",
             "source_dataset": null,
             "description": "RAS geometry file",
-            "location": "WestPark.g05"
+            "location": "WestPark.g11"
         },
         {
             "title": "c file",
             "source_dataset": null,
             "description": "Binary Geometry file from Geom Prep",
-            "location": "WestPark.c05"
+            "location": "WestPark.c11"
         },
         {
             "title": "x file",
             "source_dataset": null,
             "description": "Geometry master input text file",
-            "location": "WestPark.x05"
+            "location": "WestPark.x11"
         },
         {
             "title": "u file",
@@ -74,13 +74,13 @@
             "title": "p file",
             "source_dataset": null,
             "description": "Model plan data",
-            "location": "WestPark.p09"
+            "location": "WestPark.p27"
         },
         {
             "title": "p hdf file",
             "source_dataset": null,
             "description": "result output in HDF format",
-            "location": "WestPark.p09.hdf"
+            "location": "WestPark.p27.hdf"
         }
     ],
     "temporal_extent": [

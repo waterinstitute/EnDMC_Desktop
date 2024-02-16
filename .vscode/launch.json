@@ -38,10 +38,10 @@
                 "C:/py/hec_meta_extract/dev/go-consequences/output",
                 // "--hazard_layer",
                 // "C:/py/hec_meta_extract/dev/go-consequences/data/Amite_Katrina2005_AORC_ADCIRC_2021Geometry.tif",
-                // "--inventory_layer",
-                // "C:/py/hec_meta_extract/dev/go-consequences/data/NSI.shp"
-                // "--results_layer",
-                // "C:/py/hec_meta_extract/dev/go-consequences/output/Amite_Isaac2012_AORC_ADCIRC_NoWind_2022Geometry_NSI.gpkg"
+                "--inventory_layer",
+                "C:/py/hec_meta_extract/dev/go-consequences/data/NSI.shp"
+                "--results_layer",
+                "C:/py/hec_meta_extract/dev/go-consequences/output/Amite_Isaac2012_AORC_ADCIRC_NoWind_2022Geometry_NSI.gpkg"
                 "--keywords",
                 "TWI, NPS",
                 "--id",
@@ -86,17 +86,18 @@
             "justMyCode": true,
             "args": [
                 "--prj",
-                // "V:/projects/p00810_nps_2022_west_ig/02_analysis/HEC-RASV6.3.1/WestPark.prj",
-                // "--shp",
-                // "V:/projects/p00810_nps_2022_west_ig/02_analysis/WestPark_HMS/maps/WestPark_Boundary_3451.shp"
-                "V:/projects/p00813_nps_2023_greenbelt_ig/02_analysis/HEC-RAS_MainModel/Greenbelt_RAS.prj",
+                "Z:/WestPark/HEC-RASV6.3.1/WestPark.prj",
                 "--shp",
-                "V:/projects/p00813_nps_2023_greenbelt_ig/02_analysis/HEC-RAS_MainModel/Shapes/2DFlowArea.shp",
+                "Z:/WestPark/GIS/!backup/WestPark_Boundary_3451.shp",
+                // "--prj",
+                // "V:/projects/p00813_nps_2023_greenbelt_ig/02_analysis/HEC-RAS_MainModel/Greenbelt_RAS.prj",
+                // "--shp",
+                // "V:/projects/p00813_nps_2023_greenbelt_ig/02_analysis/HEC-RAS_MainModel/Shapes/2DFlowArea.shp",
                 "--keywords",
                 "TWI, National Park Service",
                 // "TWI, NPS",
                 "--id",
-                "P-00813"
+                "P-00810"
                 
             ],
         },

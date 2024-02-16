@@ -7,13 +7,13 @@
             "title": "Amite Go-Consequences Simulation: Hurricane Ida 2021 Input Hazard Layer",
             "source_dataset": "HEC-RAS",
             "description": "The Go-Consequences Simulation Hazard Layer.",
-            "location": "./dev/go-consequences/data/flood_here.tif"
+            "location": "/go-consequences/data/Amite_Katrina2005_AORC_ADCIRC_2021Geometry.tif"
         },
         {
             "title": "Amite Go-Consequences Simulation: Hurricane Ida 2021 Input Structure Inventory Layer",
             "source_dataset": "NSI",
             "description": "The Go-Consequences Simulation Structure Inventory Layer.",
-            "location": "./dev/go-consequences/data/inventory_here.shp"
+            "location": "/go-consequences/data/NSI.shp"
         }
     ],
     "output_files": [

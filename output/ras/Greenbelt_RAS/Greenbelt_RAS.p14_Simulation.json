@@ -3,6 +3,18 @@
     "description": null,
     "input_files": [
         {
+            "title": "DSS File",
+            "source_dataset": null,
+            "description": "DSS File",
+            "location": ".\\DSS\\BC_Calcasieu_UTC.dss"
+        },
+        {
+            "title": "DSS File",
+            "source_dataset": null,
+            "description": "DSS File",
+            "location": ".\\DSS\\BC_stage_UTC.dss"
+        },
+        {
             "title": "Met BC Precipitation|Gridded DSS Filename",
             "source_dataset": null,
             "description": "Met BC Precipitation|Gridded DSS Filename",
@@ -12,19 +24,7 @@
             "title": "DSS File",
             "source_dataset": null,
             "description": "DSS File",
-            "location": ".\\DSS\\BC_stage_UTC.dss"
-        },
-        {
-            "title": "DSS File",
-            "source_dataset": null,
-            "description": "DSS File",
             "location": ".\\DSS\\BC_English_Bayou_UTC.dss"
-        },
-        {
-            "title": "DSS File",
-            "source_dataset": null,
-            "description": "DSS File",
-            "location": ".\\DSS\\BC_Calcasieu_UTC.dss"
         },
         {
             "title": "prj file",

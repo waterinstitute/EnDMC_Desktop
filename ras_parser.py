@@ -284,9 +284,10 @@ def parse_prj(args, prj_name, wkt, crs, plan_titles, output_dir, model_applicati
             continue
 
     # Add specific popList lines from prj file to keyValue_dict
+        beginDescriptionIndex = None
+        endDescriptionIndex = None
     for i, v in enumerate(popList):
         if "BEGIN DESCRIPTION:" in lines[v]:
-            # description = lines[v+1]
             beginDescriptionIndex = v+1
         if "END DESCRIPTION:" in lines[v]:
             endDescriptionIndex = v
@@ -359,16 +360,14 @@ def parse_p(p_file_list, prj_name, wkt, crs, output_dir, args, simulation_key_or
         keyValues_dict, popList = trimmer.trim(lines)
 
         # Add specific popList lines from prj file to keyValue_dict
-        for i, v in enumerate(popList):
+        beginDescriptionIndex = None
+        endDescriptionIndex = None
+        for v in popList:
             if "BEGIN DESCRIPTION:" in lines[v]:
-                # description = lines[v+1]
                 beginDescriptionIndex = v+1
-            else:
-                beginDescriptionIndex = None
             if "END DESCRIPTION:" in lines[v]:
                 endDescriptionIndex = v
-            else:
-                endDescriptionIndex = None
+
 
         if beginDescriptionIndex and endDescriptionIndex is not None:
             description = ' '.join(
@@ -438,6 +437,7 @@ def parse_p(p_file_list, prj_name, wkt, crs, output_dir, args, simulation_key_or
         prj_dir = os.path.dirname(args.prj)
         # Get parent directory of prj_dir
         prj_parent_dir = os.path.dirname(prj_dir)
+        # If the shp file is in the project directory or subdirectory, then use the relative path by removing the parent directory.
         shp_file = args.shp.replace(prj_parent_dir, '').replace('\\', '/')
         # Add shp file location
         keyValues_dict['shp'] = shp_file
@@ -474,9 +474,14 @@ def parse(args):
         if len(p_file_list) == 0:
             msg = f'\nError: No .p## files found in {prj_dir} . Please check project file location.'
             raise Exception(msg)
-
+        
         # Else continue parsing.
         else:
+            # Ensure each p file has a corresponding hdf file. Iterate through p files in reverse order to remove p files without hdf files.
+            for p in p_file_list[::-1]:
+                if not os.path.exists(f'{p}.hdf'):
+                    p_file_list.remove(p)
+                    print(f'\nWarning: {p}.hdf file not found. Removing {p} from list of plan files to parse as simulations.')
             # Get RAS Project's Spatial Projection WKT
             ras_prj_wkt = get_ras_prj_wkt(p_file_list[0])
 

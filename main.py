@@ -12,7 +12,7 @@ import webbrowser
 from types import SimpleNamespace
 
 
-version = '2.0'
+version = '2.1'
 
 gui = Tk()
 # gui.geometry("800x50")
@@ -177,8 +177,8 @@ def parse_consequences():
         messagebox.showinfo(title='Go-Consequences',
                             message="Go-Consequences Input Data Directory and Model Results Directory must be provided.")
     else:
-        cons_args._data_dir = cons_data_dir_select.folder_path
-        cons_args.results_dir = cons_results_dir_select.folder_path
+        cons_args.model_data_dir = cons_data_dir_select.folder_path
+        cons_args.model_out_dir = cons_results_dir_select.folder_path
 
     # Check all Single Run specific fields.
     if cons_args.run_type == 0:  # single run
@@ -551,33 +551,33 @@ link.bind("<Button-1>",
 
 # For testing only, auto input file paths.
 # Global Variables
-global_prj_id.text.set("P00813")
-global_keywords.text.set("LWI, Region 7")
-# RAS
-ras_prj_select.filePath.set("V:/projects/p00813_nps_2023_greenbelt_ig/02_analysis/HEC-RAS_MainModel/Greenbelt_RAS.prj")
-ras_shp_select.filePath.set("V:/projects/p00813_nps_2023_greenbelt_ig/02_analysis/HEC-RAS_MainModel/Shapes/2DFlowArea.shp")
-# HMS
-hms_prj_select.filePath.set("C:/py/WestPark_HMS/WestPark_HMS.hms")
-hms_shp_select.filePath.set("C:/py/WestPark_HMS/maps/WestPark_Boundary_3451.shp")
-hms_dss_select.folderPath.set("C:/py/WestPark_HMS/data")
-# FIA
-fia_prj_select.filePath.set("Z:/LWI/FIA Darlington/AmiteWatershed_2016Event_WithDarlingtonReservoir/AmiteWatershed_2016Event.prj")
-fia_shp_select.filePath.set("Z:/LWI/FIA Darlington/AmiteWatershed_2016Event_WithDarlingtonReservoir/maps/AmiteHUC8_NAD83_Albers.shp")
-# Go-Consequences either run type
-cons_prj_name.text.set("Amite")
-cons_prj_desc.text.set("Amite Go-Consequences Model Based on Dewberry Amite River HEC-RAS Model Results and USACE National Structure Inventory Data")
-cons_prj_select.filePath.set("C:/py/hec_meta_extract/dev/go-consequences/main.go")
-cons_data_dir_select.folderPath.set("C:/py/hec_meta_extract/dev/go-consequences/data")
-cons_results_dir_select.folderPath.set("C:/py/hec_meta_extract/dev/go-consequences/output")
-# Go-Consequences single run
-cons_sim_name.text.set("Hurricane Ida 2021")
-cons_sim_desc.text.set("Hurricane Ida 2021 Water Surface Elevation Results from Dewberry Amite River HEC-RAS Model with NSI Data")
-# Go-Consequences single run - optional layers
-cons_hazard_select.filePath.set("C:/py/hec_meta_extract/dev/go-consequences/data/Amite_Katrina2005_AORC_ADCIRC_2021Geometry.tif")
-cons_inv_select.filePath.set("C:/py/hec_meta_extract/dev/go-consequences/data/NSI.shp")
-cons_res_select.filePath.set("C:/py/hec_meta_extract/dev/go-consequences/output/Amite_Isaac2012_AORC_ADCIRC_NoWind_2022Geometry_NSI.gpkg")
-# Go-Consequences multiple run
-cons_runtable_select.filePath.set("C:/py/hec_meta_extract/example/input/go-consequences/run_table.csv")
+# global_prj_id.text.set("P00813")
+# global_keywords.text.set("LWI, Region 7")
+# # RAS
+# ras_prj_select.filePath.set("V:/projects/p00813_nps_2023_greenbelt_ig/02_analysis/HEC-RAS_MainModel/Greenbelt_RAS.prj")
+# ras_shp_select.filePath.set("V:/projects/p00813_nps_2023_greenbelt_ig/02_analysis/HEC-RAS_MainModel/Shapes/2DFlowArea.shp")
+# # HMS
+# hms_prj_select.filePath.set("C:/py/WestPark_HMS/WestPark_HMS.hms")
+# hms_shp_select.filePath.set("C:/py/WestPark_HMS/maps/WestPark_Boundary_3451.shp")
+# hms_dss_select.folderPath.set("C:/py/WestPark_HMS/data")
+# # FIA
+# fia_prj_select.filePath.set("Z:/LWI/FIA Darlington/AmiteWatershed_2016Event_WithDarlingtonReservoir/AmiteWatershed_2016Event.prj")
+# fia_shp_select.filePath.set("Z:/LWI/FIA Darlington/AmiteWatershed_2016Event_WithDarlingtonReservoir/maps/AmiteHUC8_NAD83_Albers.shp")
+# # Go-Consequences either run type
+# cons_prj_name.text.set("Amite")
+# cons_prj_desc.text.set("Amite Go-Consequences Model Based on Dewberry Amite River HEC-RAS Model Results and USACE National Structure Inventory Data")
+# cons_prj_select.filePath.set("C:/py/hec_meta_extract/dev/go-consequences/main.go")
+# cons_data_dir_select.folderPath.set("C:/py/hec_meta_extract/dev/go-consequences/data")
+# cons_results_dir_select.folderPath.set("C:/py/hec_meta_extract/dev/go-consequences/output")
+# # Go-Consequences single run
+# cons_sim_name.text.set("Hurricane Ida 2021")
+# cons_sim_desc.text.set("Hurricane Ida 2021 Water Surface Elevation Results from Dewberry Amite River HEC-RAS Model with NSI Data")
+# # Go-Consequences single run - optional layers
+# cons_hazard_select.filePath.set("C:/py/hec_meta_extract/dev/go-consequences/data/Amite_Katrina2005_AORC_ADCIRC_2021Geometry.tif")
+# cons_inv_select.filePath.set("C:/py/hec_meta_extract/dev/go-consequences/data/NSI.shp")
+# cons_res_select.filePath.set("C:/py/hec_meta_extract/dev/go-consequences/output/Amite_Isaac2012_AORC_ADCIRC_NoWind_2022Geometry_NSI.gpkg")
+# # Go-Consequences multiple run
+# cons_runtable_select.filePath.set("C:/py/hec_meta_extract/example/input/go-consequences/run_table.csv")
 
 # run app
 gui.mainloop()

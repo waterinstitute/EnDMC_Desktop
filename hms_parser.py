@@ -88,10 +88,13 @@ def gage_file_parse(prj_dir, prj_name):
 
     return gage_dss_json_list
 
-def get_extra_dss_files(input_dss_dir, prj_name):
+def get_extra_dss_files(input_dss_dir, prj_name, prj_parent_dir):
+    prj_parent_dir_head, prj_parent_dir_tail = os.path.split(prj_parent_dir)
     extra_dss_files_list = []
-    for pFile in glob.glob(rf'{input_dss_dir}/*.dss'):
-        extra_dss_files_list.append(pFile)
+    for dssFile in glob.glob(rf'{input_dss_dir}/*.dss'):
+        # If the diss files are in the project directory or subdirectory, then use the relative path by removing the parent directory.
+        dssFile = dssFile.replace(prj_parent_dir_head, '').replace('\\', '/')
+        extra_dss_files_list.append(dssFile)    
 
     # extra_dss_files_list
     dss_common_files_input = []
@@ -102,19 +105,21 @@ def get_extra_dss_files(input_dss_dir, prj_name):
             f = f.replace("\\", "/")
             dss_common_files_input.append(
                 {
+                        "title": dss_title,
+                        "source_dataset": None,
                         "description": "User Added from Input DSS File Directory",
                         "location": f,
-                        "source_dataset": None,
-                        "title": dss_title
                 },
             )
 
     return dss_common_files_input
 
-def parse_prj(prj, wkt, crs, dss_common_files_input, output_dir, keywords, prj_id, model_application_key_order):
+def parse_prj(prj, shp, wkt, crs, dss_common_files_input, output_dir, keywords, prj_id, model_application_key_order):
 
     prj_dir, prj_file_tail = os.path.split(prj)
     prj_name = prj_file_tail.split(".")[0]
+    # Get the prj_parent_dir tail to use as a relative path for the project file.
+    prj_parent_dir_head, prj_parent_dir_tail = os.path.split(prj_dir)
     
     try:
         with open(prj, "r") as f:
@@ -201,6 +206,10 @@ def parse_prj(prj, wkt, crs, dss_common_files_input, output_dir, keywords, prj_i
     model_template_json['description'] = kv['Project']['Description']
     model_template_json['title'] = f"{kv['Project']['Title']} HEC-HMS Model"
 
+
+    # If the shp file is in the project directory or subdirectory, then use the relative path by removing the parent directory.
+    shp = shp.replace(prj_parent_dir_head, '').replace('\\', '/')
+
     model_template_json['common_input_files'] = []
     model_template_json['common_input_files'].extend(
         [{
@@ -208,6 +217,12 @@ def parse_prj(prj, wkt, crs, dss_common_files_input, output_dir, keywords, prj_i
             "source_dataset": None,
             "description": "The HMS Project File",
             "location": prj_file_tail,
+        },
+        {
+            "title": "Model Boundary File",
+            "source_dataset": None,
+            "description": "The HMS Model Boundary File",
+            "location": shp,
         },
         {
             "title": "Basin Files",
@@ -432,6 +447,7 @@ Control: {sim_kv[title]['Control']}, {sim_kv[title]['Control Description']}."
         # initiate simulation_template_json['input_files'] as empty list if gage_file_parse returns None.
         if simulation_template_json['input_files'] is None:
              simulation_template_json['input_files'] = []
+        
         simulation_template_json['input_files'].extend([
              {
                 "title": "Basin File",
@@ -477,6 +493,8 @@ def parse(prj, shp, dss, keywords, prj_id):
         # Get project name
         prj_dir, prj_file_tail = os.path.split(prj)
         prj_name = prj_file_tail.split(".")[0]
+        # Get project parent directory
+        prj_parent_dir = os.path.dirname(prj)
         print(f"Parsing {prj_name}...")
 
         # Set output directory
@@ -491,7 +509,7 @@ def parse(prj, shp, dss, keywords, prj_id):
 
         # if args.dss, get dss input files
         if dss is not None:
-            extra_dss_files_list = get_extra_dss_files(dss, prj_name)
+            extra_dss_files_list = get_extra_dss_files(dss, prj_name, prj_parent_dir)
         else:
             extra_dss_files_list = None
         
@@ -500,7 +518,7 @@ def parse(prj, shp, dss, keywords, prj_id):
         simulation_key_order = get_schema_keys.get_schema_keys("./example/input/json/simulation_schema.json")  
 
         # Parse project file
-        parse_prj(prj, wkt, crs, extra_dss_files_list, output_dir, keywords, prj_id, model_application_key_order)
+        parse_prj(prj, shp, wkt, crs, extra_dss_files_list, output_dir, keywords, prj_id, model_application_key_order)
 
         # Run file parse
         parse_runs(prj, output_dir, simulation_key_order)

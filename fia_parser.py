@@ -101,7 +101,7 @@ def parse_prj(prj, prj_dir, prj_name, prj_template_json, shp, output_dir, keywor
     # Create dataframes for manager and map key value lists.
     manager_df = pd.DataFrame(manager_kv_list)
     map_df = pd.DataFrame(map_kv_list)
-    map_df.loc[manager_df.Description == '', 'Description'] = ' '
+    map_df.loc[map_df.Description == '', 'Description'] = 'Map File'
 
     #  Update Names to be more descriptive based on Class &/or Description Columns.
     manager_df.loc[manager_df.Class == 'AgricultureManager', 'Name'] =  'Agriculture Data: ' + manager_df.loc[manager_df.Class == "AgricultureManager"].Name
@@ -148,13 +148,23 @@ def parse_prj(prj, prj_dir, prj_name, prj_template_json, shp, output_dir, keywor
         "dimension": "2D"
     }
 
+    # get relative paths for prj and shp if contained in prj_dir
+    prj_rel_path = prj.replace(prj_dir,"").replace("\\", "/")
+    shp_rel_path = shp.replace(prj_dir,"").replace("\\", "/")
+
     model_template_json["common_input_files"] = [
             {
-                "title": "Agricultural Manager: AgriculturalGrid",
+                "title": "Project File",
                 "source_dataset": None,
-                "description": "AgricultureManager",
-                "location": "Inventory/Agriculture Data/AgriculturalGrid.tif",
-            }
+                "description": "The HEC-FIA project file",
+                "location": prj_rel_path,
+            },
+            {
+                "title": "Model Boundary File",
+                "source_dataset": None,
+                "description": "The HEC-FIA model boundary file",
+                "location": shp_rel_path,
+            },
         ]
 
     # Add any optional keywords
@@ -178,8 +188,7 @@ def parse_prj(prj, prj_dir, prj_name, prj_template_json, shp, output_dir, keywor
     df['description'] = np.where(df['description'] == " ", df['title'], df['description'])
 
     # Use Pandas to_dict("records") method, it outputs to the required list of objects format: [{}, {}].
-    model_template_json["common_input_files"] = df.to_dict('records')
-    model_template_json["common_input_files"]
+    model_template_json["common_input_files"].extend(df.to_dict('records'))
   
     # use key order to sort output json
     model_template_json = {k: model_template_json[k] for k in model_application_key_order if k in model_template_json.keys()}
@@ -418,4 +427,3 @@ if __name__ == '__main__':
 
     msg = parse(args.fia, args.shp, args.keywords, args.id)
     print(msg)
-# %%

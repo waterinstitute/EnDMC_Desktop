@@ -7,6 +7,21 @@ from shapely.geometry import box
 import json
 from utils import get_schema_keys
 
+def get_spatial_extent(layer, output_dir):
+    gdf = gpd.read_file(layer)
+    crs = gdf.crs
+    gdf.to_crs(epsg=4326, inplace=True)
+    bounding_box = box(*gdf.total_bounds)
+    gpd.GeoSeries([bounding_box]).to_file(os.path.join(output_dir,f"{args.prj_name}_bounding_box.geojson"), driver='GeoJSON')
+    spatial_extent = str(gpd.GeoSeries([bounding_box])[0])
+
+    # The lines below are commented out for testing, because creating the spatial_extent takes a few minutes.
+    # spatial_extent = 'Testing'
+    # crs = 'Testing'
+    
+    return spatial_extent, crs
+    
+
 def parse_sim_single_run(args, output_dir, key_order):
     # Parse the Go-Consequences run file
     try:
@@ -230,19 +245,7 @@ def parse_model_application(args, output_dir, key_order, hazard_layer_list=None,
               Structure Inventory Layer: {structure_inventory_layer}')
         
         try:
-
-            # You may comment out these lines for testing purposes to speed up the script.
-            gdf = gpd.read_file(structure_inventory_layer)
-            crs = gdf.crs
-            gdf.to_crs(epsg=4326, inplace=True)
-            bounding_box = box(*gdf.total_bounds)
-            gpd.GeoSeries([bounding_box]).to_file(os.path.join(output_dir,f"{args.prj_name}_bounding_box.geojson"), driver='GeoJSON')
-            spatial_extent = str(gpd.GeoSeries([bounding_box])[0])
-            
-            # The lines below are commented out for testing, because creating the spatial_extent takes a few minutes.
-            # spatial_extent = 'Testing'
-            # crs = 'Testing'
-            
+            spatial_extent, crs = get_spatial_extent(structure_inventory_layer, output_dir)            
             print (f'Done creating geospatial extent: {os.path.join(output_dir,f"{args.prj_name}_bounding_box.geojson")}')
         except:
             print("Error reading inventory layer, setting spatial_extent to None.")
@@ -257,19 +260,7 @@ def parse_model_application(args, output_dir, key_order, hazard_layer_list=None,
             print (f'Using Specified Inventory Layer to Create Spatial Extent, this may take a few minutes...: \n\
                 {args.inventory_layer}')
             try:
-                
-                # You may comment out these lines for testing purposes to speed up the script.
-                gdf = gpd.read_file(args.inventory_layer)
-                crs = gdf.crs
-                gdf.to_crs(epsg=4326, inplace=True)
-                bounding_box = box(*gdf.total_bounds)
-                gpd.GeoSeries([bounding_box]).to_file(os.path.join(output_dir,f"{args.prj_name}_bounding_box.geojson"), driver='GeoJSON')
-                spatial_extent = str(gpd.GeoSeries([bounding_box])[0])
-
-                # The lines below are commented out for testing, because creating the spatial_extent takes a few minutes.
-                # spatial_extent = 'Testing'
-                # crs = 'Testing'
-
+                spatial_extent, crs = get_spatial_extent(args.inventory_layer, output_dir)
                 print (f'Done creating geospatial extent: {os.path.join(output_dir,f"{args.prj_name}_bounding_box.geojson")}')
             except:
                 print("Error reading inventory layer, setting spatial_extent to None.")
@@ -288,19 +279,7 @@ def parse_model_application(args, output_dir, key_order, hazard_layer_list=None,
             This may take a few minutes...\n\
                 Structure Inventory Layer: {inventory_layer_list[0]}")
             try:
-
-                # You may comment out these lines for testing purposes to speed up the script.
-                gdf = gpd.read_file(inventory_layer_list[0])
-                crs = gdf.crs
-                gdf.to_crs(epsg=4326, inplace=True)
-                bounding_box = box(*gdf.total_bounds)
-                gpd.GeoSeries([bounding_box]).to_file(os.path.join(output_dir,f"{args.prj_name}_bounding_box.geojson"), driver='GeoJSON')
-                spatial_extent = str(gpd.GeoSeries([bounding_box])[0])
-
-                # The lines below are commented out for testing, because creating the spatial_extent takes a few minutes.
-                # spatial_extent = 'Testing'
-                # crs = 'Testing'
-
+                spatial_extent, crs = get_spatial_extent(inventory_layer_list[0], output_dir)
                 print (f'Spatial extent created based on Run Table: {os.path.join(output_dir,f"{args.prj_name}_bounding_box.geojson")}')
             except:
                 print("Error reading inventory layer from run table, setting spatial_extent to None.")
@@ -358,7 +337,7 @@ def parse_model_application(args, output_dir, key_order, hazard_layer_list=None,
     if len(output_list) == 0 and results_layer_list is None:
         print("No gpkg files found in output directory. Please Specify the Layer Manually. \n\
             Setting Common Files Output Layer List to None.")
-        output_list = None    
+        output_list = None   
     
     # Open model_application template
     model_application_template_fn = "./example/input/json/go_consequences_model_application_template.json"
@@ -403,6 +382,16 @@ def parse_model_application(args, output_dir, key_order, hazard_layer_list=None,
     # Add Common Files to model_application output
     model_application_template['common_input_files'] = []
     model_application_template['common_output_files'] = []
+    # if multi run, add run_table to common_input_files
+    if args.run_type == 1:
+        model_application_template['common_input_files'].append(
+            {
+                "title": "Run Table",
+                "source_dataset": "Go-Consequences Run Table",
+                "description": "The Go-Consequences Run Table used to define multiple simulations.",
+                "location": args.run_table,
+            }
+        )
     model_application_template['common_input_files'].extend(
         [{
             "title": "Project File",
