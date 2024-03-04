@@ -187,7 +187,7 @@ def parse_prj(prj, shp, wkt, crs, dss_common_files_input, output_dir, keywords, 
     # keys to drop from json template
     drop_keys = ['_id', 'linked_resources', 'common_parameters', 'common_software_version', 'authors', 
     'spatial_extent_resolved', 'spatial_valid_extent_resolved', 'temporal_extent', 'temporal_resolution', 
-    'spatial_valid_extent', 'common_input_files', 'grid']
+    'spatial_valid_extent', 'common_input_files', 'grid', 'spatial_extent']
     for key in drop_keys:
         del model_template_json[key]
 
@@ -205,6 +205,7 @@ def parse_prj(prj, shp, wkt, crs, dss_common_files_input, output_dir, keywords, 
     model_template_json['purpose'] = kv['Project']['Description']
     model_template_json['description'] = kv['Project']['Description']
     model_template_json['title'] = f"{kv['Project']['Title']} HEC-HMS Model"
+    model_template_json['spatial_extent'] = wkt
 
 
     # If the shp file is in the project directory or subdirectory, then use the relative path by removing the parent directory.
@@ -221,7 +222,7 @@ def parse_prj(prj, shp, wkt, crs, dss_common_files_input, output_dir, keywords, 
         {
             "title": "Model Boundary File",
             "source_dataset": None,
-            "description": "The HMS Model Boundary File",
+            "description": f"The HMS Model Boundary File. Projection: {crs}",
             "location": shp,
         },
         {
