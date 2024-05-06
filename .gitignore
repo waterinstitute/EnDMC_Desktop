@@ -9,3 +9,4 @@ __pycache__/*
 dist/Extract_HEC_Meta_Data.exe
 *.tif
 dev/go-consequences/data/*
+.vscode/settings.json
