@@ -431,7 +431,12 @@ def parse_p(p_file_list, prj_name, wkt, crs, output_dir, args, simulation_key_or
         plan_titles['P File'].append(p_file_tail)
 
         # Set dss output file to default path
-        keyValues_dict['DSS Output File'] = f'{prj_name}.dss'
+        if ('DSS Output File' not in keyValues_dict.keys()
+        or keyValues_dict['DSS Output File'] == 'dss' 
+        or keyValues_dict['DSS Output File'] == ''):
+            keyValues_dict['DSS Output File'] = f'{prj_name}.dss'
+        else: 
+            keyValues_dict['DSS Output File'] = keyValues_dict['DSS Output File']
 
         # Get root project directory from args.prj
         prj_dir = os.path.dirname(args.prj)
