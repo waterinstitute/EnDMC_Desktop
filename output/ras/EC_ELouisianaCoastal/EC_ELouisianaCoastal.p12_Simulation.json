@@ -1,0 +1,121 @@
+{
+    "title": "EC_ELouisianaCoastal HEC-RAS Model Simulation: EC_Oct_2015_PumpFlows",
+    "description": "October 2015 Non-Tropical Storm with five (5) pump stations turned on when precipitation starts and turned off 12 hours after precipitation ends.  Reference provided README_PlanDescription.txt file for more details.",
+    "input_files": [
+        {
+            "title": "DSS File",
+            "source_dataset": null,
+            "description": "DSS File",
+            "location": ".\\Boundary_Conditions\\ADCIRC_EC_October2015.dss"
+        },
+        {
+            "title": "DSS File",
+            "source_dataset": null,
+            "description": "DSS File",
+            "location": ".\\Boundary_Conditions\\BonnetCarre_HistoricInflow.dss"
+        },
+        {
+            "title": "Observed Time Series Stage|TS DSS Filename",
+            "source_dataset": null,
+            "description": "Observed Time Series Stage|TS DSS Filename",
+            "location": ".\\Calibration_Data\\EC_CRMS_Gages.dss"
+        },
+        {
+            "title": "Met BC Precipitation|Gridded DSS Filename",
+            "source_dataset": null,
+            "description": "Met BC Precipitation|Gridded DSS Filename",
+            "location": ".\\Precipitation\\AORC_HUC_08090203_APCP_SURFACE_2008_2020_CST.dss"
+        },
+        {
+            "title": "DSS File",
+            "source_dataset": null,
+            "description": "DSS File",
+            "location": ".\\Boundary_Conditions\\PumpStationsDSS_Oct2015_IntFlow.dss"
+        },
+        {
+            "title": "Observed Time Series Stage|TS DSS Filename",
+            "source_dataset": null,
+            "description": "Observed Time Series Stage|TS DSS Filename",
+            "location": ".\\Calibration_Data\\EC_USGS_Gages.dss"
+        },
+        {
+            "title": "prj file",
+            "source_dataset": null,
+            "description": "RAS project file which links projects with plans, geometry, and flow files",
+            "location": "EC_ELouisianaCoastal.prj"
+        },
+        {
+            "title": "Model Boundary",
+            "source_dataset": null,
+            "description": "The HEC-RAS model boundary spatial extent",
+            "location": "/EC_HEC-RAS_V631_20230925/Terrain/LiDAR_CoNED_Mask/CoNEDMask.shp"
+        },
+        {
+            "title": "Terrain",
+            "source_dataset": null,
+            "description": "Terrain used by model",
+            "location": ".\\Terrain\\2022LiDAR+CoNED.hdf"
+        },
+        {
+            "title": "b file",
+            "source_dataset": null,
+            "description": "RAS master input text file",
+            "location": "EC_ELouisianaCoastal.b12"
+        },
+        {
+            "title": "g file",
+            "source_dataset": null,
+            "description": "RAS geometry file",
+            "location": "EC_ELouisianaCoastal.g01"
+        },
+        {
+            "title": "c file",
+            "source_dataset": null,
+            "description": "Binary Geometry file from Geom Prep",
+            "location": "EC_ELouisianaCoastal.c01"
+        },
+        {
+            "title": "x file",
+            "source_dataset": null,
+            "description": "Geometry master input text file",
+            "location": "EC_ELouisianaCoastal.x01"
+        },
+        {
+            "title": "u file",
+            "source_dataset": null,
+            "description": "unsteady flow file",
+            "location": "EC_ELouisianaCoastal.u11"
+        },
+        {
+            "title": "u hdf file",
+            "source_dataset": null,
+            "description": "unsteady flow file in HDF format",
+            "location": "EC_ELouisianaCoastal.u11.hdf"
+        }
+    ],
+    "output_files": [
+        {
+            "title": "output dss file",
+            "source_dataset": null,
+            "description": "output model data in dss",
+            "location": "EC_ELouisianaCoastal.dss"
+        },
+        {
+            "title": "p file",
+            "source_dataset": null,
+            "description": "Model plan data",
+            "location": "EC_ELouisianaCoastal.p12"
+        },
+        {
+            "title": "p hdf file",
+            "source_dataset": null,
+            "description": "result output in HDF format",
+            "location": "EC_ELouisianaCoastal.p12.hdf"
+        }
+    ],
+    "temporal_extent": [
+        "2015-10-24",
+        "2015-11-11"
+    ],
+    "temporal_resolution": "5SEC"
+}

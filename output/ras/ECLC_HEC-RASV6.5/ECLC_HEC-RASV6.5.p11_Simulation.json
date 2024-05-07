@@ -1,0 +1,139 @@
+{
+    "title": "August 2016_RST_",
+    "description": "Non-Tropical Storm August 2016 RST Duration: 1 day AORC Rainfall - Gridded Precipitation Data Season: Spring Landfall Date: August 11 LiDAR: USGS NED and CoNED .. SCROLL DOWN Infiltration Loss: 2D gridded Initial and Deficit Method Manning's n layer: NLCD 2019, CCAP 2016, LaDOTD roadways, Microsoft GitHub building footprints Structures: Field Survey Data Pump Stations: Field Data collection, FEMA model Levee: National Levee Database - Floodwalls Bathymetry: Bayou Lafourche and Gulf Intracoastal Waterway  ",
+    "input_files": [
+        {
+            "title": "Observed Time Series Flow|TS DSS Filename",
+            "source_dataset": null,
+            "description": "Observed Time Series Flow|TS DSS Filename",
+            "location": ".\\DSS Files\\USGS_NWIS_HUC_08090301_Station_295501090190400_Flow.dss"
+        },
+        {
+            "title": "Observed Time Series Stage|TS DSS Filename",
+            "source_dataset": null,
+            "description": "Observed Time Series Stage|TS DSS Filename",
+            "location": ".\\DSS Files\\ECLC_CRMS_Gage_Stage_ft_20230131.dss"
+        },
+        {
+            "title": "Met BC Precipitation|Gridded DSS Filename",
+            "source_dataset": null,
+            "description": "Met BC Precipitation|Gridded DSS Filename",
+            "location": ".\\Precipitation\\AORC_HUC_08090301_APCP_SURFACE_2008_2020_CST.dss"
+        },
+        {
+            "title": "Observed Time Series Flow|TS DSS Filename",
+            "source_dataset": null,
+            "description": "Observed Time Series Flow|TS DSS Filename",
+            "location": ".\\DSS Files\\USGS_NWIS_HUC_08090301_Station_07380400_Flow.dss"
+        },
+        {
+            "title": "DSS File",
+            "source_dataset": null,
+            "description": "DSS File",
+            "location": ".\\DSS Files\\ECLC Coastal Average.dss"
+        },
+        {
+            "title": "DSS File",
+            "source_dataset": null,
+            "description": "DSS File",
+            "location": ".\\DSS Files\\ECLC_CRMS_Gage_Stage_ft_20230131.dss"
+        },
+        {
+            "title": "Observed Time Series Flow|TS DSS Filename",
+            "source_dataset": null,
+            "description": "Observed Time Series Flow|TS DSS Filename",
+            "location": ".\\DSS Files\\USGS_NWIS_HUC_08090301_Station_07381000_Flow.dss"
+        },
+        {
+            "title": "DSS File",
+            "source_dataset": null,
+            "description": "DSS File",
+            "location": ".\\DSS Files\\USGS_NWIS_HUC_08090301_LockportGages_Stage.dss"
+        },
+        {
+            "title": "DSS File",
+            "source_dataset": null,
+            "description": "DSS File",
+            "location": ".\\DSS Files\\USGS_NWIS_HUC_08090301_Station_07380401.dss"
+        },
+        {
+            "title": "prj file",
+            "source_dataset": null,
+            "description": "RAS project file which links projects with plans, geometry, and flow files",
+            "location": "ECLC_HEC-RASV6.5.prj"
+        },
+        {
+            "title": "Model Boundary",
+            "source_dataset": null,
+            "description": "The HEC-RAS model boundary spatial extent",
+            "location": "/EC_HEC-RAS_V631_20230925/Terrain/LiDAR_CoNED_Mask/CoNEDMask.shp"
+        },
+        {
+            "title": "Terrain",
+            "source_dataset": null,
+            "description": "Terrain used by model",
+            "location": ".\\Terrain\\Terrain.hdf"
+        },
+        {
+            "title": "b file",
+            "source_dataset": null,
+            "description": "RAS master input text file",
+            "location": "ECLC_HEC-RASV6.5.b11"
+        },
+        {
+            "title": "g file",
+            "source_dataset": null,
+            "description": "RAS geometry file",
+            "location": "ECLC_HEC-RASV6.5.g01"
+        },
+        {
+            "title": "c file",
+            "source_dataset": null,
+            "description": "Binary Geometry file from Geom Prep",
+            "location": "ECLC_HEC-RASV6.5.c01"
+        },
+        {
+            "title": "x file",
+            "source_dataset": null,
+            "description": "Geometry master input text file",
+            "location": "ECLC_HEC-RASV6.5.x01"
+        },
+        {
+            "title": "u file",
+            "source_dataset": null,
+            "description": "unsteady flow file",
+            "location": "ECLC_HEC-RASV6.5.u11"
+        },
+        {
+            "title": "u hdf file",
+            "source_dataset": null,
+            "description": "unsteady flow file in HDF format",
+            "location": "ECLC_HEC-RASV6.5.u11.hdf"
+        }
+    ],
+    "output_files": [
+        {
+            "title": "output dss file",
+            "source_dataset": null,
+            "description": "output model data in dss",
+            "location": "ECLC_HEC-RASV6.5.dss"
+        },
+        {
+            "title": "p file",
+            "source_dataset": null,
+            "description": "Model plan data",
+            "location": "ECLC_HEC-RASV6.5.p11"
+        },
+        {
+            "title": "p hdf file",
+            "source_dataset": null,
+            "description": "result output in HDF format",
+            "location": "ECLC_HEC-RASV6.5.p11.hdf"
+        }
+    ],
+    "temporal_extent": [
+        "2016-08-10",
+        "2016-08-11"
+    ],
+    "temporal_resolution": "30SEC"
+}

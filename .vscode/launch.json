@@ -86,18 +86,20 @@
             "justMyCode": true,
             "args": [
                 "--prj",
-                "Z:/WestPark/HEC-RASV6.3.1/WestPark.prj",
+                // "Z:/LWI/region6/EC_HEC-RAS_V631_20230925/EC_ELouisianaCoastal.prj",
+                "Z:/LWI/region6/ECLC_HEC-RASV6.5_20240219/ECLC_HEC-RASV6.5.prj",
                 "--shp",
-                "Z:/WestPark/GIS/!backup/WestPark_Boundary_3451.shp",
+                // "Z:/LWI/region6/EC_HEC-RAS_V631_20230925/Terrain/LiDAR_CoNED_Mask/CoNEDMask.shp",
+                "Z:/LWI/region6/EC_HEC-RAS_V631_20230925/Terrain/LiDAR_CoNED_Mask/CoNEDMask.shp",
                 // "--prj",
                 // "V:/projects/p00813_nps_2023_greenbelt_ig/02_analysis/HEC-RAS_MainModel/Greenbelt_RAS.prj",
                 // "--shp",
                 // "V:/projects/p00813_nps_2023_greenbelt_ig/02_analysis/HEC-RAS_MainModel/Shapes/2DFlowArea.shp",
                 "--keywords",
-                "TWI, National Park Service",
+                "LWI, Region 6",
                 // "TWI, NPS",
-                "--id",
-                "P-00810"
+                // "--id",
+                // "P-00810"
                 
             ],
         },

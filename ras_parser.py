@@ -67,7 +67,13 @@ def dict_to_model_app_json(keyValues_dict, output_prj_json, args, model_applicat
     ras_model_template_json['title'] = keyValues_dict['Proj Title']
     ras_model_template_json['description'] = {}
     ras_model_template_json['description']['Project Description'] = keyValues_dict['Description']
-    ras_model_template_json['description']['Simulations'] = keyValues_dict['Plans']['Plan Title']
+    # join simulation titles as a single string from the list in keyValues_dict['Plans']['Plan Title']
+    ras_model_template_json['description']['Simulations'] = ', '.join(keyValues_dict['Plans']['Plan Title'])
+    # join description keys and values
+    ras_model_template_json['description'] = ' '.join(
+        [f'\n{k}: {v}' for k, v in ras_model_template_json['description'].items()])
+    # trim first and last newline characters
+    ras_model_template_json['description'] = ras_model_template_json['description'].strip('\n')
     ras_model_template_json['purpose'] = keyValues_dict['Description']
     ras_model_template_json['grid']['coordinate_system'] = keyValues_dict['coordinate_system']
     ras_model_template_json['spatial_extent'][0] = keyValues_dict['spatial_extent']
@@ -333,7 +339,8 @@ def get_p_files(prj_dir, prj_name):
 
     for pFile in glob.glob(rf'{prj_dir}/*.p' + '[0-9]' * 2):
         prj_dir, p_file_tail = os.path.split(pFile)
-        p_file_prj_name = p_file_tail.split(".")[0]
+        # check if the p file is associated with the project name. project name may have multiple periods.
+        p_file_prj_name = '.'.join(p_file_tail.split(".")[:-1])
         if p_file_prj_name == prj_name:
             pList.append(pFile)
 
@@ -423,8 +430,8 @@ def parse_p(p_file_list, prj_name, wkt, crs, output_dir, args, simulation_key_or
         keyValues_dict['Flow Title'] = flow_keyValues_dict['Flow Title']
 
         # Append plan title list
-        keyValues_dict['Plan Title'] = f"{prj_name} HEC-RAS Model Simulation: {keyValues_dict['Plan Title']}"
-        keyValues_dict['Plan Title w P File'] = f"{prj_name} HEC-RAS Model Simulation: {keyValues_dict['Plan Title']}, File: {p_file_tail}"
+        keyValues_dict['Plan Title'] = f"{keyValues_dict['Plan Title']}"
+        keyValues_dict['Plan Title w P File'] = f"Simulation: {keyValues_dict['Plan Title']}, File: {p_file_tail}"
         plan_titles['Plan Title'].append(keyValues_dict['Plan Title'])
         plan_titles['Plan Title w P File'].append(
             keyValues_dict['Plan Title w P File'])
@@ -464,7 +471,8 @@ def parse(args):
         msg = None
         # Get project name
         prj_dir, prj_file_tail = os.path.split(args.prj)
-        prj_name = prj_file_tail.split(".")[0]
+        # Get project name without extension, it is possible to have multiple periods in the project name.
+        prj_name = '.'.join(prj_file_tail.split(".")[:-1])
 
         # Set output directory
         cwd = os.getcwd()
@@ -551,7 +559,8 @@ if __name__ == '__main__':
     args = p.parse_args()
 
     # Split keywords argument into a list
-    args.keywords = args.keywords.split(",")
-    args.keywords = [x.strip() for x in args.keywords]
+    if args.keywords is not None:
+        args.keywords = args.keywords.split(",")
+        args.keywords = [x.strip() for x in args.keywords]
 
     parse(args)
