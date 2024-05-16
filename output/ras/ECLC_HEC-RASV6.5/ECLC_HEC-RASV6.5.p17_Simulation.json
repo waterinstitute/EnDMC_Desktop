@@ -3,24 +3,6 @@
     "description": "June 2017 (Non-Tropical) Using ADCIRC Boundary Duration: 7 days (Multi-day) AORC Rainfall - Gridded Precipitation Data Season: Summer Landfall Date: June 19, 2017 LiDAR: USGS NED and CoNED .. SCROLL DOWN Infiltration Loss: 2D gridded Initial and Deficit Method Manning's n layer: NLCD 2019, CCAP 2016, LaDOTD roadways, Microsoft GitHub building footprints Structures: Field Survey Data Pump Stations: Field Data collection, FEMA model Levee: National Levee Database - Floodwalls Bathymetry: Bayou Lafourche and Gulf Intracoastal Waterway ",
     "input_files": [
         {
-            "title": "DSS File",
-            "source_dataset": null,
-            "description": "DSS File",
-            "location": ".\\Coastal Boundary Hydrographs\\Coastal_Surge_June 2017.dss"
-        },
-        {
-            "title": "Observed Time Series Flow|TS DSS Filename",
-            "source_dataset": null,
-            "description": "Observed Time Series Flow|TS DSS Filename",
-            "location": ".\\DSS Files\\USGS_NWIS_HUC_08090301_Station_295501090190400_Flow.dss"
-        },
-        {
-            "title": "Observed Time Series Stage|TS DSS Filename",
-            "source_dataset": null,
-            "description": "Observed Time Series Stage|TS DSS Filename",
-            "location": ".\\DSS Files\\ECLC_CRMS_Gage_Stage_ft_20230131.dss"
-        },
-        {
             "title": "Met BC Precipitation|Gridded DSS Filename",
             "source_dataset": null,
             "description": "Met BC Precipitation|Gridded DSS Filename",
@@ -30,13 +12,7 @@
             "title": "Observed Time Series Flow|TS DSS Filename",
             "source_dataset": null,
             "description": "Observed Time Series Flow|TS DSS Filename",
-            "location": ".\\DSS Files\\USGS_NWIS_HUC_08090301_Station_07380400_Flow.dss"
-        },
-        {
-            "title": "DSS File",
-            "source_dataset": null,
-            "description": "DSS File",
-            "location": ".\\DSS Files\\ECLC_CRMS_Gage_Stage_ft_20230131.dss"
+            "location": ".\\DSS Files\\USGS_NWIS_HUC_08090301_Station_295501090190400_Flow.dss"
         },
         {
             "title": "Observed Time Series Flow|TS DSS Filename",
@@ -49,6 +25,30 @@
             "source_dataset": null,
             "description": "DSS File",
             "location": ".\\DSS Files\\Inflows\\PumpStationInflow.dss"
+        },
+        {
+            "title": "Observed Time Series Stage|TS DSS Filename",
+            "source_dataset": null,
+            "description": "Observed Time Series Stage|TS DSS Filename",
+            "location": ".\\DSS Files\\ECLC_CRMS_Gage_Stage_ft_20230131.dss"
+        },
+        {
+            "title": "DSS File",
+            "source_dataset": null,
+            "description": "DSS File",
+            "location": ".\\DSS Files\\ECLC_CRMS_Gage_Stage_ft_20230131.dss"
+        },
+        {
+            "title": "Observed Time Series Flow|TS DSS Filename",
+            "source_dataset": null,
+            "description": "Observed Time Series Flow|TS DSS Filename",
+            "location": ".\\DSS Files\\USGS_NWIS_HUC_08090301_Station_07380400_Flow.dss"
+        },
+        {
+            "title": "DSS File",
+            "source_dataset": null,
+            "description": "DSS File",
+            "location": ".\\Coastal Boundary Hydrographs\\Coastal_Surge_June 2017.dss"
         },
         {
             "title": "prj file",

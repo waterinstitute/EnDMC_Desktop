@@ -1,0 +1,97 @@
+{
+    "title": "OCT2015_Baseline",
+    "description": "Model details (10OCT2023) Version 6.3.1 - Model developer: HDR Engineering, Inc.  (Modeling lead: Ric McCallan) - Units: Horizontal and vertical units in US Feet - Horizontal Datum: North American Datum 1983, 2011 adjustment (NAD83 (2011))   - Baseline run for October 2015 event.  - Precipitation, wind, and infiltration included.  - Variable stage boundary conditions included for downstream Gulf boundary. - Flow hydrograph included for the Main Atchafalaya Channel at Simmesport, LA. - Initial timestep based on final timestep of restart simulation.  - 2012 Existing Conditions Geometry - base grid cells 1000x1000, refinement included for streams and other key terrain features.  - Time step controlled by courant condition",
+    "input_files": [
+        {
+            "title": "Met BC Precipitation|Gridded DSS Filename",
+            "source_dataset": null,
+            "description": "Met BC Precipitation|Gridded DSS Filename",
+            "location": ".\\DSS_Inputs\\Precip\\MRMS_2015_10_GARR_FINAL.dss"
+        },
+        {
+            "title": "DSS File",
+            "source_dataset": null,
+            "description": "DSS File",
+            "location": ".\\DSS_Inputs\\OCT2015_DSS_Input_BC\\OCT2015_Gulf1_03OCT2023.dss"
+        },
+        {
+            "title": "prj file",
+            "source_dataset": null,
+            "description": "RAS project file which links projects with plans, geometry, and flow files",
+            "location": "AA_Atchafalaya_Ri.prj"
+        },
+        {
+            "title": "Model Boundary",
+            "source_dataset": null,
+            "description": "The HEC-RAS model boundary spatial extent",
+            "location": "Z:/LWI/WSP/Boeuf Outline.shp"
+        },
+        {
+            "title": "Terrain",
+            "source_dataset": null,
+            "description": "Terrain used by model",
+            "location": ".\\Terrain\\AtchRi_Terrain_03AUG2023\\AtchRi_Terrain_03AUG2023.hdf"
+        },
+        {
+            "title": "b file",
+            "source_dataset": null,
+            "description": "RAS master input text file",
+            "location": "AA_Atchafalaya_Ri.b21"
+        },
+        {
+            "title": "g file",
+            "source_dataset": null,
+            "description": "RAS geometry file",
+            "location": "AA_Atchafalaya_Ri.g01"
+        },
+        {
+            "title": "c file",
+            "source_dataset": null,
+            "description": "Binary Geometry file from Geom Prep",
+            "location": "AA_Atchafalaya_Ri.c01"
+        },
+        {
+            "title": "x file",
+            "source_dataset": null,
+            "description": "Geometry master input text file",
+            "location": "AA_Atchafalaya_Ri.x01"
+        },
+        {
+            "title": "u file",
+            "source_dataset": null,
+            "description": "unsteady flow file",
+            "location": "AA_Atchafalaya_Ri.u21"
+        },
+        {
+            "title": "u hdf file",
+            "source_dataset": null,
+            "description": "unsteady flow file in HDF format",
+            "location": "AA_Atchafalaya_Ri.u21.hdf"
+        }
+    ],
+    "output_files": [
+        {
+            "title": "output dss file",
+            "source_dataset": null,
+            "description": "output model data in dss",
+            "location": "AA_Atchafalaya_Ri.dss"
+        },
+        {
+            "title": "p file",
+            "source_dataset": null,
+            "description": "Model plan data",
+            "location": "AA_Atchafalaya_Ri.p21"
+        },
+        {
+            "title": "p hdf file",
+            "source_dataset": null,
+            "description": "result output in HDF format",
+            "location": "AA_Atchafalaya_Ri.p21.hdf"
+        }
+    ],
+    "temporal_extent": [
+        "2015-10-24",
+        "2015-11-12"
+    ],
+    "temporal_resolution": "10SEC"
+}

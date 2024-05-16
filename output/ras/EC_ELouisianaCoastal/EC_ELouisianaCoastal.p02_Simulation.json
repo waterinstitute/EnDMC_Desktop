@@ -1,19 +1,7 @@
 {
-    "title": "EC_ELouisianaCoastal HEC-RAS Model Simulation: EC_Ike_2008",
+    "title": "EC_Ike_2008",
     "description": "Hurricane Ike 2008. Reference provided README_PlanDescription.txt file for more details.",
     "input_files": [
-        {
-            "title": "DSS File",
-            "source_dataset": null,
-            "description": "DSS File",
-            "location": ".\\Boundary_Conditions\\BonnetCarre_HistoricInflow.dss"
-        },
-        {
-            "title": "Observed Time Series Stage|TS DSS Filename",
-            "source_dataset": null,
-            "description": "Observed Time Series Stage|TS DSS Filename",
-            "location": ".\\Calibration_Data\\EC_CRMS_Gages.dss"
-        },
         {
             "title": "Met BC Precipitation|Gridded DSS Filename",
             "source_dataset": null,
@@ -25,6 +13,18 @@
             "source_dataset": null,
             "description": "DSS File",
             "location": ".\\Boundary_Conditions\\ADCIRC_EC_Ike2008.dss"
+        },
+        {
+            "title": "Observed Time Series Stage|TS DSS Filename",
+            "source_dataset": null,
+            "description": "Observed Time Series Stage|TS DSS Filename",
+            "location": ".\\Calibration_Data\\EC_CRMS_Gages.dss"
+        },
+        {
+            "title": "DSS File",
+            "source_dataset": null,
+            "description": "DSS File",
+            "location": ".\\Boundary_Conditions\\BonnetCarre_HistoricInflow.dss"
         },
         {
             "title": "DSS File",

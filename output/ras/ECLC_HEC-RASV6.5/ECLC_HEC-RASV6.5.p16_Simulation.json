@@ -3,22 +3,10 @@
     "description": "June 2017 (Non-Tropical) Restart File Using ADCIRC Boundary Duration: 7 days (Multi-day) AORC Rainfall - Gridded Precipitation Data Season: Summer Landfall Date: June 19, 2017 LiDAR: USGS NED and CoNED .. SCROLL DOWN Infiltration Loss: 2D gridded Initial and Deficit Method Manning's n layer: NLCD 2019, CCAP 2016, LaDOTD roadways, Microsoft GitHub building footprints Structures: Field Survey Data Pump Stations: Field Data collection, FEMA model Levee: National Levee Database - Floodwalls Bathymetry: Bayou Lafourche and Gulf Intracoastal Waterway ",
     "input_files": [
         {
-            "title": "DSS File",
-            "source_dataset": null,
-            "description": "DSS File",
-            "location": ".\\Coastal Boundary Hydrographs\\Coastal_Surge_June 2017.dss"
-        },
-        {
             "title": "Met BC Precipitation|Gridded DSS Filename",
             "source_dataset": null,
             "description": "Met BC Precipitation|Gridded DSS Filename",
             "location": ".\\Precipitation\\AORC_HUC_08090301_APCP_SURFACE_2008_2020_CST.dss"
-        },
-        {
-            "title": "DSS File",
-            "source_dataset": null,
-            "description": "DSS File",
-            "location": ".\\DSS Files\\ECLC_CRMS_Gage_Stage_ft_20230131.dss"
         },
         {
             "title": "DSS File",
@@ -31,6 +19,18 @@
             "source_dataset": null,
             "description": "DSS File",
             "location": ".\\DSS Files\\Inflows\\PumpStationInflow.dss"
+        },
+        {
+            "title": "DSS File",
+            "source_dataset": null,
+            "description": "DSS File",
+            "location": ".\\DSS Files\\ECLC_CRMS_Gage_Stage_ft_20230131.dss"
+        },
+        {
+            "title": "DSS File",
+            "source_dataset": null,
+            "description": "DSS File",
+            "location": ".\\Coastal Boundary Hydrographs\\Coastal_Surge_June 2017.dss"
         },
         {
             "title": "prj file",

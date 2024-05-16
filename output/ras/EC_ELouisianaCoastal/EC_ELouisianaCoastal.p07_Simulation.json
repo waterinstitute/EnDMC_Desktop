@@ -1,12 +1,12 @@
 {
-    "title": "EC_ELouisianaCoastal HEC-RAS Model Simulation: EC_Zeta_2020",
+    "title": "EC_Zeta_2020",
     "description": "Hurricane Zeta 2020. Reference provided README_PlanDescription.txt file for more details.",
     "input_files": [
         {
-            "title": "DSS File",
+            "title": "Met BC Precipitation|Gridded DSS Filename",
             "source_dataset": null,
-            "description": "DSS File",
-            "location": ".\\Boundary_Conditions\\BonnetCarre_HistoricInflow.dss"
+            "description": "Met BC Precipitation|Gridded DSS Filename",
+            "location": ".\\Precipitation\\AORC_HUC_08090203_APCP_SURFACE_2008_2020_CST.dss"
         },
         {
             "title": "Observed Time Series Stage|TS DSS Filename",
@@ -18,13 +18,13 @@
             "title": "DSS File",
             "source_dataset": null,
             "description": "DSS File",
-            "location": ".\\Boundary_Conditions\\ADCIRC_EC_Zeta2020.dss"
+            "location": ".\\Boundary_Conditions\\BonnetCarre_HistoricInflow.dss"
         },
         {
-            "title": "Met BC Precipitation|Gridded DSS Filename",
+            "title": "DSS File",
             "source_dataset": null,
-            "description": "Met BC Precipitation|Gridded DSS Filename",
-            "location": ".\\Precipitation\\AORC_HUC_08090203_APCP_SURFACE_2008_2020_CST.dss"
+            "description": "DSS File",
+            "location": ".\\Boundary_Conditions\\ADCIRC_EC_Zeta2020.dss"
         },
         {
             "title": "DSS File",

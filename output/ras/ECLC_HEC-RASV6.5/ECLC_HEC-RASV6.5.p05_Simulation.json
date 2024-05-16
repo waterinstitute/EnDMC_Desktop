@@ -12,7 +12,13 @@
             "title": "DSS File",
             "source_dataset": null,
             "description": "DSS File",
-            "location": ".\\DSS Files\\ECLC Coastal Average.dss"
+            "location": ".\\DSS Files\\USGS_NWIS_HUC_08090301_LockportGages_Stage.dss"
+        },
+        {
+            "title": "DSS File",
+            "source_dataset": null,
+            "description": "DSS File",
+            "location": ".\\DSS Files\\Inflows\\PumpStationInflow.dss"
         },
         {
             "title": "DSS File",
@@ -24,13 +30,7 @@
             "title": "DSS File",
             "source_dataset": null,
             "description": "DSS File",
-            "location": ".\\DSS Files\\USGS_NWIS_HUC_08090301_LockportGages_Stage.dss"
-        },
-        {
-            "title": "DSS File",
-            "source_dataset": null,
-            "description": "DSS File",
-            "location": ".\\DSS Files\\Inflows\\PumpStationInflow.dss"
+            "location": ".\\DSS Files\\ECLC Coastal Average.dss"
         },
         {
             "title": "prj file",

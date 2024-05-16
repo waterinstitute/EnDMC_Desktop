@@ -1,24 +1,12 @@
 {
-    "title": "EC_ELouisianaCoastal HEC-RAS Model Simulation: EC_Oct_2015_PumpFlows",
+    "title": "EC_Oct_2015_PumpFlows",
     "description": "October 2015 Non-Tropical Storm with five (5) pump stations turned on when precipitation starts and turned off 12 hours after precipitation ends.  Reference provided README_PlanDescription.txt file for more details.",
     "input_files": [
-        {
-            "title": "DSS File",
-            "source_dataset": null,
-            "description": "DSS File",
-            "location": ".\\Boundary_Conditions\\ADCIRC_EC_October2015.dss"
-        },
-        {
-            "title": "DSS File",
-            "source_dataset": null,
-            "description": "DSS File",
-            "location": ".\\Boundary_Conditions\\BonnetCarre_HistoricInflow.dss"
-        },
         {
             "title": "Observed Time Series Stage|TS DSS Filename",
             "source_dataset": null,
             "description": "Observed Time Series Stage|TS DSS Filename",
-            "location": ".\\Calibration_Data\\EC_CRMS_Gages.dss"
+            "location": ".\\Calibration_Data\\EC_USGS_Gages.dss"
         },
         {
             "title": "Met BC Precipitation|Gridded DSS Filename",
@@ -36,7 +24,19 @@
             "title": "Observed Time Series Stage|TS DSS Filename",
             "source_dataset": null,
             "description": "Observed Time Series Stage|TS DSS Filename",
-            "location": ".\\Calibration_Data\\EC_USGS_Gages.dss"
+            "location": ".\\Calibration_Data\\EC_CRMS_Gages.dss"
+        },
+        {
+            "title": "DSS File",
+            "source_dataset": null,
+            "description": "DSS File",
+            "location": ".\\Boundary_Conditions\\ADCIRC_EC_October2015.dss"
+        },
+        {
+            "title": "DSS File",
+            "source_dataset": null,
+            "description": "DSS File",
+            "location": ".\\Boundary_Conditions\\BonnetCarre_HistoricInflow.dss"
         },
         {
             "title": "prj file",

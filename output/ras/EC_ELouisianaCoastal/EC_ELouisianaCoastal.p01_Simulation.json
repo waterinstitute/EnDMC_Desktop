@@ -1,7 +1,31 @@
 {
-    "title": "EC_ELouisianaCoastal HEC-RAS Model Simulation: EC_Barry_2019",
+    "title": "EC_Barry_2019",
     "description": "Hurricane Barry 2019. Reference provided README_PlanDescription.txt file for more details.",
     "input_files": [
+        {
+            "title": "Observed Time Series Stage|TS DSS Filename",
+            "source_dataset": null,
+            "description": "Observed Time Series Stage|TS DSS Filename",
+            "location": ".\\Calibration_Data\\EC_USGS_Gages.dss"
+        },
+        {
+            "title": "Met BC Precipitation|Gridded DSS Filename",
+            "source_dataset": null,
+            "description": "Met BC Precipitation|Gridded DSS Filename",
+            "location": ".\\Precipitation\\AORC_HUC_08090203_APCP_SURFACE_2008_2020_CST.dss"
+        },
+        {
+            "title": "Observed Time Series Stage|TS DSS Filename",
+            "source_dataset": null,
+            "description": "Observed Time Series Stage|TS DSS Filename",
+            "location": ".\\Calibration_Data\\EC_CRMS_Gages.dss"
+        },
+        {
+            "title": "DSS File",
+            "source_dataset": null,
+            "description": "DSS File",
+            "location": ".\\Boundary_Conditions\\ADCIRC_EC_Barry2019.dss"
+        },
         {
             "title": "DSS File",
             "source_dataset": null,
@@ -12,31 +36,7 @@
             "title": "DSS File",
             "source_dataset": null,
             "description": "DSS File",
-            "location": ".\\Boundary_Conditions\\ADCIRC_EC_Barry2019.dss"
-        },
-        {
-            "title": "Observed Time Series Stage|TS DSS Filename",
-            "source_dataset": null,
-            "description": "Observed Time Series Stage|TS DSS Filename",
-            "location": ".\\Calibration_Data\\EC_CRMS_Gages.dss"
-        },
-        {
-            "title": "Met BC Precipitation|Gridded DSS Filename",
-            "source_dataset": null,
-            "description": "Met BC Precipitation|Gridded DSS Filename",
-            "location": ".\\Precipitation\\AORC_HUC_08090203_APCP_SURFACE_2008_2020_CST.dss"
-        },
-        {
-            "title": "DSS File",
-            "source_dataset": null,
-            "description": "DSS File",
             "location": ".\\Boundary_Conditions\\PumpStationsDSS.dss"
-        },
-        {
-            "title": "Observed Time Series Stage|TS DSS Filename",
-            "source_dataset": null,
-            "description": "Observed Time Series Stage|TS DSS Filename",
-            "location": ".\\Calibration_Data\\EC_USGS_Gages.dss"
         },
         {
             "title": "prj file",

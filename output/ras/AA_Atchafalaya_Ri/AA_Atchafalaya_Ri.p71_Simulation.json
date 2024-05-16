@@ -1,0 +1,97 @@
+{
+    "title": "Laura_2020_Baseline",
+    "description": "Model details (10OCT2023) Version 6.3.1 - Model developer: HDR Engineering, Inc.  (Modeling lead: Ric McCallan) - Units: Horizontal and vertical units in US Feet - Horizontal Datum: North American Datum 1983, 2011 adjustment (NAD83 (2011))   - Baseline run for Hurricane Laura 2020 event.  - Precipitation, wind, and infiltration included.  - Variable stage boundary conditions included for downstream Gulf boundary. - Flow hydrograph included for the Main Atchafalaya Channel at Simmesport, LA. - Initial timestep based on final timestep of restart simulation.  - 2012 Existing Conditions Geometry - base grid cells 1000x1000, refinement included for streams and other key terrain features.  - Time step controlled by courant condition",
+    "input_files": [
+        {
+            "title": "DSS File",
+            "source_dataset": null,
+            "description": "DSS File",
+            "location": ".\\DSS_Inputs\\Laura2020_DSS_Input_BC\\LauraGulf1_10082023.dss"
+        },
+        {
+            "title": "Met BC Precipitation|Gridded DSS Filename",
+            "source_dataset": null,
+            "description": "Met BC Precipitation|Gridded DSS Filename",
+            "location": ".\\DSS_Inputs\\Precip\\AORC_2020_08_LAURA_GARR_UTC_FINAL.dss"
+        },
+        {
+            "title": "prj file",
+            "source_dataset": null,
+            "description": "RAS project file which links projects with plans, geometry, and flow files",
+            "location": "AA_Atchafalaya_Ri.prj"
+        },
+        {
+            "title": "Model Boundary",
+            "source_dataset": null,
+            "description": "The HEC-RAS model boundary spatial extent",
+            "location": "Z:/LWI/WSP/Boeuf Outline.shp"
+        },
+        {
+            "title": "Terrain",
+            "source_dataset": null,
+            "description": "Terrain used by model",
+            "location": ".\\Terrain\\AtchRi_Terrain_03AUG2023\\AtchRi_Terrain_03AUG2023.hdf"
+        },
+        {
+            "title": "b file",
+            "source_dataset": null,
+            "description": "RAS master input text file",
+            "location": "AA_Atchafalaya_Ri.b71"
+        },
+        {
+            "title": "g file",
+            "source_dataset": null,
+            "description": "RAS geometry file",
+            "location": "AA_Atchafalaya_Ri.g01"
+        },
+        {
+            "title": "c file",
+            "source_dataset": null,
+            "description": "Binary Geometry file from Geom Prep",
+            "location": "AA_Atchafalaya_Ri.c01"
+        },
+        {
+            "title": "x file",
+            "source_dataset": null,
+            "description": "Geometry master input text file",
+            "location": "AA_Atchafalaya_Ri.x01"
+        },
+        {
+            "title": "u file",
+            "source_dataset": null,
+            "description": "unsteady flow file",
+            "location": "AA_Atchafalaya_Ri.u71"
+        },
+        {
+            "title": "u hdf file",
+            "source_dataset": null,
+            "description": "unsteady flow file in HDF format",
+            "location": "AA_Atchafalaya_Ri.u71.hdf"
+        }
+    ],
+    "output_files": [
+        {
+            "title": "output dss file",
+            "source_dataset": null,
+            "description": "output model data in dss",
+            "location": "AA_Atchafalaya_Ri.dss"
+        },
+        {
+            "title": "p file",
+            "source_dataset": null,
+            "description": "Model plan data",
+            "location": "AA_Atchafalaya_Ri.p71"
+        },
+        {
+            "title": "p hdf file",
+            "source_dataset": null,
+            "description": "result output in HDF format",
+            "location": "AA_Atchafalaya_Ri.p71.hdf"
+        }
+    ],
+    "temporal_extent": [
+        "2020-08-25",
+        "2020-09-04"
+    ],
+    "temporal_resolution": "10SEC"
+}

@@ -3,30 +3,6 @@
     "description": "Non-Tropical Storm May 2019 RST Duration: 1 day AORC Rainfall - Gridded Precipitation Data Season: Spring Landfall Date: May 8, 2019 LiDAR: USGS NED and CoNED .. SCROLL DOWN Infiltration Loss: 2D gridded Initial and Deficit Method Manning's n layer: NLCD 2019, CCAP 2016, LaDOTD roadways, Microsoft GitHub building footprints Structures: Field Survey Data Pump Stations: Field Data collection, FEMA model Levee: National Levee Database - Floodwalls Bathymetry: Bayou Lafourche and Gulf Intracoastal Waterway  ",
     "input_files": [
         {
-            "title": "Observed Time Series Stage|TS DSS Filename",
-            "source_dataset": null,
-            "description": "Observed Time Series Stage|TS DSS Filename",
-            "location": ".\\DSS Files\\USGS_NWIS_HUC_08090301_Station_07381000_Stage.dss"
-        },
-        {
-            "title": "Observed Time Series Stage|TS DSS Filename",
-            "source_dataset": null,
-            "description": "Observed Time Series Stage|TS DSS Filename",
-            "location": ".\\DSS Files\\USGS_NWIS_HUC_08090301_Station_07380500_Stage.dss"
-        },
-        {
-            "title": "Observed Time Series Stage|TS DSS Filename",
-            "source_dataset": null,
-            "description": "Observed Time Series Stage|TS DSS Filename",
-            "location": ".\\DSS Files\\USGS_NWIS_HUC_08090301_Station_07380400_Stage.dss"
-        },
-        {
-            "title": "Observed Time Series Stage|TS DSS Filename",
-            "source_dataset": null,
-            "description": "Observed Time Series Stage|TS DSS Filename",
-            "location": ".\\DSS Files\\USGS_NWIS_HUC_08090301_Station_2951190901217_Stage.dss"
-        },
-        {
             "title": "Met BC Precipitation|Gridded DSS Filename",
             "source_dataset": null,
             "description": "Met BC Precipitation|Gridded DSS Filename",
@@ -36,49 +12,19 @@
             "title": "Observed Time Series Stage|TS DSS Filename",
             "source_dataset": null,
             "description": "Observed Time Series Stage|TS DSS Filename",
-            "location": ".\\DSS Files\\ECLC_CRMS_Gage_Stage_ft_20230131.dss"
-        },
-        {
-            "title": "Observed Time Series Flow|TS DSS Filename",
-            "source_dataset": null,
-            "description": "Observed Time Series Flow|TS DSS Filename",
-            "location": ".\\DSS Files\\USGS_NWIS_HUC_08090301_Station_07380400_Flow.dss"
-        },
-        {
-            "title": "Observed Time Series Flow|TS DSS Filename",
-            "source_dataset": null,
-            "description": "Observed Time Series Flow|TS DSS Filename",
-            "location": ".\\DSS Files\\USGS_NWIS_HUC_08090301_Station_295501090190400_Flow.dss"
-        },
-        {
-            "title": "DSS File",
-            "source_dataset": null,
-            "description": "DSS File",
-            "location": ".\\DSS Files\\ECLC Coastal Average.dss"
-        },
-        {
-            "title": "Observed Time Series Stage|TS DSS Filename",
-            "source_dataset": null,
-            "description": "Observed Time Series Stage|TS DSS Filename",
-            "location": ".\\DSS Files\\USGS_NWIS_HUC_08090301_Station_073802375_Stage.dss"
-        },
-        {
-            "title": "DSS File",
-            "source_dataset": null,
-            "description": "DSS File",
-            "location": ".\\DSS Files\\ECLC_CRMS_Gage_Stage_ft_20230131.dss"
-        },
-        {
-            "title": "Observed Time Series Stage|TS DSS Filename",
-            "source_dataset": null,
-            "description": "Observed Time Series Stage|TS DSS Filename",
             "location": ".\\DSS Files\\USGS_NWIS_HUC_08090301_Station_295501090190400_Stage.dss"
         },
         {
-            "title": "DSS File",
+            "title": "Observed Time Series Stage|TS DSS Filename",
             "source_dataset": null,
-            "description": "DSS File",
-            "location": ".\\DSS Files\\USGS_NWIS_HUC_08090301_LockportGages_Stage.dss"
+            "description": "Observed Time Series Stage|TS DSS Filename",
+            "location": ".\\DSS Files\\USGS_NWIS_HUC_08090301_Station_07381000_Stage.dss"
+        },
+        {
+            "title": "Observed Time Series Stage|TS DSS Filename",
+            "source_dataset": null,
+            "description": "Observed Time Series Stage|TS DSS Filename",
+            "location": ".\\DSS Files\\USGS_NWIS_HUC_08090301_Station_07380400_Stage.dss"
         },
         {
             "title": "Observed Time Series Flow|TS DSS Filename",
@@ -90,7 +36,61 @@
             "title": "DSS File",
             "source_dataset": null,
             "description": "DSS File",
+            "location": ".\\DSS Files\\USGS_NWIS_HUC_08090301_LockportGages_Stage.dss"
+        },
+        {
+            "title": "Observed Time Series Stage|TS DSS Filename",
+            "source_dataset": null,
+            "description": "Observed Time Series Stage|TS DSS Filename",
+            "location": ".\\DSS Files\\USGS_NWIS_HUC_08090301_Station_2951190901217_Stage.dss"
+        },
+        {
+            "title": "Observed Time Series Flow|TS DSS Filename",
+            "source_dataset": null,
+            "description": "Observed Time Series Flow|TS DSS Filename",
+            "location": ".\\DSS Files\\USGS_NWIS_HUC_08090301_Station_295501090190400_Flow.dss"
+        },
+        {
+            "title": "DSS File",
+            "source_dataset": null,
+            "description": "DSS File",
             "location": ".\\DSS Files\\Inflows\\PumpStationInflow.dss"
+        },
+        {
+            "title": "Observed Time Series Stage|TS DSS Filename",
+            "source_dataset": null,
+            "description": "Observed Time Series Stage|TS DSS Filename",
+            "location": ".\\DSS Files\\ECLC_CRMS_Gage_Stage_ft_20230131.dss"
+        },
+        {
+            "title": "DSS File",
+            "source_dataset": null,
+            "description": "DSS File",
+            "location": ".\\DSS Files\\ECLC_CRMS_Gage_Stage_ft_20230131.dss"
+        },
+        {
+            "title": "DSS File",
+            "source_dataset": null,
+            "description": "DSS File",
+            "location": ".\\DSS Files\\ECLC Coastal Average.dss"
+        },
+        {
+            "title": "Observed Time Series Stage|TS DSS Filename",
+            "source_dataset": null,
+            "description": "Observed Time Series Stage|TS DSS Filename",
+            "location": ".\\DSS Files\\USGS_NWIS_HUC_08090301_Station_07380500_Stage.dss"
+        },
+        {
+            "title": "Observed Time Series Flow|TS DSS Filename",
+            "source_dataset": null,
+            "description": "Observed Time Series Flow|TS DSS Filename",
+            "location": ".\\DSS Files\\USGS_NWIS_HUC_08090301_Station_07380400_Flow.dss"
+        },
+        {
+            "title": "Observed Time Series Stage|TS DSS Filename",
+            "source_dataset": null,
+            "description": "Observed Time Series Stage|TS DSS Filename",
+            "location": ".\\DSS Files\\USGS_NWIS_HUC_08090301_Station_073802375_Stage.dss"
         },
         {
             "title": "prj file",

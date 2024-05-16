@@ -556,6 +556,8 @@ link.bind("<Button-1>",
 # # RAS
 # ras_prj_select.filePath.set("V:/projects/p00813_nps_2023_greenbelt_ig/02_analysis/HEC-RAS_MainModel/Greenbelt_RAS.prj")
 # ras_shp_select.filePath.set("V:/projects/p00813_nps_2023_greenbelt_ig/02_analysis/HEC-RAS_MainModel/Shapes/2DFlowArea.shp")
+ras_prj_select.filePath.set("Z:/LWI/region6/LG_08070300_RAS/LG_08070300.prj",)
+ras_shp_select.filePath.set("Z:/LWI/region6/EC_HEC-RAS_V631_20230925/Terrain/LiDAR_CoNED_Mask/CoNEDMask.shp")
 # # HMS
 # hms_prj_select.filePath.set("C:/py/WestPark_HMS/WestPark_HMS.hms")
 # hms_shp_select.filePath.set("C:/py/WestPark_HMS/maps/WestPark_Boundary_3451.shp")
