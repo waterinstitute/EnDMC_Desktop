@@ -3,16 +3,40 @@
     "description": "Model details (10OCT2023) Version 6.3.1 - Model developer: HDR Engineering, Inc.  (Modeling lead: Ric McCallan) - Units: Horizontal and vertical units in US Feet - Horizontal Datum: North American Datum 1983, 2011 adjustment (NAD83 (2011))   - Calibration run for October 2015 event.  - Geometry calibration regions to final calibrated values for channels and overbanks - Precipitation, wind, and infiltration included.  - Variable stage boundary conditions included for downstream Gulf boundary. - Flow hydrograph included for the Main Atchafalaya Channel at Simmesport, LA. - Initial timestep based on final timestep of restart simulation.  - 2012 Existing Conditions Geometry - base grid cells 1000x1000, refinement included for streams and other key terrain features.  - Time step controlled by courant condition",
     "input_files": [
         {
+            "title": "DSS File",
+            "source_dataset": null,
+            "description": "DSS File",
+            "location": ".\\DSS_Inputs\\OCT2015_DSS_Input_BC\\OCT2015_Gulf1_03OCT2023.dss"
+        },
+        {
             "title": "Met BC Precipitation|Gridded DSS Filename",
             "source_dataset": null,
             "description": "Met BC Precipitation|Gridded DSS Filename",
             "location": ".\\DSS_Inputs\\Precip\\MRMS_2015_10_GARR_FINAL.dss"
         },
         {
-            "title": "DSS File",
+            "title": "Terrain",
             "source_dataset": null,
-            "description": "DSS File",
-            "location": ".\\DSS_Inputs\\OCT2015_DSS_Input_BC\\OCT2015_Gulf1_03OCT2023.dss"
+            "description": "terrain used by plan",
+            "location": ".\\Terrain\\AtchRi_Terrain_03AUG2023\\AtchRi_Terrain_03AUG2023.hdf"
+        },
+        {
+            "title": "Infiltration",
+            "source_dataset": null,
+            "description": "infiltration used by plan",
+            "location": ".\\Infiltration_SSURGO.hdf"
+        },
+        {
+            "title": "Land cover",
+            "source_dataset": null,
+            "description": "land cover used by plan",
+            "location": ".\\Features\\Nvalue\\2019 NLCD OW Landcover.hdf"
+        },
+        {
+            "title": "Percent impervious",
+            "source_dataset": null,
+            "description": "percent impervious used by plan",
+            "location": ".\\Features\\Nvalue\\2019 NLCD OW Landcover.hdf"
         },
         {
             "title": "prj file",
@@ -24,13 +48,7 @@
             "title": "Model Boundary",
             "source_dataset": null,
             "description": "The HEC-RAS model boundary spatial extent",
-            "location": "Z:/LWI/WSP/Boeuf Outline.shp"
-        },
-        {
-            "title": "Terrain",
-            "source_dataset": null,
-            "description": "Terrain used by model",
-            "location": ".\\Terrain\\AtchRi_Terrain_03AUG2023\\AtchRi_Terrain_03AUG2023.hdf"
+            "location": "C:/py/WestPark_HMS/maps/WestPark_Boundary_3451.shp"
         },
         {
             "title": "b file",

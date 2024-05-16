@@ -112,7 +112,7 @@ def dict_to_model_app_json(keyValues_dict, output_prj_json, args, model_applicat
         json.dump(ras_model_template_json, outfile, indent=4)
 
 
-def dict_to_sim_json(keyValues_dict, prj_name, p_file, output_p_json, simulation_key_order):
+def dict_to_sim_json(keyValues_dict, prj_name, p_file, output_p_json, simulation_key_order, layers_wanted):
     # Open RAS Simulation Json Template
     cwd = os.getcwd()
     with open(r"example\input\json\ras_simulation.json", 'r') as f:
@@ -164,6 +164,19 @@ def dict_to_sim_json(keyValues_dict, prj_name, p_file, output_p_json, simulation
                 }
             )
 
+    # Add additional input files for wanted_layers found in plan hdf
+    for layer in layers_wanted:
+        layer = layer.replace(' Filename', '').lower()
+        if keyValues_dict[layer] is not None:
+            input_files.append(
+                {
+                    "title": layer.capitalize(),
+                    "source_dataset": None,
+                    "description": layer + " used by plan",
+                    "location": keyValues_dict[layer],
+                }
+            )
+
 
 
     input_files.extend(
@@ -180,12 +193,6 @@ def dict_to_sim_json(keyValues_dict, prj_name, p_file, output_p_json, simulation
             "location": keyValues_dict['shp'],
         },
         {
-            "title": "Terrain",
-            "source_dataset": None,
-            "description": "Terrain used by model",
-            "location": keyValues_dict['terrain'],
-        },
-            {
             "title": "b file",
             "source_dataset": None,
             "description": "RAS master input text file",
@@ -414,13 +421,25 @@ def parse_p(p_file_list, prj_name, wkt, crs, output_dir, args, simulation_key_or
         # Get associated plan hdf file
         try:
             with h5py.File(rf"{p}.hdf", "r") as f:
-                terrain = f['Geometry'].attrs['Terrain Filename'].decode(
-                    'UTF-8')
-            keyValues_dict['terrain'] = terrain
+                # get the terrain, inifiltration, land cover, and percent impervious filenames if available.
+                layers_wanted = ['Terrain Filename', 'Infiltration Filename', 'Land Cover Filename', 'Percent Impervious Filename']
+                for layer in layers_wanted:
+                    try:
+                        layer_filename = f['Geometry'].attrs[layer].decode('UTF-8')
+                        layer = layer.replace(' Filename', '')
+                        layer = layer.lower()
+                        keyValues_dict[layer] = layer_filename
+                    except:
+                        print(
+                            f'Unable to extract {layer} file from HDF: {p}.hdf.\nSetting {layer} to None.')
+                        keyValues_dict[layer] = None
         except:
             print(
-                f'Unable to extract terrain file used. HDF Output File Missing: {p}.hdf')
-            keyValues_dict['terrain'] = ''
+                f'Unable to open HDF File: {p}.hdf.\nSetting Terrain, Infiltration, Land Cover, and Percent Impervious to None.')
+            keyValues_dict['terrain'] = None
+            keyValues_dict['infiltration'] = None
+            keyValues_dict['land cover'] = None
+            keyValues_dict['percent impervious'] = None
 
          # Get Input DSS files and paths from flow file to p file.
         dss_file_and_paths = getDSSPaths(flow_lines)
@@ -461,7 +480,7 @@ def parse_p(p_file_list, prj_name, wkt, crs, output_dir, args, simulation_key_or
         # Write output Json for each .p## file.
         output_p_json = os.path.join(
             output_dir, f'{p_file_tail}_Simulation.json')
-        dict_to_sim_json(keyValues_dict, prj_name, p, output_p_json, simulation_key_order)
+        dict_to_sim_json(keyValues_dict, prj_name, p, output_p_json, simulation_key_order, layers_wanted)
 
     return plan_titles
 

@@ -6,7 +6,7 @@
             "title": "DSS File",
             "source_dataset": null,
             "description": "DSS File",
-            "location": ".\\DSS_Inputs\\MAY2017_DSS_Input_BC\\May2017_Gulf1_10082023.dss"
+            "location": ".\\DSS_Inputs\\Gage\\Region5_Observed.dss"
         },
         {
             "title": "Met BC Precipitation|Gridded DSS Filename",
@@ -18,7 +18,31 @@
             "title": "DSS File",
             "source_dataset": null,
             "description": "DSS File",
-            "location": ".\\DSS_Inputs\\Gage\\Region5_Observed.dss"
+            "location": ".\\DSS_Inputs\\MAY2017_DSS_Input_BC\\May2017_Gulf1_10082023.dss"
+        },
+        {
+            "title": "Terrain",
+            "source_dataset": null,
+            "description": "terrain used by plan",
+            "location": ".\\Terrain\\AtchRi_Terrain_03AUG2023\\AtchRi_Terrain_03AUG2023.hdf"
+        },
+        {
+            "title": "Infiltration",
+            "source_dataset": null,
+            "description": "infiltration used by plan",
+            "location": ".\\Infiltration_SSURGO.hdf"
+        },
+        {
+            "title": "Land cover",
+            "source_dataset": null,
+            "description": "land cover used by plan",
+            "location": ".\\Features\\Nvalue\\2019 NLCD OW Landcover.hdf"
+        },
+        {
+            "title": "Percent impervious",
+            "source_dataset": null,
+            "description": "percent impervious used by plan",
+            "location": ".\\Features\\Nvalue\\2019 NLCD OW Landcover.hdf"
         },
         {
             "title": "prj file",
@@ -30,13 +54,7 @@
             "title": "Model Boundary",
             "source_dataset": null,
             "description": "The HEC-RAS model boundary spatial extent",
-            "location": "Z:/LWI/WSP/Boeuf Outline.shp"
-        },
-        {
-            "title": "Terrain",
-            "source_dataset": null,
-            "description": "Terrain used by model",
-            "location": ".\\Terrain\\AtchRi_Terrain_03AUG2023\\AtchRi_Terrain_03AUG2023.hdf"
+            "location": "C:/py/WestPark_HMS/maps/WestPark_Boundary_3451.shp"
         },
         {
             "title": "b file",
