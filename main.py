@@ -636,8 +636,8 @@ link.bind("<Button-1>",
 # RAS
 # ras_prj_select.filePath.set("V:/projects/p00813_nps_2023_greenbelt_ig/02_analysis/HEC-RAS_MainModel/Greenbelt_RAS.prj")
 # ras_shp_select.filePath.set("V:/projects/p00813_nps_2023_greenbelt_ig/02_analysis/HEC-RAS_MainModel/Shapes/2DFlowArea.shp")
-ras_prj_select.filePath.set("Z:/Amite/Amite_LWI/Amite_RAS/Amite_2022.prj")
-ras_shp_select.filePath.set("Z:/Amite/Amite_LWI/Amite_RAS/Features/Amite_Basin_Outline.geojson")
+# ras_prj_select.filePath.set("Z:/Amite/Amite_LWI/Amite_RAS/Amite_2022.prj")
+# ras_shp_select.filePath.set("Z:/Amite/Amite_LWI/Amite_RAS/Features/Amite_Basin_Outline.geojson")
 # # HMS
 # hms_prj_select.filePath.set("C:/py/WestPark_HMS/WestPark_HMS.hms")
 # hms_shp_select.filePath.set("C:/py/WestPark_HMS/maps/WestPark_Boundary_3451.shp")
