@@ -181,8 +181,9 @@ Build Notes:
     pyinstaller Extract_HEC_Meta_Data.exe.spec
 
   This creates an .exe in the directory ./dist. When the .exe is zipped as on the Releases page, the ./Example directory is packaged with it because the Json templates used for creating new Json files are required and in that directory. 
-
+  
   If any changes are made to the example directory, update the /dist/Example directory with the new files to then include in the zipped release.
+  
   .ico and png files need to be included in zipped release as well.
   
 
