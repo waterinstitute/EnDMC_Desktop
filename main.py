@@ -12,7 +12,7 @@ import webbrowser
 from types import SimpleNamespace
 
 
-version = '2.1'
+version = '2.2'
 
 gui = Tk()
 # gui.geometry("800x50")
@@ -633,7 +633,7 @@ link.bind("<Button-1>",
 # Global Variables
 # global_prj_id.text.set("P00813")
 # global_keywords.text.set("LWI, Region 7")
-# # RAS
+# RAS
 # ras_prj_select.filePath.set("V:/projects/p00813_nps_2023_greenbelt_ig/02_analysis/HEC-RAS_MainModel/Greenbelt_RAS.prj")
 # ras_shp_select.filePath.set("V:/projects/p00813_nps_2023_greenbelt_ig/02_analysis/HEC-RAS_MainModel/Shapes/2DFlowArea.shp")
 # # HMS

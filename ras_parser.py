@@ -164,7 +164,7 @@ def dict_to_sim_json(keyValues_dict, prj_name, p_file, output_p_json, simulation
                 }
             )
 
-    # Add additional input files for wanted_layers found in plan hdf
+    # Add additional input files for layers_wanted found in plan hdf
     for layer in layers_wanted:
         layer = layer.replace(' Filename', '').lower()
         if keyValues_dict[layer] is not None:
