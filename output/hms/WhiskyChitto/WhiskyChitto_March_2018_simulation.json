@@ -1,0 +1,71 @@
+{
+    "title": "WhiskyChitto HEC-HMS Simulation: March_2018",
+    "description": "Basin: March_2018, None. Meteorology: March_2018, Inputs include AORC data from a significant event in March of 2018.. Control: March_2018, Control Specification for the March 2018 storm event..",
+    "input_files": [
+        {
+            "title": "Basin File",
+            "source_dataset": null,
+            "description": null,
+            "location": "March_2018.basin"
+        },
+        {
+            "title": "Meteorology File",
+            "source_dataset": null,
+            "description": "Inputs include AORC data from a significant event in March of 2018.",
+            "location": "March_2018.met"
+        },
+        {
+            "title": "Control File",
+            "source_dataset": null,
+            "description": "Control Specification for the March 2018 storm event.",
+            "location": "March_2018.control"
+        }
+    ],
+    "output_files": [
+        {
+            "title": "Output DSS File",
+            "source_dataset": null,
+            "description": null,
+            "location": "March 2018 HMS.dss"
+        }
+    ],
+    "parameters": [
+        {
+            "parameter": "Canopy",
+            "value": [
+                "None"
+            ]
+        },
+        {
+            "parameter": "LossRate",
+            "value": [
+                "Gridded Deficit Constant"
+            ]
+        },
+        {
+            "parameter": "Transform",
+            "value": [
+                "Modified Clark"
+            ]
+        },
+        {
+            "parameter": "Baseflow",
+            "value": [
+                "Recession"
+            ]
+        },
+        {
+            "parameter": "Route",
+            "value": []
+        },
+        {
+            "parameter": "Precipitation Method",
+            "value": "Gridded Precipitation"
+        }
+    ],
+    "temporal_extent": [
+        "2018-03-14",
+        "2018-04-11"
+    ],
+    "temporal_resolution": "5 Minutes"
+}

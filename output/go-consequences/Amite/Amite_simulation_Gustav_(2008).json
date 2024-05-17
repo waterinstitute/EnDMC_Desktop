@@ -21,7 +21,7 @@
             "title": "Amite Go-Consequences Simulation: Gustav (2008) Output Feature Layer",
             "source_dataset": "Go-Consequences Output",
             "description": "The Go-Consequences Simulation output feature layer.",
-            "location": "event_results"
+            "location": "./dev/go-consequences/output/result_file.gpkg"
         }
     ]
 }

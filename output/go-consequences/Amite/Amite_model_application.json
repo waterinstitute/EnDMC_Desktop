@@ -8,18 +8,16 @@
         "hec",
         "benefits",
         "damage",
-        "model",
-        "LWI",
-        "Region 7"
+        "model"
     ],
     "grid": {
         "dimension": "2D",
-        "coordinate_system": "Testing",
+        "coordinate_system": "None",
         "shape": "rectangular",
         "description": "Based on HEC-RAS Water Surface Elevation Raster"
     },
-    "spatial_extent": "Testing",
-    "application_date": "2024-02-15",
+    "spatial_extent": null,
+    "application_date": "2024-05-17",
     "common_input_files": [
         {
             "title": "Project File",
@@ -42,8 +40,8 @@
             "description": "There may be multiple Structure Inventories in the Go-Consequences data directory.",
             "location": [
                 "/go-consequences/data/NSI.shp",
-                "/go-consequences/data/NSI.shp",
-                "/go-consequences/data/inventory_here.shp"
+                "/go-consequences/data/inventory_here.shp",
+                "/go-consequences/data/NSI.shp"
             ]
         }
     ],
@@ -55,7 +53,8 @@
             "location": [
                 "/go-consequences/output/Amite_Gustav2008_AORC_ADCIRC_2022Geometry_NSI.gpkg",
                 "/go-consequences/output/Amite_Isaac2012_AORC_ADCIRC_NoWind_2022Geometry_NSI.gpkg",
-                "/go-consequences/output/Amite_Katrina2005_AORC_ADCIRC_2021Geometry_NSI.gpkg"
+                "/go-consequences/output/Amite_Katrina2005_AORC_ADCIRC_2021Geometry_NSI.gpkg",
+                "/go-consequences/output/Amite_Isaac2012_AORC_ADCIRC_NoWind_2022Geometry_NSI.gpkg"
             ]
         }
     ]

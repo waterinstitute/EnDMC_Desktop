@@ -9,6 +9,30 @@
             "location": ".\\Precipitation_Data\\MRMS_HUC08070300_QPE_2022_2023_SHG.dss"
         },
         {
+            "title": "Terrain",
+            "source_dataset": null,
+            "description": "terrain used by plan",
+            "location": ".\\Terrain_Data\\LG_Terrain_Bathy_Beta_lock_closed.hdf"
+        },
+        {
+            "title": "Infiltration",
+            "source_dataset": null,
+            "description": "infiltration used by plan",
+            "location": ".\\Infiltration_Data\\LG_2D_Infiltration_Exist_01.hdf"
+        },
+        {
+            "title": "Land cover",
+            "source_dataset": null,
+            "description": "land cover used by plan",
+            "location": ".\\Landuse_Data\\LG_2D_Landuse_Exist_01.hdf"
+        },
+        {
+            "title": "Percent impervious",
+            "source_dataset": null,
+            "description": "percent impervious used by plan",
+            "location": ".\\Landuse_Data\\LG_2D_Landuse_Exist_01.hdf"
+        },
+        {
             "title": "prj file",
             "source_dataset": null,
             "description": "RAS project file which links projects with plans, geometry, and flow files",
@@ -19,12 +43,6 @@
             "source_dataset": null,
             "description": "The HEC-RAS model boundary spatial extent",
             "location": "/EC_HEC-RAS_V631_20230925/Terrain/LiDAR_CoNED_Mask/CoNEDMask.shp"
-        },
-        {
-            "title": "Terrain",
-            "source_dataset": null,
-            "description": "Terrain used by model",
-            "location": ".\\Terrain_Data\\LG_Terrain_Bathy_Beta_lock_closed.hdf"
         },
         {
             "title": "b file",

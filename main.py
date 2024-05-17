@@ -116,6 +116,22 @@ class TextField(Frame):
 
 def parse_ras():
     args = Namespace(prj=ras_prj_select.file_path, shp=ras_shp_select.file_path, keywords=global_keywords.text.get(), id=global_prj_id.text.get())
+    # sanitize any quotes, ensure each arg has the correct extension
+    for key, val in args.__dict__.items():
+        if val is not None:
+            # remove quotes
+            args.__dict__[key] = val.replace('"', "").replace("'", "")
+            val = val.replace('"', "").replace("'", "")
+            if key == "prj":
+                if not val.endswith(".prj"):
+                    messagebox.showinfo(
+                        title='RAS', message=f"RAS Project File must be a HEC-RAS Project file (.prj)")
+                    return
+            if key == "shp":
+                if not val.endswith(".shp") and not val.endswith(".geojson") and not val.endswith(".json"):
+                    messagebox.showinfo(
+                        title='RAS', message=f"RAS Boundary Outline Shape File must be an ESRI Shape or Geojson file (.shp, .geojson, .json)")
+                    return
     args.keywords = args.keywords.split(",")
     args.keywords = [x.strip() for x in args.keywords]
     print("Parsing RAS..")
@@ -126,6 +142,28 @@ def parse_ras():
 
 def parse_hms():
     args = Namespace(prj=hms_prj_select.file_path, shp=hms_shp_select.file_path, dss=hms_dss_select.folder_path, keywords=global_keywords.text.get(), id=global_prj_id.text.get())
+    # sanitize any quotes, ensure each arg has the correct extension
+    for key, val in args.__dict__.items():
+        if val is not None:
+            # remove quotes
+            args.__dict__[key] = val.replace('"', "").replace("'", "")
+            val = val.replace('"', "").replace("'", "")
+            if key == "prj":
+                if not val.endswith(".hms"):
+                    messagebox.showinfo(
+                        title='HMS', message=f"HMS Project File must be a .hms file")
+                    return
+            if key == "shp":
+                if not val.endswith(".shp") and not val.endswith(".geojson") and not val.endswith(".json"):
+                    messagebox.showinfo(
+                        title='HMS', message=f"HMS Boundary Outline Shape File must be an ESRI Shape or Geojson file (.shp, .geojson, .json)")
+                    return
+            if key == "dss":
+                args.__dict__[key] = val.replace('"', "")
+                if not os.path.isdir(val):
+                    messagebox.showinfo(
+                        title='HMS', message=f"{key} must be a directory")
+                    return
     args.keywords = args.keywords.split(",")
     args.keywords = [x.strip() for x in args.keywords]
     print("\nParsing HMS..")
@@ -136,6 +174,22 @@ def parse_hms():
 
 def parse_fia():
     args = Namespace(prj=fia_prj_select.file_path, shp=fia_shp_select.file_path, keywords=global_keywords.text.get(), id=global_prj_id.text.get())
+    # sanitize any quotes, ensure each arg has the correct extension
+    for key, val in args.__dict__.items():
+        if val is not None:
+            # remove quotes
+            args.__dict__[key] = val.replace('"', "").replace("'", "")
+            val = val.replace('"', "").replace("'", "")
+            if key == "prj":
+                if not val.endswith(".prj"):
+                    messagebox.showinfo(
+                        title='FIA', message=f"FIA Project File must be a HEC-FIA Project file (.prj)")
+                    return
+            if key == "shp":
+                if not val.endswith(".shp") and not val.endswith(".geojson") and not val.endswith(".json"):
+                    messagebox.showinfo(
+                        title='FIA', message=f"FIA Boundary Polygon Shape File must be an ESRI Shape or Geojson file (.shp, .geojson, .json)")
+                    return
     args.keywords = args.keywords.split(",")
     args.keywords = [x.strip() for x in args.keywords]
     print("\nParsing FIA..")
@@ -147,7 +201,6 @@ def parse_fia():
 def parse_consequences():
     cons_args = SimpleNamespace()
     cons_args.run_type = run_type.get()
-    print('Run Type: ', cons_args.run_type)
 
     # Get Global Keywords
     cons_args.keywords = global_keywords.text.get()
@@ -211,6 +264,33 @@ def parse_consequences():
                 title='Go-Consequences', message="Run Table File must be provided for Run Type: Multiple.")
         else:
             cons_args.run_table = cons_runtable_select.file_path
+
+    # sanitize any quotes, ensure each arg has the correct extension
+    for key, val in cons_args.__dict__.items():
+        if val is not None and key != "run_type" and key != "keywords":
+            # remove quotes
+            cons_args.__dict__[key] = val.replace('"', "").replace("'", "")
+            val = val.replace('"', "").replace("'", "")
+            if key == "prj_file":
+                if not val.endswith(".go"):
+                    messagebox.showinfo(
+                        title='Go-Consequences', message=f"Go-Consequences Run File must be a .go file")
+                    return
+            if key == "model_data_dir":
+                if not os.path.isdir(val):
+                    messagebox.showinfo(
+                        title='Go-Consequences', message=f"Model Input Data Directory must be a directory")
+                    return
+            if key == "model_out_dir":
+                if not os.path.isdir(val):
+                    messagebox.showinfo(
+                        title='Go-Consequences', message=f"Model Results Directory must be a directory")
+                    return
+            if key == "run_table":
+                if not val.endswith(".csv"):
+                    messagebox.showinfo(
+                        title='Go-Consequences', message=f"Run Table File must be a .csv file")
+                    return
 
     print("\nParsing Go-Consequences..")
     print(cons_args)
@@ -556,8 +636,6 @@ link.bind("<Button-1>",
 # # RAS
 # ras_prj_select.filePath.set("V:/projects/p00813_nps_2023_greenbelt_ig/02_analysis/HEC-RAS_MainModel/Greenbelt_RAS.prj")
 # ras_shp_select.filePath.set("V:/projects/p00813_nps_2023_greenbelt_ig/02_analysis/HEC-RAS_MainModel/Shapes/2DFlowArea.shp")
-ras_prj_select.filePath.set("Z:/LWI/region6/LG_08070300_RAS/LG_08070300.prj",)
-ras_shp_select.filePath.set("Z:/LWI/region6/EC_HEC-RAS_V631_20230925/Terrain/LiDAR_CoNED_Mask/CoNEDMask.shp")
 # # HMS
 # hms_prj_select.filePath.set("C:/py/WestPark_HMS/WestPark_HMS.hms")
 # hms_shp_select.filePath.set("C:/py/WestPark_HMS/maps/WestPark_Boundary_3451.shp")

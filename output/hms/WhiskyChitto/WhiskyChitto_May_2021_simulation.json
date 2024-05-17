@@ -1,0 +1,71 @@
+{
+    "title": "WhiskyChitto HEC-HMS Simulation: May_2021",
+    "description": "Basin: May_2021, None. Meteorology: May_2021, Inputs include AORC data from a significant event in May of 2021.. Control: May_2021, Control Specification for the May 2021 storm event..",
+    "input_files": [
+        {
+            "title": "Basin File",
+            "source_dataset": null,
+            "description": null,
+            "location": "May_2021.basin"
+        },
+        {
+            "title": "Meteorology File",
+            "source_dataset": null,
+            "description": "Inputs include AORC data from a significant event in May of 2021.",
+            "location": "May_2021.met"
+        },
+        {
+            "title": "Control File",
+            "source_dataset": null,
+            "description": "Control Specification for the May 2021 storm event.",
+            "location": "May_2021.control"
+        }
+    ],
+    "output_files": [
+        {
+            "title": "Output DSS File",
+            "source_dataset": null,
+            "description": null,
+            "location": "May 2021 HMS.dss"
+        }
+    ],
+    "parameters": [
+        {
+            "parameter": "Canopy",
+            "value": [
+                "None"
+            ]
+        },
+        {
+            "parameter": "LossRate",
+            "value": [
+                "Gridded Deficit Constant"
+            ]
+        },
+        {
+            "parameter": "Transform",
+            "value": [
+                "Modified Clark"
+            ]
+        },
+        {
+            "parameter": "Baseflow",
+            "value": [
+                "Recession"
+            ]
+        },
+        {
+            "parameter": "Route",
+            "value": []
+        },
+        {
+            "parameter": "Precipitation Method",
+            "value": "Gridded Precipitation"
+        }
+    ],
+    "temporal_extent": [
+        "2021-05-01",
+        "2021-05-30"
+    ],
+    "temporal_resolution": "5 Minutes"
+}
