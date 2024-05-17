@@ -432,6 +432,8 @@ def parse_p(p_file_list, prj_name, wkt, crs, output_dir, args, simulation_key_or
                     except:
                         print(
                             f'Unable to extract {layer} file from HDF: {p}.hdf.\nSetting {layer} to None.')
+                        layer = layer.replace(' Filename', '')
+                        layer = layer.lower()
                         keyValues_dict[layer] = None
         except:
             print(
