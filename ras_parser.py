@@ -21,6 +21,7 @@ def get_ras_prj_wkt(p_file):
                Unable to extract spatial projection from HDF plan file:
                {p_file}.hdf
                May have to manually specify .shp projection using a GIS.''')
+        ras_prj_wkt = None
 
     return ras_prj_wkt
 

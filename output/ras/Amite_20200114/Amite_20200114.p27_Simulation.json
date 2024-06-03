@@ -1,0 +1,121 @@
+{
+    "title": "Base_ADCDS_HMSinF_St4ROM_wind_I",
+    "description": "Pontchartrain tide is from Adcirc",
+    "input_files": [
+        {
+            "title": "DSS File",
+            "source_dataset": null,
+            "description": "DSS File",
+            "location": ".\\Boundary_condition_data\\Amite_ADCIRC_WL.dss"
+        },
+        {
+            "title": "DSS File",
+            "source_dataset": null,
+            "description": "DSS File",
+            "location": ".\\Boundary_condition_data\\Amite_HMS_Data.dss"
+        },
+        {
+            "title": "DSS File",
+            "source_dataset": null,
+            "description": "DSS File",
+            "location": "Amite_Issac.dss"
+        },
+        {
+            "title": "Terrain",
+            "source_dataset": null,
+            "description": "terrain used by plan",
+            "location": ".\\Terrain\\Amite_Dec15.hdf"
+        },
+        {
+            "title": "Infiltration",
+            "source_dataset": null,
+            "description": "infiltration used by plan",
+            "location": ".\\LULC\\InfiltrationHiRes.hdf"
+        },
+        {
+            "title": "Land cover",
+            "source_dataset": null,
+            "description": "land cover used by plan",
+            "location": ".\\LULC\\Mannings_n.hdf"
+        },
+        {
+            "title": "Percent impervious",
+            "source_dataset": null,
+            "description": "percent impervious used by plan",
+            "location": ".\\LULC\\PercentImprev.hdf"
+        },
+        {
+            "title": "prj file",
+            "source_dataset": null,
+            "description": "RAS project file which links projects with plans, geometry, and flow files",
+            "location": "Amite_20200114.prj"
+        },
+        {
+            "title": "Model Boundary",
+            "source_dataset": null,
+            "description": "The HEC-RAS model boundary spatial extent",
+            "location": "C:/py/WestPark_HMS/maps/WestPark_Boundary_3451.shp"
+        },
+        {
+            "title": "b file",
+            "source_dataset": null,
+            "description": "RAS master input text file",
+            "location": "Amite_20200114.b27"
+        },
+        {
+            "title": "g file",
+            "source_dataset": null,
+            "description": "RAS geometry file",
+            "location": "Amite_20200114.g03"
+        },
+        {
+            "title": "c file",
+            "source_dataset": null,
+            "description": "Binary Geometry file from Geom Prep",
+            "location": "Amite_20200114.c03"
+        },
+        {
+            "title": "x file",
+            "source_dataset": null,
+            "description": "Geometry master input text file",
+            "location": "Amite_20200114.x03"
+        },
+        {
+            "title": "u file",
+            "source_dataset": null,
+            "description": "unsteady flow file",
+            "location": "Amite_20200114.u20"
+        },
+        {
+            "title": "u hdf file",
+            "source_dataset": null,
+            "description": "unsteady flow file in HDF format",
+            "location": "Amite_20200114.u20.hdf"
+        }
+    ],
+    "output_files": [
+        {
+            "title": "output dss file",
+            "source_dataset": null,
+            "description": "output model data in dss",
+            "location": "Amite_20200114.dss"
+        },
+        {
+            "title": "p file",
+            "source_dataset": null,
+            "description": "Model plan data",
+            "location": "Amite_20200114.p27"
+        },
+        {
+            "title": "p hdf file",
+            "source_dataset": null,
+            "description": "result output in HDF format",
+            "location": "Amite_20200114.p27.hdf"
+        }
+    ],
+    "temporal_extent": [
+        "2012-08-22",
+        "2012-09-01"
+    ],
+    "temporal_resolution": "12SEC"
+}
