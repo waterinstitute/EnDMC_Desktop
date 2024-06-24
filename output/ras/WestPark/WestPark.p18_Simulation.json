@@ -1,5 +1,5 @@
 {
-    "title": "WestPark HEC-RAS Model Simulation: 02yrProposed_2",
+    "title": "02yrProposed_2",
     "description": "Proposed adjacent retention pond. This pond would require a maintanence plan and pump station to drain. This was not desired by the client.",
     "input_files": [
         {
@@ -7,6 +7,18 @@
             "source_dataset": null,
             "description": "DSS File",
             "location": ".\\DSS\\WestPark_Output.dss"
+        },
+        {
+            "title": "Terrain",
+            "source_dataset": null,
+            "description": "terrain used by plan",
+            "location": ".\\Terrain\\2018_Terrain.Prop_1.hdf"
+        },
+        {
+            "title": "Land cover",
+            "source_dataset": null,
+            "description": "land cover used by plan",
+            "location": ".\\LandCover\\Mannings_n_highwetland.hdf"
         },
         {
             "title": "prj file",
@@ -18,13 +30,7 @@
             "title": "Model Boundary",
             "source_dataset": null,
             "description": "The HEC-RAS model boundary spatial extent",
-            "location": "/GIS/!backup/WestPark_Boundary_3451.shp"
-        },
-        {
-            "title": "Terrain",
-            "source_dataset": null,
-            "description": "Terrain used by model",
-            "location": ".\\Terrain\\2018_Terrain.Prop_1.hdf"
+            "location": "C:/py/WestPark_HMS/maps/WestPark_Boundary_3451.shp"
         },
         {
             "title": "b file",
@@ -65,12 +71,6 @@
     ],
     "output_files": [
         {
-            "title": "output dss file",
-            "source_dataset": null,
-            "description": "output model data in dss",
-            "location": "WestPark.dss"
-        },
-        {
             "title": "p file",
             "source_dataset": null,
             "description": "Model plan data",
@@ -81,6 +81,12 @@
             "source_dataset": null,
             "description": "result output in HDF format",
             "location": "WestPark.p18.hdf"
+        },
+        {
+            "title": "DSS Output File",
+            "source_dataset": null,
+            "description": "HEC-RAS output file in DSS format",
+            "location": "z:\\WestPark\\HEC-RASV6.3.1\\WestPark.dss"
         }
     ],
     "temporal_extent": [

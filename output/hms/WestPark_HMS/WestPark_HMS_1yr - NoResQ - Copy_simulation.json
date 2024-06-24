@@ -1,6 +1,6 @@
 {
-    "title": "WestPark_HMS HEC-HMS Simulation: 1yr - NoResQ",
-    "description": "Basin: WestPark_no_resQ-LowLoss, None. Meteorology: 1yr - Copy (1), None. Control: Control 1 - Copy, None.",
+    "title": "WestPark_HMS HEC-HMS Simulation: 1yr - NoResQ - Copy",
+    "description": "Basin: WestPark_no_resQ-LowLoss, None. Meteorology: 1yr, None. Control: Control 1, None.",
     "input_files": [
         {
             "title": "Basin File",
@@ -12,13 +12,13 @@
             "title": "Meteorology File",
             "source_dataset": null,
             "description": null,
-            "location": "1yr___Copy__1_.met"
+            "location": "1yr.met"
         },
         {
             "title": "Control File",
             "source_dataset": null,
             "description": null,
-            "location": "Control_1___Copy.control"
+            "location": "Control_1.control"
         }
     ],
     "output_files": [
@@ -26,7 +26,7 @@
             "title": "Output DSS File",
             "source_dataset": null,
             "description": null,
-            "location": "WestPark_All.dss"
+            "location": "1yr___NoResQ___Copy.dss"
         }
     ],
     "parameters": [

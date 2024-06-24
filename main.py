@@ -12,7 +12,7 @@ import webbrowser
 from types import SimpleNamespace
 
 
-version = '2.2.1'
+version = '2.3'
 
 gui = Tk()
 # gui.geometry("800x50")

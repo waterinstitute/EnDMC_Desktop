@@ -242,12 +242,6 @@ def dict_to_sim_json(keyValues_dict, prj_name, p_file, output_p_json, simulation
     ras_sim_template_json['temporal_resolution'] = keyValues_dict['Computation Interval']
     ras_sim_template_json['output_files'] = [
         {
-            "title": "output dss file",
-            "source_dataset": None,
-            "description": "output model data in dss",
-            "location": keyValues_dict['DSS Output File'],
-        },
-        {
             "title": "p file",
             "source_dataset": None,
             "description": "Model plan data",
@@ -260,6 +254,16 @@ def dict_to_sim_json(keyValues_dict, prj_name, p_file, output_p_json, simulation
             "location": f"{prj_name}.p{p_num}.hdf",
         }
     ]
+
+    if keyValues_dict['DSS Output File'] is not None:
+        ras_sim_template_json['output_files'].append(
+            {
+                "title": "DSS Output File",
+                "source_dataset": None,
+                "description": "HEC-RAS output file in DSS format",
+                "location": keyValues_dict['DSS Output File'],
+            }
+        )
 
     ras_sim_template_json['input_files'] = input_files
 
@@ -459,13 +463,21 @@ def parse_p(p_file_list, prj_name, wkt, crs, output_dir, args, simulation_key_or
             keyValues_dict['Plan Title w P File'])
         plan_titles['P File'].append(p_file_tail)
 
-        # Set dss output file to default path
+        # Set dss output file if not already set in the p file other than as 'dss' or '' which RAS defaults to.
         if ('DSS Output File' not in keyValues_dict.keys()
         or keyValues_dict['DSS Output File'] == 'dss' 
-        or keyValues_dict['DSS Output File'] == ''):
-            keyValues_dict['DSS Output File'] = f'{prj_name}.dss'
-        else: 
-            keyValues_dict['DSS Output File'] = keyValues_dict['DSS Output File']
+        or keyValues_dict['DSS Output File'] == ''):          
+            # Open the b file to get the output dss filename
+            b_file = os.path.join(prj_dir, prj_name + ".b" + p_file_tail.split(".")[-1][1:])
+            try:
+                with open(b_file, "r") as f:
+                    b_lines = f.readlines()
+                b_lines = [s.strip('\n') for s in b_lines]
+                # Get the output dss filename from the b file. It will be a line that ends with '.dss'
+                keyValues_dict['DSS Output File'] = [line for line in b_lines if line.endswith('.dss')][0]
+            except:
+                print(f'Unable to parse Out DSS File from: {b_file}.\nSetting DSS Output File to None.')
+                keyValues_dict['DSS Output File'] = None
 
         # Get root project directory from args.prj
         prj_dir = os.path.dirname(args.prj)

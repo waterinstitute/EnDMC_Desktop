@@ -11,6 +11,14 @@ from utils import get_wkt_crs
 from datetime import datetime
 from utils import get_schema_keys
 
+def replace_hms_characters(string, extension):
+    """
+    HMS allows control, basin, and met file names to have spaces, commas, parentheses, and hyphens in the app, 
+    but replaces them with underscores for the file name written to disk.
+    This function replaces these original characters with underscores to be able to open the model files in the model directory.
+    """
+    return string.replace(" ","_").replace("(","_").replace(")","_").replace("-","_") + "." + extension
+
 def gage_file_parse(prj_dir, prj_name):
     gage_kv ={}
     # open the .gage file
@@ -303,7 +311,7 @@ def parse_runs(prj, output_dir, simulation_key_order):
             
             # Add data from each simulation's met file.
             if find_key == 'Precip':
-                precip_name = sim_kv[title][find_key].replace(" ","_").replace("(","_").replace(")","_") + '.met'
+                precip_name = replace_hms_characters(sim_kv[title][find_key], 'met')
                 precip_file = os.path.join(prj_dir, precip_name)
                 
                 with open(precip_file, 'r') as p:
@@ -327,7 +335,7 @@ def parse_runs(prj, output_dir, simulation_key_order):
             
             # Add data from each simulation's control file.
             if find_key == 'Control':
-                control_name = sim_kv[title][find_key].replace(" ","_").replace("(","_").replace(")","_") + '.control'
+                control_name = replace_hms_characters(sim_kv[title][find_key], 'control')
                 control_file = os.path.join(prj_dir, control_name)
                 
                 with open(control_file, 'r') as c:
@@ -351,7 +359,7 @@ def parse_runs(prj, output_dir, simulation_key_order):
             # Add data from each simulations's basin file
             parameterList = []
             if find_key == 'Basin':
-                basin_name = sim_kv[title][find_key].replace(" ","_").replace("(","_").replace(")","_").replace("-","_") + '.basin'
+                basin_name = replace_hms_characters(sim_kv[title][find_key], 'basin')
                 basin_file = os.path.join(prj_dir, basin_name)
 
                 with open(basin_file, 'r') as b:

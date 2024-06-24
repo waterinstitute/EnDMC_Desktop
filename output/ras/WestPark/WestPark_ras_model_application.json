@@ -1,37 +1,6 @@
 {
     "title": "WestPark HEC-RAS Model",
-    "description": {
-        "Project Description": "Base conditions and Proposed model scenarios. Each plan, within the editor, contains a description on what the plan is modeling",
-        "Simulations": [
-            "WestPark HEC-RAS Model Simulation: 100yrExistingConditions",
-            "WestPark HEC-RAS Model Simulation: 100yrProposed_1",
-            "WestPark HEC-RAS Model Simulation: 100yrProposed_2",
-            "WestPark HEC-RAS Model Simulation: 100yrProposed_3",
-            "WestPark HEC-RAS Model Simulation: 10yrProposed_3",
-            "WestPark HEC-RAS Model Simulation: 10yrProposed_2",
-            "WestPark HEC-RAS Model Simulation: 10yrProposed_1",
-            "WestPark HEC-RAS Model Simulation: 10yrExistingConditions",
-            "WestPark HEC-RAS Model Simulation: 10yrProposed_4",
-            "WestPark HEC-RAS Model Simulation: 02yrProposed_4",
-            "WestPark HEC-RAS Model Simulation: 02yrExistingConditions",
-            "WestPark HEC-RAS Model Simulation: 100yrProposed_4",
-            "WestPark HEC-RAS Model Simulation: 100yrProposed_5",
-            "WestPark HEC-RAS Model Simulation: 10yrProposed_5",
-            "WestPark HEC-RAS Model Simulation: 100yrBase_Precip",
-            "WestPark HEC-RAS Model Simulation: 100yrProposed_5_Precip",
-            "WestPark HEC-RAS Model Simulation: 02yrProposed_5",
-            "WestPark HEC-RAS Model Simulation: 02yrProposed_2",
-            "WestPark HEC-RAS Model Simulation: 02yrProposed_3",
-            "WestPark HEC-RAS Model Simulation: 02yrProposed_1",
-            "WestPark HEC-RAS Model Simulation: 02yrProposed_6",
-            "WestPark HEC-RAS Model Simulation: 10yrProposed_6",
-            "WestPark HEC-RAS Model Simulation: 100yrProposed_6",
-            "WestPark HEC-RAS Model Simulation: 100yrProposed_7",
-            "WestPark HEC-RAS Model Simulation: 10yrProposed_7",
-            "WestPark HEC-RAS Model Simulation: 02yrProposed_7",
-            "WestPark HEC-RAS Model Simulation: 10yrProposed_1.5"
-        ]
-    },
+    "description": "Project Description: Base conditions and Proposed model scenarios. Each plan, within the editor, contains a description on what the plan is modeling \nSimulations: 100yrExistingConditions, 100yrProposed_1, 100yrProposed_2, 100yrProposed_3, 10yrProposed_3, 10yrProposed_2, 10yrProposed_1, 10yrExistingConditions, 10yrProposed_4, 02yrProposed_4, 02yrExistingConditions, 100yrProposed_4, 100yrProposed_5, 10yrProposed_5, 100yrBase_Precip, 100yrProposed_5_Precip, 02yrProposed_5, 02yrProposed_2, 02yrProposed_3, 02yrProposed_1, 02yrProposed_6, 10yrProposed_6, 100yrProposed_6, 100yrProposed_7, 10yrProposed_7, 02yrProposed_7, 10yrProposed_1.5",
     "purpose": "Base conditions and Proposed model scenarios. Each plan, within the editor, contains a description on what the plan is modeling",
     "keywords": [
         "hec-ras",
@@ -39,9 +8,8 @@
         "ras",
         "hydraulic",
         "model",
-        "TWI",
-        "National Park Service",
-        "P-00810"
+        "LWI",
+        "Region 6"
     ],
     "grid": {
         "shape": "unstructured",
@@ -64,170 +32,170 @@
             "title": "Model Boundary",
             "source_dataset": null,
             "description": "TThe HEC-RAS model boundary spatial extent",
-            "location": "/GIS/!backup/WestPark_Boundary_3451.shp"
+            "location": "C:/py/WestPark_HMS/maps/WestPark_Boundary_3451.shp"
         }
     ],
     "common_output_files": [
         {
-            "title": "p file for WestPark HEC-RAS Model Simulation: 100yrExistingConditions",
+            "title": "p file for 100yrExistingConditions",
             "source_dataset": null,
-            "description": "WestPark HEC-RAS Model Simulation: 100yrExistingConditions",
+            "description": "100yrExistingConditions",
             "location": "WestPark.p01"
         },
         {
-            "title": "p file for WestPark HEC-RAS Model Simulation: 100yrProposed_1",
+            "title": "p file for 100yrProposed_1",
             "source_dataset": null,
-            "description": "WestPark HEC-RAS Model Simulation: 100yrProposed_1",
+            "description": "100yrProposed_1",
             "location": "WestPark.p02"
         },
         {
-            "title": "p file for WestPark HEC-RAS Model Simulation: 100yrProposed_2",
+            "title": "p file for 100yrProposed_2",
             "source_dataset": null,
-            "description": "WestPark HEC-RAS Model Simulation: 100yrProposed_2",
+            "description": "100yrProposed_2",
             "location": "WestPark.p03"
         },
         {
-            "title": "p file for WestPark HEC-RAS Model Simulation: 100yrProposed_3",
+            "title": "p file for 100yrProposed_3",
             "source_dataset": null,
-            "description": "WestPark HEC-RAS Model Simulation: 100yrProposed_3",
+            "description": "100yrProposed_3",
             "location": "WestPark.p04"
         },
         {
-            "title": "p file for WestPark HEC-RAS Model Simulation: 10yrProposed_3",
+            "title": "p file for 10yrProposed_3",
             "source_dataset": null,
-            "description": "WestPark HEC-RAS Model Simulation: 10yrProposed_3",
+            "description": "10yrProposed_3",
             "location": "WestPark.p05"
         },
         {
-            "title": "p file for WestPark HEC-RAS Model Simulation: 10yrProposed_2",
+            "title": "p file for 10yrProposed_2",
             "source_dataset": null,
-            "description": "WestPark HEC-RAS Model Simulation: 10yrProposed_2",
+            "description": "10yrProposed_2",
             "location": "WestPark.p06"
         },
         {
-            "title": "p file for WestPark HEC-RAS Model Simulation: 10yrProposed_1",
+            "title": "p file for 10yrProposed_1",
             "source_dataset": null,
-            "description": "WestPark HEC-RAS Model Simulation: 10yrProposed_1",
+            "description": "10yrProposed_1",
             "location": "WestPark.p07"
         },
         {
-            "title": "p file for WestPark HEC-RAS Model Simulation: 10yrExistingConditions",
+            "title": "p file for 10yrExistingConditions",
             "source_dataset": null,
-            "description": "WestPark HEC-RAS Model Simulation: 10yrExistingConditions",
+            "description": "10yrExistingConditions",
             "location": "WestPark.p08"
         },
         {
-            "title": "p file for WestPark HEC-RAS Model Simulation: 10yrProposed_4",
+            "title": "p file for 10yrProposed_4",
             "source_dataset": null,
-            "description": "WestPark HEC-RAS Model Simulation: 10yrProposed_4",
+            "description": "10yrProposed_4",
             "location": "WestPark.p09"
         },
         {
-            "title": "p file for WestPark HEC-RAS Model Simulation: 02yrProposed_4",
+            "title": "p file for 02yrProposed_4",
             "source_dataset": null,
-            "description": "WestPark HEC-RAS Model Simulation: 02yrProposed_4",
+            "description": "02yrProposed_4",
             "location": "WestPark.p10"
         },
         {
-            "title": "p file for WestPark HEC-RAS Model Simulation: 02yrExistingConditions",
+            "title": "p file for 02yrExistingConditions",
             "source_dataset": null,
-            "description": "WestPark HEC-RAS Model Simulation: 02yrExistingConditions",
+            "description": "02yrExistingConditions",
             "location": "WestPark.p11"
         },
         {
-            "title": "p file for WestPark HEC-RAS Model Simulation: 100yrProposed_4",
+            "title": "p file for 100yrProposed_4",
             "source_dataset": null,
-            "description": "WestPark HEC-RAS Model Simulation: 100yrProposed_4",
+            "description": "100yrProposed_4",
             "location": "WestPark.p12"
         },
         {
-            "title": "p file for WestPark HEC-RAS Model Simulation: 100yrProposed_5",
+            "title": "p file for 100yrProposed_5",
             "source_dataset": null,
-            "description": "WestPark HEC-RAS Model Simulation: 100yrProposed_5",
+            "description": "100yrProposed_5",
             "location": "WestPark.p13"
         },
         {
-            "title": "p file for WestPark HEC-RAS Model Simulation: 10yrProposed_5",
+            "title": "p file for 10yrProposed_5",
             "source_dataset": null,
-            "description": "WestPark HEC-RAS Model Simulation: 10yrProposed_5",
+            "description": "10yrProposed_5",
             "location": "WestPark.p14"
         },
         {
-            "title": "p file for WestPark HEC-RAS Model Simulation: 100yrBase_Precip",
+            "title": "p file for 100yrBase_Precip",
             "source_dataset": null,
-            "description": "WestPark HEC-RAS Model Simulation: 100yrBase_Precip",
+            "description": "100yrBase_Precip",
             "location": "WestPark.p15"
         },
         {
-            "title": "p file for WestPark HEC-RAS Model Simulation: 100yrProposed_5_Precip",
+            "title": "p file for 100yrProposed_5_Precip",
             "source_dataset": null,
-            "description": "WestPark HEC-RAS Model Simulation: 100yrProposed_5_Precip",
+            "description": "100yrProposed_5_Precip",
             "location": "WestPark.p16"
         },
         {
-            "title": "p file for WestPark HEC-RAS Model Simulation: 02yrProposed_5",
+            "title": "p file for 02yrProposed_5",
             "source_dataset": null,
-            "description": "WestPark HEC-RAS Model Simulation: 02yrProposed_5",
+            "description": "02yrProposed_5",
             "location": "WestPark.p17"
         },
         {
-            "title": "p file for WestPark HEC-RAS Model Simulation: 02yrProposed_2",
+            "title": "p file for 02yrProposed_2",
             "source_dataset": null,
-            "description": "WestPark HEC-RAS Model Simulation: 02yrProposed_2",
+            "description": "02yrProposed_2",
             "location": "WestPark.p18"
         },
         {
-            "title": "p file for WestPark HEC-RAS Model Simulation: 02yrProposed_3",
+            "title": "p file for 02yrProposed_3",
             "source_dataset": null,
-            "description": "WestPark HEC-RAS Model Simulation: 02yrProposed_3",
+            "description": "02yrProposed_3",
             "location": "WestPark.p19"
         },
         {
-            "title": "p file for WestPark HEC-RAS Model Simulation: 02yrProposed_1",
+            "title": "p file for 02yrProposed_1",
             "source_dataset": null,
-            "description": "WestPark HEC-RAS Model Simulation: 02yrProposed_1",
+            "description": "02yrProposed_1",
             "location": "WestPark.p20"
         },
         {
-            "title": "p file for WestPark HEC-RAS Model Simulation: 02yrProposed_6",
+            "title": "p file for 02yrProposed_6",
             "source_dataset": null,
-            "description": "WestPark HEC-RAS Model Simulation: 02yrProposed_6",
+            "description": "02yrProposed_6",
             "location": "WestPark.p21"
         },
         {
-            "title": "p file for WestPark HEC-RAS Model Simulation: 10yrProposed_6",
+            "title": "p file for 10yrProposed_6",
             "source_dataset": null,
-            "description": "WestPark HEC-RAS Model Simulation: 10yrProposed_6",
+            "description": "10yrProposed_6",
             "location": "WestPark.p22"
         },
         {
-            "title": "p file for WestPark HEC-RAS Model Simulation: 100yrProposed_6",
+            "title": "p file for 100yrProposed_6",
             "source_dataset": null,
-            "description": "WestPark HEC-RAS Model Simulation: 100yrProposed_6",
+            "description": "100yrProposed_6",
             "location": "WestPark.p23"
         },
         {
-            "title": "p file for WestPark HEC-RAS Model Simulation: 100yrProposed_7",
+            "title": "p file for 100yrProposed_7",
             "source_dataset": null,
-            "description": "WestPark HEC-RAS Model Simulation: 100yrProposed_7",
+            "description": "100yrProposed_7",
             "location": "WestPark.p24"
         },
         {
-            "title": "p file for WestPark HEC-RAS Model Simulation: 10yrProposed_7",
+            "title": "p file for 10yrProposed_7",
             "source_dataset": null,
-            "description": "WestPark HEC-RAS Model Simulation: 10yrProposed_7",
+            "description": "10yrProposed_7",
             "location": "WestPark.p25"
         },
         {
-            "title": "p file for WestPark HEC-RAS Model Simulation: 02yrProposed_7",
+            "title": "p file for 02yrProposed_7",
             "source_dataset": null,
-            "description": "WestPark HEC-RAS Model Simulation: 02yrProposed_7",
+            "description": "02yrProposed_7",
             "location": "WestPark.p26"
         },
         {
-            "title": "p file for WestPark HEC-RAS Model Simulation: 10yrProposed_1.5",
+            "title": "p file for 10yrProposed_1.5",
             "source_dataset": null,
-            "description": "WestPark HEC-RAS Model Simulation: 10yrProposed_1.5",
+            "description": "10yrProposed_1.5",
             "location": "WestPark.p27"
         }
     ]
