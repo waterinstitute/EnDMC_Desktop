@@ -3,58 +3,10 @@
     "description": "Tropical Storm Lee-2011, Calibration event Geometry: Existing Condition with 2022 Survey Data (213 bridges, 541 Culverts), Survey bathymetry, 20 Pumps (source: USCAE SLaMM May 2022, etc.). Geometry version: 2024-03-28 Flow: AORC Gridded Precipitation 2001-2020 (CST) + .. SCROLL DOWN CRPA ADCIRC Variable WSE Stage in southern boundary +  Inflows BC (preliminary) using SLaMM model runs Plan: Tropical Storm Lee 2011 (Sep 1-Sep 9) LiDAR: USGS NED, CoNED, LaDOTD Infiltration Loss: 2D gridded Initial and Deficit Method Manning's n layer: NLCD 2019, CCAP 2016, LaDOTD roadways, Microsoft GitHub building footprints Structures: Field Survey Data Bathymetry: Bayou Terrebonne, Bayou Black, Bayou Blue, etc.",
     "input_files": [
         {
-            "title": "Met BC Precipitation|Gridded DSS Filename",
-            "source_dataset": null,
-            "description": "Met BC Precipitation|Gridded DSS Filename",
-            "location": ".\\Precipitation\\AORC\\AORC_HUC_08090302_APCP_SURFACE_2001_2022_CST_2000m.dss"
-        },
-        {
-            "title": "DSS File",
-            "source_dataset": null,
-            "description": "DSS File",
-            "location": ".\\Boundary_Conditions\\USGS_NWIS_HUC_08090302_Station_07381350_Stage.dss"
-        },
-        {
             "title": "DSS File",
             "source_dataset": null,
             "description": "DSS File",
             "location": ".\\Boundary_Conditions\\ADCIRC_SpatiallyVarWSE_Lee_2011_v3.dss"
-        },
-        {
-            "title": "Met BC Wind Velocity Y|Gridded DSS Filename",
-            "source_dataset": null,
-            "description": "Met BC Wind Velocity Y|Gridded DSS Filename",
-            "location": ".\\Wind\\Issac_WindY_bilinear.dss"
-        },
-        {
-            "title": "Observed Time Series Flow|TS DSS Filename",
-            "source_dataset": null,
-            "description": "Observed Time Series Flow|TS DSS Filename",
-            "location": ".\\Observed Data\\USGS_NWIS_HUC_08090302_Station_073816505_Flow.dss"
-        },
-        {
-            "title": "DSS File",
-            "source_dataset": null,
-            "description": "DSS File",
-            "location": ".\\Boundary_Conditions\\USGS_07381600_Issac_2012.dss"
-        },
-        {
-            "title": "Observed Time Series Stage|TS DSS Filename",
-            "source_dataset": null,
-            "description": "Observed Time Series Stage|TS DSS Filename",
-            "location": ".\\Observed Data\\USGS_NWIS_HUC_08090302_Station_07381454_Stage.dss"
-        },
-        {
-            "title": "Observed Time Series Stage|TS DSS Filename",
-            "source_dataset": null,
-            "description": "Observed Time Series Stage|TS DSS Filename",
-            "location": ".\\Observed Data\\USGS_NWIS_HUC_08090302_Station_073814675_Stage.dss"
-        },
-        {
-            "title": "Observed Time Series Stage|TS DSS Filename",
-            "source_dataset": null,
-            "description": "Observed Time Series Stage|TS DSS Filename",
-            "location": ".\\Observed Data\\USCAE Observed Data.dss"
         },
         {
             "title": "Met BC Wind Velocity X|Gridded DSS Filename",
@@ -63,34 +15,10 @@
             "location": ".\\Wind\\Issac_WindX_bilinear.dss"
         },
         {
-            "title": "Observed Time Series Stage|TS DSS Filename",
+            "title": "Met BC Wind Velocity Y|Gridded DSS Filename",
             "source_dataset": null,
-            "description": "Observed Time Series Stage|TS DSS Filename",
-            "location": ".\\Observed Data\\CRMS_Gage_Data.dss"
-        },
-        {
-            "title": "Observed Time Series Stage|TS DSS Filename",
-            "source_dataset": null,
-            "description": "Observed Time Series Stage|TS DSS Filename",
-            "location": ".\\Observed Data\\USGS_NWIS_HUC_08090302_Station_07381460_Stage.dss"
-        },
-        {
-            "title": "Observed Time Series Flow|TS DSS Filename",
-            "source_dataset": null,
-            "description": "Observed Time Series Flow|TS DSS Filename",
-            "location": ".\\Observed Data\\USGS_NWIS_HUC_08090302_Station_07381331_Flow.dss"
-        },
-        {
-            "title": "Observed Time Series Stage|TS DSS Filename",
-            "source_dataset": null,
-            "description": "Observed Time Series Stage|TS DSS Filename",
-            "location": ".\\Observed Data\\USGS_NWIS_HUC_08090302_Station_07381331_Stage.dss"
-        },
-        {
-            "title": "Observed Time Series Flow|TS DSS Filename",
-            "source_dataset": null,
-            "description": "Observed Time Series Flow|TS DSS Filename",
-            "location": ".\\Observed Data\\USGS_NWIS_HUC_08090302_Station_073814675_Flow.dss"
+            "description": "Met BC Wind Velocity Y|Gridded DSS Filename",
+            "location": ".\\Wind\\Issac_WindY_bilinear.dss"
         },
         {
             "title": "Observed Time Series Stage|TS DSS Filename",
@@ -102,7 +30,103 @@
             "title": "Observed Time Series Stage|TS DSS Filename",
             "source_dataset": null,
             "description": "Observed Time Series Stage|TS DSS Filename",
+            "location": ".\\Observed Data\\USGS_NWIS_HUC_08090302_Station_07381460_Stage.dss"
+        },
+        {
+            "title": "Observed Time Series Stage|TS DSS Filename",
+            "source_dataset": null,
+            "description": "Observed Time Series Stage|TS DSS Filename",
+            "location": ".\\Observed Data\\USCAE Observed Data.dss"
+        },
+        {
+            "title": "Observed Time Series Stage|TS DSS Filename",
+            "source_dataset": null,
+            "description": "Observed Time Series Stage|TS DSS Filename",
+            "location": ".\\Observed Data\\USGS_NWIS_HUC_08090302_Station_073814675_Stage.dss"
+        },
+        {
+            "title": "Observed Time Series Stage|TS DSS Filename",
+            "source_dataset": null,
+            "description": "Observed Time Series Stage|TS DSS Filename",
             "location": ".\\Observed Data\\USGS_NWIS_HUC_08090302_Station_07381355_Stage.dss"
+        },
+        {
+            "title": "Observed Time Series Flow|TS DSS Filename",
+            "source_dataset": null,
+            "description": "Observed Time Series Flow|TS DSS Filename",
+            "location": ".\\Observed Data\\USGS_NWIS_HUC_08090302_Station_073814675_Flow.dss"
+        },
+        {
+            "title": "Met BC Precipitation|Gridded DSS Filename",
+            "source_dataset": null,
+            "description": "Met BC Precipitation|Gridded DSS Filename",
+            "location": ".\\Precipitation\\AORC\\AORC_HUC_08090302_APCP_SURFACE_2001_2022_CST_2000m.dss"
+        },
+        {
+            "title": "Observed Time Series Stage|TS DSS Filename",
+            "source_dataset": null,
+            "description": "Observed Time Series Stage|TS DSS Filename",
+            "location": ".\\Observed Data\\USGS_NWIS_HUC_08090302_Station_07381454_Stage.dss"
+        },
+        {
+            "title": "DSS File",
+            "source_dataset": null,
+            "description": "DSS File",
+            "location": ".\\Boundary_Conditions\\USGS_07381600_Issac_2012.dss"
+        },
+        {
+            "title": "Observed Time Series Stage|TS DSS Filename",
+            "source_dataset": null,
+            "description": "Observed Time Series Stage|TS DSS Filename",
+            "location": ".\\Observed Data\\USGS_NWIS_HUC_08090302_Station_07381331_Stage.dss"
+        },
+        {
+            "title": "Observed Time Series Stage|TS DSS Filename",
+            "source_dataset": null,
+            "description": "Observed Time Series Stage|TS DSS Filename",
+            "location": ".\\Observed Data\\CRMS_Gage_Data.dss"
+        },
+        {
+            "title": "Observed Time Series Flow|TS DSS Filename",
+            "source_dataset": null,
+            "description": "Observed Time Series Flow|TS DSS Filename",
+            "location": ".\\Observed Data\\USGS_NWIS_HUC_08090302_Station_073816505_Flow.dss"
+        },
+        {
+            "title": "Observed Time Series Flow|TS DSS Filename",
+            "source_dataset": null,
+            "description": "Observed Time Series Flow|TS DSS Filename",
+            "location": ".\\Observed Data\\USGS_NWIS_HUC_08090302_Station_07381331_Flow.dss"
+        },
+        {
+            "title": "DSS File",
+            "source_dataset": null,
+            "description": "DSS File",
+            "location": ".\\Boundary_Conditions\\USGS_NWIS_HUC_08090302_Station_07381350_Stage.dss"
+        },
+        {
+            "title": "Terrain",
+            "source_dataset": null,
+            "description": "terrain used by plan",
+            "location": ".\\Terrain\\ExBathy_2023HydroEnf2.hdf"
+        },
+        {
+            "title": "Infiltration",
+            "source_dataset": null,
+            "description": "infiltration used by plan",
+            "location": ".\\Soil_Data\\WCLC_Infiltration.hdf"
+        },
+        {
+            "title": "Land cover",
+            "source_dataset": null,
+            "description": "land cover used by plan",
+            "location": ".\\Land Classification\\LULC_NLCD_BLDG_RD_2021.hdf"
+        },
+        {
+            "title": "Percent impervious",
+            "source_dataset": null,
+            "description": "percent impervious used by plan",
+            "location": ".\\Land Classification\\LULC_NLCD_BLDG_RD_2021.hdf"
         },
         {
             "title": "prj file",
@@ -114,13 +138,7 @@
             "title": "Model Boundary",
             "source_dataset": null,
             "description": "The HEC-RAS model boundary spatial extent",
-            "location": "/EC_HEC-RAS_V631_20230925/Terrain/LiDAR_CoNED_Mask/CoNEDMask.shp"
-        },
-        {
-            "title": "Terrain",
-            "source_dataset": null,
-            "description": "Terrain used by model",
-            "location": ".\\Terrain\\ExBathy_2023HydroEnf2.hdf"
+            "location": "Z:/Amite/Amite_LWI/Amite_RAS/Features/Amite_Basin_Outline.geojson"
         },
         {
             "title": "b file",
@@ -161,12 +179,6 @@
     ],
     "output_files": [
         {
-            "title": "output dss file",
-            "source_dataset": null,
-            "description": "output model data in dss",
-            "location": "WC.dss"
-        },
-        {
             "title": "p file",
             "source_dataset": null,
             "description": "Model plan data",
@@ -177,6 +189,12 @@
             "source_dataset": null,
             "description": "result output in HDF format",
             "location": "WC.p04.hdf"
+        },
+        {
+            "title": "DSS Output File",
+            "source_dataset": null,
+            "description": "HEC-RAS output file in DSS format",
+            "location": "Z:\\LWI_R6\\TO3\\WCLC\\working\\prasanta\\Model_20240306 full 6.5\\WC.dss"
         }
     ],
     "temporal_extent": [

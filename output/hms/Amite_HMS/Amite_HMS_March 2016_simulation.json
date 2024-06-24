@@ -1,1 +1,85 @@
-{"description": "Basin: Consensus (March 2016), None. Meteorology: Specified Hyetographs, Lumped Subbasin Average Hyetographs based on Stage IV gridded precip. Control: March 2016, March 2016.", "title": "Amite_HMS HEC-HMS Simulation: March 2016", "output_files": [{"title": "Output DSS File", "source_dataset": null, "location": "March_2016.dss", "description": null}], "input_files": [{"title": "Precipitation DSS File", "source_dataset": null, "location": "rainfall_stageIV.dss", "description": "Parsed from Amite_HMS.gage file"}, {"title": "Flow DSS File", "source_dataset": null, "location": "Amite_HMS_TimeSeries.dss", "description": "Parsed from Amite_HMS.gage file"}, {"title": "Basin File", "source_dataset": null, "location": "Consensus__March_2016_.basin", "description": null}, {"title": "Meteorology File", "source_dataset": null, "location": "Specified_Hyetographs.met", "description": "Lumped Subbasin Average Hyetographs based on Stage IV gridded precip"}, {"title": "Control File", "source_dataset": null, "location": "March_2016.control", "description": "March 2016"}], "parameters": [{"parameter": "Canopy", "value": ["Simple"]}, {"parameter": "LossRate", "value": ["Deficit Constant"]}, {"parameter": "Transform", "value": ["Clark"]}, {"parameter": "Baseflow", "value": ["Monthly Constant"]}, {"parameter": "Route", "value": ["Muskingum Cunge"]}, {"parameter": "Precipitation Method", "value": "Specified Average"}], "temporal_extent": ["2016-03-01", "2016-03-30"], "temporal_resolution": "60 Minutes"}
+{
+    "title": "Amite_HMS HEC-HMS Simulation: March 2016",
+    "description": "Basin: Consensus (March 2016), None. Meteorology: Specified Hyetographs, Lumped Subbasin Average Hyetographs based on Stage IV gridded precip. Control: March 2016, March 2016.",
+    "input_files": [
+        {
+            "title": "Flow DSS File",
+            "source_dataset": null,
+            "location": "Amite_HMS_TimeSeries.dss",
+            "description": "Parsed from Amite_HMS.gage file"
+        },
+        {
+            "title": "Precipitation DSS File",
+            "source_dataset": null,
+            "location": "rainfall_stageIV.dss",
+            "description": "Parsed from Amite_HMS.gage file"
+        },
+        {
+            "title": "Basin File",
+            "source_dataset": null,
+            "description": null,
+            "location": "Consensus__March_2016_.basin"
+        },
+        {
+            "title": "Meteorology File",
+            "source_dataset": null,
+            "description": "Lumped Subbasin Average Hyetographs based on Stage IV gridded precip",
+            "location": "Specified_Hyetographs.met"
+        },
+        {
+            "title": "Control File",
+            "source_dataset": null,
+            "description": "March 2016",
+            "location": "March_2016.control"
+        }
+    ],
+    "output_files": [
+        {
+            "title": "Output DSS File",
+            "source_dataset": null,
+            "description": null,
+            "location": "March_2016.dss"
+        }
+    ],
+    "parameters": [
+        {
+            "parameter": "Canopy",
+            "value": [
+                "Simple"
+            ]
+        },
+        {
+            "parameter": "LossRate",
+            "value": [
+                "Deficit Constant"
+            ]
+        },
+        {
+            "parameter": "Transform",
+            "value": [
+                "Clark"
+            ]
+        },
+        {
+            "parameter": "Baseflow",
+            "value": [
+                "Monthly Constant"
+            ]
+        },
+        {
+            "parameter": "Route",
+            "value": [
+                "Muskingum Cunge"
+            ]
+        },
+        {
+            "parameter": "Precipitation Method",
+            "value": "Specified Average"
+        }
+    ],
+    "temporal_extent": [
+        "2016-03-01",
+        "2016-03-30"
+    ],
+    "temporal_resolution": "60 Minutes"
+}

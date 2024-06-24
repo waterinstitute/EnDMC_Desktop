@@ -1,1 +1,85 @@
-{"description": "Basin: Consensus (Generic), None. Meteorology: Specified Hyetographs, Lumped Subbasin Average Hyetographs based on Stage IV gridded precip. Control: Katrina, Hurricane Katrina.", "title": "Amite_HMS HEC-HMS Simulation: Katrina", "output_files": [{"title": "Output DSS File", "source_dataset": null, "location": "Katrina.dss", "description": null}], "input_files": [{"title": "Precipitation DSS File", "source_dataset": null, "location": "rainfall_stageIV.dss", "description": "Parsed from Amite_HMS.gage file"}, {"title": "Flow DSS File", "source_dataset": null, "location": "Amite_HMS_TimeSeries.dss", "description": "Parsed from Amite_HMS.gage file"}, {"title": "Basin File", "source_dataset": null, "location": "Consensus__Generic_.basin", "description": null}, {"title": "Meteorology File", "source_dataset": null, "location": "Specified_Hyetographs.met", "description": "Lumped Subbasin Average Hyetographs based on Stage IV gridded precip"}, {"title": "Control File", "source_dataset": null, "location": "Katrina.control", "description": "Hurricane Katrina"}], "parameters": [{"parameter": "Canopy", "value": ["Simple"]}, {"parameter": "LossRate", "value": ["Deficit Constant"]}, {"parameter": "Transform", "value": ["Clark"]}, {"parameter": "Baseflow", "value": ["Monthly Constant"]}, {"parameter": "Route", "value": ["Muskingum Cunge"]}, {"parameter": "Precipitation Method", "value": "Specified Average"}], "temporal_extent": ["2005-08-13", "2005-09-08"], "temporal_resolution": "60 Minutes"}
+{
+    "title": "Amite_HMS HEC-HMS Simulation: Katrina",
+    "description": "Basin: Consensus (Generic), None. Meteorology: Specified Hyetographs, Lumped Subbasin Average Hyetographs based on Stage IV gridded precip. Control: Katrina, Hurricane Katrina.",
+    "input_files": [
+        {
+            "title": "Flow DSS File",
+            "source_dataset": null,
+            "location": "Amite_HMS_TimeSeries.dss",
+            "description": "Parsed from Amite_HMS.gage file"
+        },
+        {
+            "title": "Precipitation DSS File",
+            "source_dataset": null,
+            "location": "rainfall_stageIV.dss",
+            "description": "Parsed from Amite_HMS.gage file"
+        },
+        {
+            "title": "Basin File",
+            "source_dataset": null,
+            "description": null,
+            "location": "Consensus__Generic_.basin"
+        },
+        {
+            "title": "Meteorology File",
+            "source_dataset": null,
+            "description": "Lumped Subbasin Average Hyetographs based on Stage IV gridded precip",
+            "location": "Specified_Hyetographs.met"
+        },
+        {
+            "title": "Control File",
+            "source_dataset": null,
+            "description": "Hurricane Katrina",
+            "location": "Katrina.control"
+        }
+    ],
+    "output_files": [
+        {
+            "title": "Output DSS File",
+            "source_dataset": null,
+            "description": null,
+            "location": "Katrina.dss"
+        }
+    ],
+    "parameters": [
+        {
+            "parameter": "Canopy",
+            "value": [
+                "Simple"
+            ]
+        },
+        {
+            "parameter": "LossRate",
+            "value": [
+                "Deficit Constant"
+            ]
+        },
+        {
+            "parameter": "Transform",
+            "value": [
+                "Clark"
+            ]
+        },
+        {
+            "parameter": "Baseflow",
+            "value": [
+                "Monthly Constant"
+            ]
+        },
+        {
+            "parameter": "Route",
+            "value": [
+                "Muskingum Cunge"
+            ]
+        },
+        {
+            "parameter": "Precipitation Method",
+            "value": "Specified Average"
+        }
+    ],
+    "temporal_extent": [
+        "2005-08-13",
+        "2005-09-08"
+    ],
+    "temporal_resolution": "60 Minutes"
+}

@@ -160,7 +160,7 @@ def parse_hms():
                     return
             if key == "dss":
                 args.__dict__[key] = val.replace('"', "")
-                if not os.path.isdir(val):
+                if (not os.path.isdir(val) and not val == ''):
                     messagebox.showinfo(
                         title='HMS', message=f"{key} must be a directory")
                     return
